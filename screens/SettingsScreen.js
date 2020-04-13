@@ -4,11 +4,11 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-export default function LogScreen() {
+export default function SettingsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       
-      <Text style={styles.titleText}>Log Screen</Text>
+      <Text style={styles.titleText}>Settings Screen</Text>
       
       <OptionButton
         icon="md-school"
