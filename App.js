@@ -1,52 +1,34 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducers from './reducers';
-
-import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import useLinking from './navigation/useLinking';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as StoreProvider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers';
 
-import AffirmationReport from './components/AffirmationReport';
-import AggressionReport from './components/AggressionReport';
-import IntroSlideshow from './screens/IntroSlideshow';
-import InformedConsent from './screens/InformedConsent';
+import NavigationStack from './navigation/NavigationStack';
 
-// import HomeScreen from '../screens/HomeScreen';
-// import SettingsScreen from '../screens/SettingsScreen';
 
-const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3498db',
+    accent: '#f1c40f',
+  },
+};
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
-
-export default function App(props) {
+function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
-  const hasCompletedIntro = false;
+
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -55,7 +37,7 @@ export default function App(props) {
         SplashScreen.preventAutoHide();
 
         // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
+        // setInitialNavigationState(await getInitialState());
 
         // Load fonts
         await Font.loadAsync({
@@ -76,71 +58,20 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
-  } else if (!hasCompletedIntro) {
+  } else {
     return (
-      <Provider store={createStore(reducers, {})}>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-            <Stack.Navigator>
-              {/* <Stack.Screen 
-                name="InformedConsent" 
-                component={InformedConsent} 
-                options={headerStyles}
-              /> */}
-              <Stack.Screen 
-                name="Root" 
-                component={IntroSlideshow} 
-                options={headerStyles}
-              />
-              {/* <Stack.Screen 
-                name="IntroSurvey" 
-                component={IntroSurvey} 
-                options={headerStyles}
-              /> */}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
-      </Provider>
-    );
-  } else if (hasCompletedIntro) {
-    return (
-      <Provider store={createStore(reducers, {})}>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-            <Stack.Navigator>
-              <Stack.Screen 
-                name="Root" 
-                component={BottomTabNavigator} 
-                options={headerStyles}
-              />
-              <Stack.Screen 
-                name="AggressionReport" 
-                component={AggressionReport} 
-                options={headerStyles}
-              />
-              <Stack.Screen 
-                name="AffirmationReport" 
-                component={AffirmationReport} 
-                options={headerStyles}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
-      </Provider>
+      <StoreProvider store={createStore(reducers, {})}>
+        <PaperProvider>
+          <View style={styles.container} theme={theme}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <NavigationStack />
+          </View>
+        </PaperProvider>
+      </StoreProvider>
     );
   }
 }
 
-function MyTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-    </Tab.Navigator>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -148,6 +79,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
 });
+
+const slideshowHeaderStyles = {
+  headerStyle: {
+    backgroundColor: '#74b783',
+  },
+  headerTintColor: '#74b783',
+
+};
 
 const headerStyles = {
   headerStyle: {
@@ -158,3 +97,5 @@ const headerStyles = {
     fontWeight: 'bold',
   },
 };
+
+export default App;

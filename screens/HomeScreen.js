@@ -1,7 +1,8 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Button, TextInput } from 'react-native';
+import { Image, Platform, StyleSheet,  TouchableOpacity, View, Button, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Divider, Text } from 'react-native-paper';
 
 import { MonoText } from '../components/StyledText';
 import AffirmationReport from '../components/AffirmationReport';
@@ -15,6 +16,12 @@ import { greaterThan } from 'react-native-reanimated';
 const Stack = createStackNavigator();
 
 export default function HomeScreen({ navigation }) {
+
+  const showSlideshow = () => {
+    // navigation.setParams({ returnRoute: '' });
+    navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -31,7 +38,14 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
 
-        <View
+        {/* <View
+          style={{
+            borderBottomColor: '#e3e3e3',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            justifyContent: 'space-evenly',
+          }}
+        /> */}
+        <Divider 
           style={{
             borderBottomColor: '#e3e3e3',
             borderBottomWidth: StyleSheet.hairlineWidth,
@@ -48,7 +62,9 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={console.log('help!')} style={styles.helpLink}>
+          <TouchableOpacity 
+            onPress={showSlideshow} 
+            style={styles.helpLink}>
             <Text style={styles.helpLinkText}>Did you forget what these are?</Text>
           </TouchableOpacity>
         </View>
@@ -65,13 +81,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
+    padding: 15,
   },
   contentContainer: {
     paddingTop: 30,
