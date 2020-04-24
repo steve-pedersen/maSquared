@@ -1,4 +1,7 @@
-import { SAVE_AGGRESSION_REPORT } from '../actions/types';
+import { 
+    SAVE_AGGRESSION_REPORT, 
+    // ADD_AGGRESSION_REPORT 
+} from '../actions/types';
 
 const INITIAL_STATE = {
     incidentTime: '',

@@ -1,56 +1,53 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
-import * as React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
+import { Title, Paragraph } from 'react-native-paper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-export default function LogScreen() {
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      
-      <Text style={styles.titleText}>Log Screen</Text>
-      
-      <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
-      />
+import { getAggressionReports } from '../actions';
 
-      <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
+class LogScreen extends Component {
 
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
-    </ScrollView>
-  );
+  render() {
+    console.log(this.props.aggressionReports);
+    
+    return (
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        
+        <Title style={styles.titleText}>Log Screen</Title>
+        
+        <View style={styles.container}>
+          {this.props.aggressionReports.map((report, i) => {
+            return (
+              <Text>Report description: {report.description}</Text>
+            );
+          })}
+        </View>
+
+      </ScrollView>
+    );
+  }
 }
 
-function OptionButton({ icon, label, onPress, isLastOption }) {
-  return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
-        </View>
-        <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
-        </View>
-      </View>
-    </RectButton>
-  );
+function mapStateToProps(state) {
+  return {
+    aggressionReports: state.reports,
+  };
 }
+
+export default connect(
+  mapStateToProps,
+  { getAggressionReports }
+)(LogScreen);
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fafafa',
+    padding: 20,
   },
   contentContainer: {
     paddingTop: 15,

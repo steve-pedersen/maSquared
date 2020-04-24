@@ -1,6 +1,8 @@
 import { 
     SAVE_AFFIRMATION_REPORT, 
     SAVE_AGGRESSION_REPORT, 
+    ADD_AGGRESSION_REPORT,
+    GET_AGGRESSION_REPORTS,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
     SAVE_SURVEY_C,
@@ -12,6 +14,7 @@ import {
     SAVE_SURVEY,
     RESET_APP,
 } from './types';
+import { State } from 'react-native-gesture-handler';
 
 
 export function saveAffirmationReport(affirmation) {
@@ -30,6 +33,24 @@ export function saveAggressionReport(key, aggression) {
         type: SAVE_AGGRESSION_REPORT,
         payload: payload
     };
+}
+
+export function addAggressionReport(report) {
+    // console.log('in addAgg report ', report);
+    
+    return {
+        type: ADD_AGGRESSION_REPORT,
+        payload: report
+    }
+}
+
+export function getAggressionReports() {
+    console.log('in getAgg reports');
+    
+    return {
+        type: GET_AGGRESSION_REPORTS,
+        payload: State.reports
+    }
 }
 
 export function saveSurvey(complete) {

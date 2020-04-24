@@ -30,7 +30,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Log"
-        component={AffirmationReport}
+        component={LogScreen}
         options={{
           title: 'Log',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-list" />,

@@ -14,8 +14,9 @@ import {
 // import Slider from '@react-native-community/slider';
 import { Slider } from 'react-native';
 
+import EmotionSlider from './EmotionSlider';
 
-import { saveAggressionReport } from '../actions';
+import { saveAggressionReport, addAggressionReport } from '../actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
@@ -48,6 +49,11 @@ class AggressionReport extends Component {
 
     this.props.saveAggressionReport(key, value);
   }
+
+  handleSubmit = () => {
+    this.props.addAggressionReport(this.props.report);
+    // this.props.navigation.navigate('HomeScreen');
+  };
 
   render() {
     // console.log(this.props.report);
@@ -207,207 +213,27 @@ class AggressionReport extends Component {
 
           <View style={styles.sliders}>
             <Text><Bold>At this moment, how intensely do you feel the following?</Bold></Text>
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <Text style={styles.aggressionText}>Angry</Text>
-            <Slider
-              value={this.props.report.anger}
-              onValueChange={value => this.onReportChange('anger', value)}
-              style={{ width: '90%', alignSelf: 'center' }}
-              minimumValue={0}
-              maximumValue={10}
-              minimumTrackTintColor="#b16d65"
-              maximumTrackTintColor="#EFEFEF"
-            />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text>Not at all</Text>
-              <Text>Extremely</Text>
-            </View>
-          </View>
 
-          <Divider style={{ marginVertical: 10 }} />
-
-          <View style={styles.sliders}>
-            <Text><Bold>At this moment, how intensely do you feel the following?</Bold></Text>
-            
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Angry</Text>
-              <Slider
-                value={this.props.report.anger}
-                onValueChange={value => this.onReportChange('anger', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Sad</Text>
-              <Slider
-                value={this.props.report.sad}
-                onValueChange={value => this.onReportChange('sad', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Shame</Text>
-              <Slider
-                value={this.props.report.shame}
-                onValueChange={value => this.onReportChange('shame', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Surprise</Text>
-              <Slider
-                value={this.props.report.surprise}
-                onValueChange={value => this.onReportChange('surprise', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Fear</Text>
-              <Slider
-                value={this.props.report.fear}
-                onValueChange={value => this.onReportChange('fear', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Contempt</Text>
-              <Slider
-                value={this.props.report.contempt}
-                onValueChange={value => this.onReportChange('contempt', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Happy</Text>
-              <Slider
-                value={this.props.report.happy}
-                onValueChange={value => this.onReportChange('happy', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Disgust</Text>
-              <Slider
-                value={this.props.report.disgust}
-                onValueChange={value => this.onReportChange('disgust', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Pride</Text>
-              <Slider
-                value={this.props.report.pride}
-                onValueChange={value => this.onReportChange('pride', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
-            <View style={styles.sliders}>
-              <Text style={styles.aggressionText}>Disgust</Text>
-              <Slider
-                value={this.props.report.disgust}
-                onValueChange={value => this.onReportChange('disgust', value)}
-                style={{ width: '90%', alignSelf: 'center' }}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-              />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
-              </View>
-            </View>
+            {aggressionEmotionSliders.map((emotion, i) => {
+              return (
+                <View key={i}>
+                  <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
+                  <EmotionSlider 
+                    key={emotion.key}
+                    containerStyle={styles.sliders}
+                    titleStyle={styles.aggressionText}
+                    title={emotion.title}
+                    value={this.props.report[emotion.key]}
+                    onChange={value => this.onReportChange(emotion.key, value)}
+                    sliderStyle={styles.sliderStyle}
+                    minimumValue={0}
+                    maximumValue={10}
+                    minimumTrackTintColor="#b16d65"
+                    maximumTrackTintColor="#EFEFEF"
+                  />
+                </View>
+              );
+            })}
 
             <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
 
@@ -422,6 +248,7 @@ class AggressionReport extends Component {
 
           <Divider style={{ marginVertical: 10 }} />
           <Button
+            onPress={this.handleSubmit}
             style={{ marginVertical: 35, backgroundColor: '#74b783' }}
             icon="send"
             mode="contained">
@@ -444,7 +271,7 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { saveAggressionReport }
+  { saveAggressionReport, addAggressionReport }
 )(AggressionReport);
 
 
@@ -458,6 +285,10 @@ const styles = StyleSheet.create({
   },
   sliders: {
     marginVertical: 15,
+  },
+  sliderStyle: {
+    width: '90%', 
+    alignSelf: 'center' 
   },
   contentContainer: {
     paddingTop: 30,
@@ -496,7 +327,18 @@ const styles = StyleSheet.create({
 });
 
 
-
+const aggressionEmotionSliders = [
+  { key: 'angry', title: 'Angry' },
+  { key: 'sad', title: 'Sad' },
+  { key: 'shame', title: 'Shame' },
+  { key: 'surprise', title: 'Surprise' },
+  { key: 'fear', title: 'Fear' },
+  { key: 'contempt', title: 'Contempt' },
+  { key: 'happy', title: 'Happy' },
+  { key: 'disgust', title: 'Disgust' },
+  { key: 'pride', title: 'Pride' },
+  { key: 'guilt', title: 'Guilt' },
+];
 
 
 
