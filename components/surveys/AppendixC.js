@@ -94,7 +94,7 @@ const answerScale = [
 ];
 
 
-surveyQsAppendixC = [
+const surveyQsAppendixC = [
     {
         key: 1,
         content: (<Text>I feel my <Bold>identity</Bold> is <Bold>accepted</Bold>.</Text>),

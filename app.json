@@ -10,7 +10,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
-    "scheme": "myapp",
+    "scheme": "http",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -31,6 +31,7 @@
       "package": "edu.at.sfsu.ma2",
       "versionCode": 1
     },
-    "description": "MA^2 at SF State"
+    "description": "MA^2 at SF State",
+    "entryPoint": "index.js"
   }
 }
