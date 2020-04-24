@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, StatusBar, Image, ScrollView } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -126,6 +126,12 @@ const styles = StyleSheet.create({
         marginTop: (Layout.window.height / 8 - 40),
         alignSelf: 'center',
     },
+    exampleImage: {
+        // height: (Layout.window.height / 2),
+        width: (Layout.window.width / 1.25),
+        justifyContent: 'center',
+        marginVertical: -(Layout.window.height / 15),     
+    },
     text: {
         color: '#000',
         textAlign: 'center',
@@ -176,7 +182,7 @@ const slides = [
         title: '2',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -184,7 +190,7 @@ const slides = [
                     },
                 ]}>
                     What are <Bold>microaggressions?</Bold>
-                </Text>
+                </Title>
                 <Text style={[
                     styles.text,
                     {
@@ -207,7 +213,7 @@ const slides = [
         title: '3',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -215,7 +221,12 @@ const slides = [
                     },
                 ]}>
                     Microaggression Example #1
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_ag_1.imageset/m_ag_1.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
@@ -234,7 +245,7 @@ const slides = [
         title: '4',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -242,7 +253,12 @@ const slides = [
                     },
                 ]}>
                     Microaggression Example #2
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_ag_2.imageset/m_ag_2.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
@@ -261,7 +277,7 @@ const slides = [
         title: '5',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -269,7 +285,12 @@ const slides = [
                     },
                 ]}>
                     Microaggression Example #3
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_ag_3.imageset/m_ag_3.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
@@ -287,7 +308,7 @@ const slides = [
         title: '6',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -295,7 +316,7 @@ const slides = [
                     },
                 ]}>
                     What are <Bold>microaffirmations?</Bold>
-                </Text>
+                </Title>
                 <Text style={[
                     styles.text,
                     {
@@ -318,7 +339,7 @@ const slides = [
         title: '7',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -326,7 +347,12 @@ const slides = [
                     },
                 ]}>
                     Microaffirmation Example #1
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_af_1.imageset/m_af_1.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
@@ -345,7 +371,7 @@ const slides = [
         title: '8',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -353,7 +379,12 @@ const slides = [
                     },
                 ]}>
                     Microaffirmation Example #2
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_af_2.imageset/m_af_2.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
@@ -372,7 +403,7 @@ const slides = [
         title: '9',
         content: (
             <View style={{ flex: 0 }}>
-                <Text style={[
+                <Title style={[
                     styles.title,
                     {
                         paddingBottom: 20,
@@ -380,7 +411,12 @@ const slides = [
                     },
                 ]}>
                     Microaffirmation Example #3
-                </Text>
+                </Title>
+                <Image
+                    style={styles.exampleImage}
+                    source={require('../assets/images/m_af_3.imageset/m_af_3.jpg')}
+                    resizeMode="contain"
+                />
                 <Text style={[
                     styles.text,
                     {
