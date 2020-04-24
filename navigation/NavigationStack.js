@@ -43,8 +43,9 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
+  DEVMODE = true;
   render() {
-    if (!this.props.slideshowComplete) {
+    if (!this.DEVMODE && !this.props.slideshowComplete) {
       // console.log('starting consent and slideshow');
       
       return (
@@ -64,7 +65,7 @@ class NavigationStack extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       );
-    } else if (this.props.slideshowComplete && !this.props.surveyComplete) {
+    } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.surveyComplete) {
       // console.log('starting survey...');
       
       return (

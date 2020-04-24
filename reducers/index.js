@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-// import affirmationsReducer from './affirmations';
-// import aggressionsReducer from './aggressions';
+import affirmationsReducer from './affirmations';
+import aggressionsReducer from './aggressions';
 import reportsReducer from './reports';
 import surveyAReducer from './surveyA';
 import surveyBReducer from './surveyB';
@@ -10,8 +10,8 @@ import consentReducer from './consent';
 import slideshowReducer from './slideshow';
 
 export default combineReducers({
-    // affirmations: affirmationsReducer,
-    // aggressions: aggressionsReducer,
+    affirmations: affirmationsReducer,
+    aggressions: aggressionsReducer,
     reports: reportsReducer,
     surveyA: surveyAReducer,
     surveyB: surveyBReducer,

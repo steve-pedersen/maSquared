@@ -22,11 +22,13 @@ export function saveAffirmationReport(affirmation) {
     };
 }
 
-export function saveAggressionReport(aggression) {
-    console.log('in action saveAggressionReport');
+export function saveAggressionReport(key, aggression) {
+    let payload = {};
+    payload[key] = aggression;
+    // console.log('in saveAggression: ', key, aggression, payload);
     return {
         type: SAVE_AGGRESSION_REPORT,
-        payload: aggression
+        payload: payload
     };
 }
 

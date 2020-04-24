@@ -38,13 +38,6 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
 
-        {/* <View
-          style={{
-            borderBottomColor: '#e3e3e3',
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            justifyContent: 'space-evenly',
-          }}
-        /> */}
         <Divider 
           style={{
             borderBottomColor: '#e3e3e3',
