@@ -43,7 +43,7 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
-  DEVMODE = false;
+  DEVMODE = true;
   render() {
     if (!this.DEVMODE && !this.props.slideshowComplete) {
       // console.log('starting consent and slideshow');
