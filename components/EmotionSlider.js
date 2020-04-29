@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Slider } from 'react-native';
+import { Text, View, Slider, Image, StyleSheet } from 'react-native';
+import Layout from '../constants/Layout';
 
 
 class EmotionSlider extends Component {
@@ -7,6 +8,11 @@ class EmotionSlider extends Component {
         return (
             <View style={this.props.containerStyle}>
               <Text style={this.props.titleStyle}>{this.props.title}</Text>
+              <Image
+                    style={styles.image}
+                    source={this.props.imageSrc}
+                    resizeMode="contain"
+                />
               <Slider
                 value={this.props.value}
                 onValueChange={this.props.onChange}
@@ -24,5 +30,27 @@ class EmotionSlider extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+  image: {
+      // height: (Layout.window.height / 3),
+      // width: (Layout.window.width / 2),
+      // marginTop: (Layout.window.height / 8 - 40),
+      // width: '100%', 
+      alignSelf: 'center',
+      marginBottom: 5,
+  },
+  exampleImage: {
+      // height: (Layout.window.height / 2),
+      width: (Layout.window.width / 1.25),
+      justifyContent: 'center',
+      marginVertical: -(Layout.window.height / 15),     
+  },
+  text: {
+      color: '#000',
+      textAlign: 'center',
+      fontSize: 16,
+  },
+});
 
 export default EmotionSlider;

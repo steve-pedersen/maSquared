@@ -30,7 +30,8 @@ const INITIAL_STATE = {
     otherEmotion: {
         name: '',
         intensity: 0,
-    }
+    },
+    modifiedDate: null,
 };
 
 export default function(state = INITIAL_STATE, action) {

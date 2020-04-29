@@ -2,6 +2,7 @@ import {
     SAVE_AGGRESSION_REPORT,
     SAVE_AFFIRMATION_REPORT,
     ADD_AGGRESSION_REPORT,
+    ADD_AFFIRMATION_REPORT,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
     GET_SURVEY_A, 
@@ -12,6 +13,8 @@ function reportsReducer(state = [], action) {
     
     switch (action.type) {
         case ADD_AGGRESSION_REPORT:
+            return [...state, action.payload];
+        case ADD_AFFIRMATION_REPORT:
             return [...state, action.payload];
         default:
             return state;

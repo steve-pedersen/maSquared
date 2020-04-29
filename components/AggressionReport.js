@@ -11,14 +11,20 @@ import {
   Title,
   Divider,
 } from 'react-native-paper';
-// import Slider from '@react-native-community/slider';
+import RNPickerSelect from 'react-native-picker-select';
 import { Slider } from 'react-native';
 
+import CampusMap from './CampusMap';
 import EmotionSlider from './EmotionSlider';
-
 import { saveAggressionReport, addAggressionReport } from '../actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
+
+const placeholder = {
+  label: '_',
+  value: null,
+  color: '#9EA0A4',
+};
 
 class AggressionReport extends Component {
 
@@ -27,26 +33,27 @@ class AggressionReport extends Component {
     this.state = {
       showDateTimePicker: false,
       dateTimePickerMode: '',
-      description: ''
+      description: '', 
+      show: false,
+      date: (new Date),
+      selectedLocation: '',
     };
   }
 
   showMode = currentMode => {
-    setShow(true);
-    setMode(currentMode);
+    this.setState({show: true});
+    this.setState({dateTimePickerMode: currentMode});
   };
 
   showDatepicker = () => {
-    showMode('date');
+    this.showMode('date');
   };
 
   showTimepicker = () => {
-    showMode('time');
+    this.showMode('time');
   };
 
   onReportChange = (key, value) => {
-    // console.log('onReportChange: ', key, value);
-
     this.props.saveAggressionReport(key, value);
   }
 
@@ -55,9 +62,16 @@ class AggressionReport extends Component {
     // this.props.navigation.navigate('HomeScreen');
   };
 
-  render() {
-    // console.log(this.props.report);
+  onDateChange = () => {
+    console.log('date changed');
+  }
 
+  onLocationChange = (key, value) => {
+    this.setState({ selectedLocation: value });
+    this.onReportChange(key, value);
+  }
+
+  render() {
     return (
       <View
         behavior="padding"
@@ -73,34 +87,34 @@ class AggressionReport extends Component {
             </Title>
           </View>
 
-          {/* <View style={styles.reportComponent}>
+          <View style={styles.reportComponent}>
             <Text>
               Time of incident
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <View>
-                <Button onPress={showDatepicker} title="Date">
+                <Button onPress={this.showDatepicker} title="Date">
                   Date
                 </Button>
               </View>
               <View>
-                <Button onPress={showTimepicker} title="Time">
+                <Button onPress={this.showTimepicker} title="Time">
                   Time
                 </Button>
               </View>
             </View>
-            {show && (
+            {this.state.show && (
               <DateTimePicker
                 testID="dateTimePicker"
                 timeZoneOffsetInMinutes={0}
-                value={date}
-                mode={mode}
+                value={this.state.date}
+                mode={this.state.mode}
                 is24Hour={true}
                 display="default"
-                onChange={onDateChange}
+                onChange={this.onDateChange}
               />
             )}
-          </View> */}
+          </View>
 
           <Divider style={{ marginVertical: 10 }} />
 
@@ -109,7 +123,6 @@ class AggressionReport extends Component {
               value={this.props.report['description']}
               onChangeText={(value) => this.onReportChange('description', value)}
               label='Describe what happened...'
-              // placeholder="Describe what happened..."
               multiline={true}
               mode='outlined'
               style={{
@@ -175,49 +188,121 @@ class AggressionReport extends Component {
 
           <Divider style={{ marginVertical: 10 }} />
 
-          <View style={styles.reportComponent}>
-            <Text style={{ marginBottom: 0, paddingBottom: 0 }}>
-              <Bold>Where did this happen?</Bold>
-            </Text>
-            <Picker
-              mode='dropdown'
-              style={{ marginTop: 0, paddingTop: 0 }}
-              selectedValue={this.props.report.campus}
-              onValueChange={(value) => this.onReportChange('campus', value)}
-            >
-              <Picker.Item label="SF State" value="sfsu" />
-              <Picker.Item label="SJSU" value="sjsu" />
-            </Picker>
-          </View>
-
-          <Divider style={{ marginVertical: 10 }} />
-
-          <View style={styles.sliders}>
-            <Text><Bold>How much did it bother you?</Bold></Text>
-            <Slider
-              style={{ width: '90%', alignSelf: 'center' }}
-              value={this.props.report.bother}
-              onValueChange={value => this.onReportChange('bother', value)}
-              minimumValue={0}
-              maximumValue={10}
-              minimumTrackTintColor="#b16d65"
-              maximumTrackTintColor="#EFEFEF"
-            />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text>Not at all</Text>
-              <Text>Very much</Text>
+          <View style={styles.pickerContainer}>
+            <View paddingVertical={20} />
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              height: '100%',
+            }}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{ flex: 1 }}>
+                <Bold>Where did this happen?</Bold>
+                </View>
+                <RNPickerSelect
+                  placeholder={placeholder}
+                  items={campusOptions}
+                  onValueChange={(value) => this.onReportChange('campus', value)}
+                  style={pickerSelectStyles}
+                  value={this.props.report.campus}
+                  useNativeAndroidPickerStyle={false}
+                  textInputProps={{ underlineColorAndroid: 'cyan' }}
+                  // InputAccessoryView={() => null}
+                  Icon={() => {
+                    return (
+                      <Icon
+                        name="md-arrow-dropdown"
+                        color="#000"
+                        size={30}
+                      />
+                    );
+                  }}
+                />
+              </View>
             </View>
           </View>
 
+          <Text style={{ fontStyle: 'italic', paddingVertical: 20 }}>
+            Click the pencil under the map to select a location.
+          </Text>
+
+          <CampusMap 
+            location={this.state.selectedLocation} 
+            onMarkerPress={(value) => this.onLocationChange('location', value)}
+          />
+
+          <View style={styles.pickerContainer}>
+            <View paddingVertical={20} />
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              height: '100%',
+            }}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{ flex: 1 }}>
+                  <Text>Choose a location</Text>
+                </View>
+                <RNPickerSelect
+                  placeholder={placeholder}
+                  items={sfsuLocations}
+                  onValueChange={(value) => this.onLocationChange('location', value)}
+                  style={pickerSelectStyles}
+                  value={this.props.report.location}
+                  useNativeAndroidPickerStyle={false}
+                  textInputProps={{ underlineColorAndroid: 'cyan' }}
+                  // InputAccessoryView={() => null}
+                  Icon={() => {
+                    return (
+                      <Icon
+                        name="md-arrow-dropdown"
+                        color="#000"
+                        size={30}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            </View>
+          </View>         
+
           <Divider style={{ marginVertical: 10 }} />
 
           <View style={styles.sliders}>
-            <Text><Bold>At this moment, how intensely do you feel the following?</Bold></Text>
+
+            <View key='bother' style={{ marginBottom: 20 }}>
+              {/* <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} /> */}
+              <EmotionSlider 
+                key='bother'
+                containerStyle={styles.sliders}
+                titleStyle={{
+                    ...styles.aggressionText, 
+                    color: '#000', 
+                }}
+                title='How much did it bother you?'
+                value={this.props.report['bother']}
+                onChange={value => this.onReportChange('bother', value)}
+                sliderStyle={styles.sliderStyle}
+                minimumValue={0}
+                maximumValue={10}
+                minimumTrackTintColor="#b16d65"
+                maximumTrackTintColor="#EFEFEF"
+                imageSrc={require('../assets/images/scale1.png')}
+              />            
+            </View>
+
+            <Divider style={{ marginVertical: 10 }} />
+
+            <Text 
+              style={{
+                  ...styles.aggressionText, 
+                  color: '#000', 
+              }}>
+                At this moment, how intensely do you feel the following?
+            </Text>
 
             {aggressionEmotionSliders.map((emotion, i) => {
               return (
                 <View key={i}>
-                  <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
                   <EmotionSlider 
                     key={emotion.key}
                     containerStyle={styles.sliders}
@@ -227,15 +312,15 @@ class AggressionReport extends Component {
                     onChange={value => this.onReportChange(emotion.key, value)}
                     sliderStyle={styles.sliderStyle}
                     minimumValue={0}
-                    maximumValue={10}
+                    maximumValue={5}
                     minimumTrackTintColor="#b16d65"
                     maximumTrackTintColor="#EFEFEF"
+                    imageSrc={require('../assets/images/scale2.png')}
                   />
+                  <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
                 </View>
               );
             })}
-
-            <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
 
             <View style={{...styles.sliders, flexDirection: 'row', alignItems: 'center'}}>
               <Icon name="md-add" style={{color:'#74b783', marginRight: 15}} size={35} />
@@ -243,8 +328,6 @@ class AggressionReport extends Component {
             </View>
 
           </View>
-
-
 
           <Divider style={{ marginVertical: 10 }} />
           <Button
@@ -262,8 +345,6 @@ class AggressionReport extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log(state);
-
   return {
     report: state.aggressions
   };
@@ -280,7 +361,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fbfafa',
     padding: 10,
   },
   sliders: {
@@ -324,9 +405,43 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  pickerContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  scrollContentContainer: {
+    paddingTop: 40,
+    paddingBottom: 10,
+  },
 });
 
-
+const pickerSelectStyles = StyleSheet.create({
+  flex: 1,
+  iconContainer: {
+    width: 30,
+    height: 30,
+    right: 12,
+    top: -5,
+  },
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 const aggressionEmotionSliders = [
   { key: 'angry', title: 'Angry' },
   { key: 'sad', title: 'Sad' },
@@ -340,41 +455,61 @@ const aggressionEmotionSliders = [
   { key: 'guilt', title: 'Guilt' },
 ];
 
+const campusOptions = [
+  { key: 1, value: 'sfsu', label: 'SF State', displayValue: false },
+  { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
+  { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
+];
 
-
-// const OLDAggressionReport = ({ navigation }) => {
-//   const [date, setDate] = useState(new Date());
-//   const [mode, setMode] = useState('date');
-//   const [show, setShow] = useState(false);
-//   const [description, setDescription] = useState('');
-//   const [campus, setCampus] = useState('');
-
-//   const aggressionReports = useSelector(state => state.aggressionReports);
-//   const dispatch = useDispatch();
-//   const saveAggressionReport = aggression => dispatch(saveAggressionReport(aggression));
-
-//   const onDateChange = (event, selectedDate) => {
-//     const currentDate = selectedDate || date;
-//     setShow(Platform.OS === 'ios');
-//     setDate(currentDate);
-//   };
-
-//   const showMode = currentMode => {
-//     setShow(true);
-//     setMode(currentMode);
-//   };
-
-//   const showDatepicker = () => {
-//     showMode('date');
-//   };
-
-//   const showTimepicker = () => {
-//     showMode('time');
-//   };
-
-//   function onSaveNote() {
-//     navigation.state.params.addNote({ noteTitle, noteValue })
-//     navigation.goBack()
-//   }
-
-// };
+const sfsuLocations = [
+  {
+    key: 'lib',
+    value: 'lib',
+    label: 'J. Paul Leonard Library (LIB)',
+  },
+  {
+    key: 'shs',
+    value: 'shs',
+    label: 'Student Health Center (SHS)',
+  },
+  {
+    key: 'hh',
+    value: 'hh',
+    label: 'Hensill Hall (HH)',
+  },
+  {
+    key: 'hss',
+    value: 'hss',
+    label: 'Health and Social Sciences (HSS)',
+  },
+  {
+    key: 'hum',
+    value: 'hum',
+    label: 'Humanities (HUM)',
+  },
+  {
+    key: 'parking',
+    value: 'parking',
+    label: 'Parking Garage',
+  },
+  {
+    key: 'quad',
+    value: 'quad',
+    label: 'Quad',
+  },
+  {
+    key: 'sci',
+    value: 'sci',
+    label: 'Science (SCI)',
+  },
+  {
+    key: 'ssb',
+    value: 'ssb',
+    label: 'Student Services (SSB)',
+  },
+  {
+    key: 'th',
+    value: 'th',
+    label: 'Thornton Hall (TH)',
+  },
+];

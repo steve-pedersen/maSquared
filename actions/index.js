@@ -17,18 +17,20 @@ import {
 import { State } from 'react-native-gesture-handler';
 
 
-export function saveAffirmationReport(affirmation) {
-    console.log('in action saveAffirmationReport');
+export function saveAffirmationReport(key, affirmation) {
+    let payload = {};
+    payload[key] = affirmation;
+    payload['modifiedDate'] = new Date;
     return {
         type: SAVE_AFFIRMATION_REPORT,
-        payload: affirmation
+        payload: payload
     };
 }
 
 export function saveAggressionReport(key, aggression) {
     let payload = {};
     payload[key] = aggression;
-    // console.log('in saveAggression: ', key, aggression, payload);
+    payload['modifiedDate'] = new Date;
     return {
         type: SAVE_AGGRESSION_REPORT,
         payload: payload
