@@ -11,7 +11,7 @@ import { getAggressionReports } from '../actions';
 class LogScreen extends Component {
 
   render() {
-    console.log(this.props.aggressionReports);
+    // console.log(this.props.aggressionReports);
     
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -21,7 +21,10 @@ class LogScreen extends Component {
         <View style={styles.container}>
           {this.props.aggressionReports.map((report, i) => {
             return (
-              <Text>Report description: {report.description}</Text>
+              <View key={i} style={{ marginBottom: 20 }}> 
+                <Title>Report #{++i}</Title>
+                <Text>Description: {report.description}</Text>
+              </View>
             );
           })}
         </View>

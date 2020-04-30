@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
+// SFSU: @37.7232119,-122.4800182,17.56z
+const INITIAL_REGION = {
+  latitude: 37.7232119,
+  longitude: -122.4800182,
+  latitudeDelta: 0.0022,
+  longitudeDelta: 0.0121,
+};
+
 class CampusMap extends Component {
   
-  // SFSU: @37.7232119,-122.4800182,17.56z
   constructor(props) {
     super(props);
+
     this.state = {
-      region: {
-        latitude: 37.7232119,
-        longitude: -122.4800182,
-        latitudeDelta: 0.0022,
-        longitudeDelta: 0.0121,
-      },
+      region: INITIAL_REGION,
       campus: 'sfsu'
     };
   }
   
-  onRegionChange(region) {
-    this.setState({ region });
+  onRegionChange = (region) => {
+    this.setState({ region: INITIAL_REGION });
   }
   
 
@@ -30,11 +33,11 @@ class CampusMap extends Component {
           provider={PROVIDER_GOOGLE}
           style={styles.mapStyle}
           region={this.state.region}
-          // onRegionChange={this.onRegionChange}
+          onRegionChange={this.onRegionChange}
         >
           {markers.map((campuses, i) => {
             return (
-              <View>
+              <View key={i}>
                 {campuses[this.state.campus].map(marker => {
                   return (
                     <Marker
@@ -67,8 +70,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mapStyle: {
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width / 1.115,
     height: (Dimensions.get('window').height / 4),
+    borderRadius: 4,
+    borderColor: 'gray',
+    borderWidth: 1,
   },
 });
 

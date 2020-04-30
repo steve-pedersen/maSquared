@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, StatusBar, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Image, ScrollView, SafeAreaView } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Ionicons } from '@expo/vector-icons';
@@ -72,7 +72,7 @@ class IntroSlideshow extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }} keyboardAvoidingView={500}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} keyboardAvoidingView={500}>
         {this.props.route.params.returnRoute ?
           <Icon
             name="md-arrow-round-back"
@@ -99,7 +99,7 @@ class IntroSlideshow extends Component {
           activeDotStyle={{ backgroundColor: '#74b783' }}
           renderDoneButton={this._renderDoneButton}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

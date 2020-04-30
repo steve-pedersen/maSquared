@@ -36,7 +36,7 @@ class AppendixC extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}>
           <View>
-            <Paragraph style={{ marginBottom: 15 }}>
+            <Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
               Thinking about your current life, please read each of these
               statements and rate to what extent you feel this is true for
               you at SF State, on a scale of <Bold>1 (Never)</Bold> to 
@@ -46,43 +46,34 @@ class AppendixC extends Component {
           {surveyQsAppendixC.map((prop, key) => {
             key++;
             return (
-              
-              <View style={styles.container} key={prop.key}>
-                  <View paddingVertical={20} />
-                  <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-start',
-                    height: '100%',
-                  }}>
-                    <Text><Bold>{prop.key}. </Bold> </Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{ flex: 1 }}>
-                        {prop.content}
-                      </View>
-                      <RNPickerSelect
-                        placeholder={placeholder}
-                        items={answerScale}
-                        onValueChange={this.onSurveyChange.bind(this, key)}
-                        style={pickerSelectStyles}
-                        value={this.props.surveyC[key].value}
-                        useNativeAndroidPickerStyle={false}
-                        textInputProps={{ underlineColorAndroid: 'cyan' }}
-                        // InputAccessoryView={() => null}
-                        Icon={() => {
-                          return (
-                            <Icon
-                              name="md-arrow-dropdown"
-                              color="#000"
-                              size={30}
-                            />
-                          );
-                        }}
-                      />
-                    </View>
-                  </View>
-                </View>
 
+              <View key={key} style={{ marginBottom: 30 }}>
+                <View style={{ paddingBottom: 10 }}>
+                  {prop.content}
+                </View>
+                <View style={styles.pickerContainer}>
+                  <RNPickerSelect
+                    placeholder={placeholder}
+                    items={answerScale}
+                    onValueChange={this.onSurveyChange.bind(this, key)}
+                    style={pickerSelectStyles}
+                    value={this.props.surveyC[key].value}
+                    useNativeAndroidPickerStyle={false}
+                    textInputProps={{ underlineColorAndroid: 'cyan' }}
+                    Icon={() => {
+                      return (
+                        <Icon
+                          name="md-arrow-dropdown"
+                          color="#000"
+                          size={30}
+                        />
+                      );
+                    }}
+                  />
+                </View>
+              </View>
             );
+
           })}
           <Button
             onPress={this.handleSubmit}
@@ -191,31 +182,31 @@ const styles = StyleSheet.create({
 });
 
 const pickerSelectStyles = StyleSheet.create({
-  flex: 1,
+  flexGrow: 1,
   iconContainer: {
-    width: 30,
-    // height: 30,
-    right: 12,
-    top: -5,
+    top: 16,
+    right: 20,
   },
-  // placeholder: {
-  //   // fontSize: 30,
-  //   flex: 1,
-  //   top: -12,
-  //   left: -15,
-  //   paddingLeft: 15
-  // },
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 18,
     paddingHorizontal: 10,
-    color: 'black',
+    backgroundColor: '#f8f9fa',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'green',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
@@ -224,20 +215,37 @@ const pickerSelectStyles = StyleSheet.create({
 
 
 
-{/* <View key={prop.key}>
-<View style={{ flexDirection: 'row' }}>
-  <Text><Bold>{prop.key}. </Bold> </Text>
-  {prop.content}
-</View>
-<Picker
-  mode='dropdown'
-  selectedValue={this.props.surveyC[key].value}
-  onValueChange={this.onSurveyChange.bind(this, key)}>
-  <Picker.Item label='-' value='0' />
-  {answerScale.map((answer, i) => {
-    return (
-      <Picker.Item label={answer.text} value={answer.key} />
-    );
-  })}
-</Picker>
-</View> */}
+// <View style={styles.container} key={prop.key}>
+//     <View paddingVertical={20} />
+//     <View style={{
+//       flexDirection: 'row',
+//       alignItems: 'flex-start',
+//       height: '100%',
+//     }}>
+//       <Text><Bold>{prop.key}. </Bold> </Text>
+//       <View style={{flexDirection: 'row'}}>
+//         <View style={{ flex: 1 }}>
+//           {prop.content}
+//         </View>
+//         <RNPickerSelect
+//           placeholder={placeholder}
+//           items={answerScale}
+//           onValueChange={this.onSurveyChange.bind(this, key)}
+//           style={pickerSelectStyles}
+//           value={this.props.surveyC[key].value}
+//           useNativeAndroidPickerStyle={false}
+//           textInputProps={{ underlineColorAndroid: 'cyan' }}
+//           // InputAccessoryView={() => null}
+//           Icon={() => {
+//             return (
+//               <Icon
+//                 name="md-arrow-dropdown"
+//                 color="#000"
+//                 size={30}
+//               />
+//             );
+//           }}
+//         />
+//       </View>
+//     </View>
+//   </View>

@@ -22,14 +22,13 @@ import ConsentForm from '../components/ConsentForm';
 import AppendixA from '../components/surveys/AppendixA';
 import AppendixB from '../components/surveys/AppendixB';
 import AppendixC from '../components/surveys/AppendixC';
+import PostMeasure from '../components/surveys/PostMeasure';
 
 import { saveConsent, saveSlideshow, resetApp } from '../actions';
 
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
-
-
 
 const theme = {
   ...DefaultTheme,
@@ -55,7 +54,7 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="ConsentForm"
               component={ConsentForm}
-              options={headerStyles}
+              options={slideshowHeaderStyles}
             />
             <Stack.Screen
               name="IntroSlideshow"
@@ -121,6 +120,11 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="IntroSlideshow"
               component={IntroSlideshow}
+              options={slideshowHeaderStyles}
+            />
+            <Stack.Screen
+              name="PostMeasure"
+              component={PostMeasure}
               options={slideshowHeaderStyles}
             />
           </Stack.Navigator>

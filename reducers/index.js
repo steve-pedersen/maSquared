@@ -8,6 +8,7 @@ import surveyCReducer from './surveyC';
 import surveyReducer from './survey';
 import consentReducer from './consent';
 import slideshowReducer from './slideshow';
+import postMeasureSurveyReducer from './postMeasureSurvey';
 
 export default combineReducers({
     affirmations: affirmationsReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
     survey: surveyReducer,
     consent: consentReducer,
     slideshow: slideshowReducer,
+    postMeasureSurvey: postMeasureSurveyReducer,
 });

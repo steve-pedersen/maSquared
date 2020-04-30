@@ -2,6 +2,7 @@ import {
     SAVE_AFFIRMATION_REPORT, 
     SAVE_AGGRESSION_REPORT, 
     ADD_AGGRESSION_REPORT,
+    RESET_AGGRESSION_REPORT,
     GET_AGGRESSION_REPORTS,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
@@ -13,6 +14,7 @@ import {
     SAVE_SLIDESHOW,
     SAVE_SURVEY,
     RESET_APP,
+    SAVE_POST_MEASURE_SURVEY,
 } from './types';
 import { State } from 'react-native-gesture-handler';
 
@@ -43,6 +45,13 @@ export function addAggressionReport(report) {
     return {
         type: ADD_AGGRESSION_REPORT,
         payload: report
+    }
+}
+
+export function resetAggressionReport() {
+    return {
+        type: RESET_AGGRESSION_REPORT,
+        payload: {}
     }
 }
 
@@ -136,4 +145,14 @@ export function resetApp() {
         type: RESET_APP,
         payload: null
     }
+}
+
+export function savePostMeasureSurvey(key, value) {
+    let payload = {};
+    payload[key] = value;
+    payload['modifiedDate'] = new Date;
+    return {
+        type: SAVE_POST_MEASURE_SURVEY,
+        payload: payload
+    };
 }

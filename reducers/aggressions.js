@@ -1,19 +1,19 @@
 import { 
     SAVE_AGGRESSION_REPORT, 
-    // ADD_AGGRESSION_REPORT 
+    RESET_AGGRESSION_REPORT, 
 } from '../actions/types';
 
 const INITIAL_STATE = {
     incidentTime: '',
     description: '',
-    relatedTo: {
-        race: false,
-        culture: false,
-        gender: false,
-        sexualOrientation: false,
-        other: false,
-        otherDesciption: '',
-    },
+
+    relatedToRace: false,
+    relatedTocCulture: false,
+    relatedToGender: false,
+    relatedToSexualOrientation: false,
+    relatedToOther: false,
+    relatedToOtherDesciption: '',
+
     campus: '',
     location: null,
     bother: 0,
@@ -27,10 +27,8 @@ const INITIAL_STATE = {
     disgust: 0,
     pride: 0,
     guilt: 0,
-    otherEmotion: {
-        name: '',
-        intensity: 0,
-    },
+    otherEmotionName: '',
+    otherEmotionValue: 0,
     modifiedDate: null,
 };
 
@@ -38,6 +36,8 @@ export default function(state = INITIAL_STATE, action) {
     switch (action.type) {
         case SAVE_AGGRESSION_REPORT:
             return {...state, ...action.payload};
+        case RESET_AGGRESSION_REPORT:
+            return INITIAL_STATE;
         default:
             return state;
     }

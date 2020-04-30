@@ -37,46 +37,37 @@ class AppendixB extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}>
           <View>
-            <Paragraph style={{ marginBottom: 15 }}>
+            <Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
               Assuming you were motivated to do your best, on a scale 1
               (Completely Unsure) to 10 (Completely Sure), please indicate
-                          whether or not you could <U>successfully</U> do each of the following:
-                      </Paragraph>
+              whether or not you could <U>successfully</U> do each of the following:
+            </Paragraph>
           </View>
           {surveyQsAppendixB.map((prop, key) => {
             key++;
             return (
-              <View style={styles.container} key={prop.key}>
-                <View paddingVertical={20} />
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  height: '100%',
-                }}>
-                  <Text><Bold>{prop.key}. </Bold> </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={{flex:1}}>{prop.text}</Text>
-                    <RNPickerSelect
-                      placeholder={placeholder}
-                      items={answerScale}
-                      onValueChange={this.onSurveyChange.bind(this, key)}
-                      style={pickerSelectStyles}
-                      value={this.props.surveyB[key].value}
-                      useNativeAndroidPickerStyle={false}
-                      textInputProps={{ underlineColorAndroid: 'cyan' }}
-                      Icon={() => {
-                        return (
-                          <Icon
-                            name="md-arrow-dropdown"
-                            color="#000"
-                            size={30}
-                          />
-                        );
-                      }}
-                    />
-                  </View>
+              <View key={key} style={{ marginBottom: 30 }}>
+                <Text style={{ paddingBottom: 10, fontSize: 15 }}><Bold>{prop.key}. </Bold> {prop.text}</Text>
+                <View style={styles.pickerContainer}>
+                  <RNPickerSelect
+                    placeholder={placeholder}
+                    items={answerScale}
+                    onValueChange={this.onSurveyChange.bind(this, key)}
+                    style={pickerSelectStyles}
+                    value={this.props.surveyB[key].value}
+                    useNativeAndroidPickerStyle={false}
+                    textInputProps={{ underlineColorAndroid: 'cyan' }}
+                    Icon={() => {
+                      return (
+                        <Icon
+                          name="md-arrow-dropdown"
+                          color="#000"
+                          size={30}
+                        />
+                      );
+                    }}
+                  />
                 </View>
-                
               </View>
             );
           })}
@@ -230,25 +221,56 @@ const styles = StyleSheet.create({
 });
 
 const pickerSelectStyles = StyleSheet.create({
-  flex: 1,
+  flexGrow: 1,
   iconContainer: {
-    width: 30,
-    height: 30,
-    right: 12,
-    top: -5,
+    top: 16,
+    right: 20,
   },
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 18,
     paddingHorizontal: 10,
-    color: 'black',
+    backgroundColor: '#f8f9fa',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'green',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
+
+// const pickerSelectStyles = StyleSheet.create({
+//   flex: 1,
+//   iconContainer: {
+//     width: 30,
+//     height: 30,
+//     right: 12,
+//     top: -5,
+//   },
+//   inputIOS: {
+//     fontSize: 16,
+//     paddingVertical: 12,
+//     paddingHorizontal: 10,
+//     color: 'black',
+//     paddingRight: 30, // to ensure the text is never behind the icon
+//   },
+//   inputAndroid: {
+//     fontSize: 16,
+//     paddingHorizontal: 10,
+//     paddingVertical: 8,
+//     color: 'black',
+//     paddingRight: 30, // to ensure the text is never behind the icon
+//   },
+// });

@@ -1,35 +1,32 @@
 import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
-import * as React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Title } from 'react-native-paper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-export default function SettingsScreen() {
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      
-      <Text style={styles.titleText}>Settings Screen</Text>
-      
-      <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
-      />
+class MoreScreen extends Component {
 
-      <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-      />
+  onPostMeasure = () => {
+    console.log('onPostMeasure click');
+    this.props.navigation.navigate('PostMeasure');
+  }
 
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
-    </ScrollView>
-  );
+  render() {
+    return (
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
+        <Title style={styles.titleText}>More</Title>
+
+        <OptionButton
+          icon="md-school"
+          label="Post-Measure Survey"
+          onPress={this.onPostMeasure}
+          isLastOption
+        />
+
+      </ScrollView>
+    );
+  }
 }
 
 function OptionButton({ icon, label, onPress, isLastOption }) {
@@ -76,5 +73,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     textAlign: 'center',
+    marginBottom: 10,
   },
 });
+
+export default MoreScreen;

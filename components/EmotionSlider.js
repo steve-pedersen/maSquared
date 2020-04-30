@@ -21,6 +21,7 @@ class EmotionSlider extends Component {
                 maximumValue={this.props.maximumValue}
                 minimumTrackTintColor={this.props.minimumTrackTintColor}
                 maximumTrackTintColor={this.props.maximumTrackTintColor}
+                step={1}
               />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text>Not at all</Text>

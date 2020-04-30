@@ -4,10 +4,8 @@ import { Text } from 'react-native';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import MoreScreen from '../screens/MoreScreen';
 import LogScreen from '../screens/LogScreen';
-import AffirmationReport from '../components/AffirmationReport';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -38,7 +36,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="More"
-        component={SettingsScreen}
+        component={MoreScreen}
         options={{
           title: 'More',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-settings" />,
@@ -54,7 +52,9 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return '';
-    case 'Links':
-      return 'Links to learn more';
+    case 'Log':
+      return 'Reports Log';
+    case 'More':
+      return '';
   }
 }
