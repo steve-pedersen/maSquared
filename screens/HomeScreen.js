@@ -11,7 +11,7 @@ import AggressionReport from '../components/AggressionReport';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import reducers from '../reducers';
-import { greaterThan } from 'react-native-reanimated';
+import Layout from '../constants/Layout';
 
 const Stack = createStackNavigator();
 
@@ -30,7 +30,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
         </View>
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 20 }}>
+        <View style={styles.reportButton}>
           <Text 
             onPress={() => navigation.navigate('AggressionReport')} 
             style={styles.aggressionButton}>
@@ -46,7 +46,7 @@ export default function HomeScreen({ navigation }) {
           }}
         />
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 20 }}>
+        <View style={styles.reportButton}>
           <Text 
             onPress={() => navigation.navigate('AffirmationReport')} 
             style={styles.affirmationButton}>
@@ -140,9 +140,19 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5,
   },
+  reportButton: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    alignSelf: 'center',
+    // paddingVertical: (Layout.window.height / 30),
+  },
   helpContainer: {
     marginTop: 15,
     alignItems: 'center',
+    flex: 1, 
+    justifyContent: 'center', 
+    // paddingVertical: 20,
   },
   helpLink: {
     paddingVertical: 15,

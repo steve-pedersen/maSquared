@@ -10,12 +10,12 @@ const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</
 class AppendixA extends Component {
 
     onSurveyChange(value, key) {
-        console.log('onSurveyChange: ', value, key);
+        // console.log('onSurveyChange: ', value, key);
         this.props.saveSurveyA(value, key);
     }
 
     handleSubmit = values => {
-        console.log('submitting form', values);
+        // console.log('submitting form', values);
         // saveSurveyA(surveyA);
         this.props.navigation.navigate('AppendixB', {});
     }

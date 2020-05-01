@@ -377,7 +377,7 @@ class AggressionReport extends Component {
                       maximumValue={10}
                       minimumTrackTintColor="#b16d65"
                       maximumTrackTintColor="#EFEFEF"
-                      imageSrc={require('../assets/images/scale1.png')}
+                      imageSrc={require('../assets/images/scale2.png')}
                     />            
                   </View>
                 )

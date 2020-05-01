@@ -25,10 +25,10 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SAVE_SURVEY_A:
-            console.log('in save survey reducer', action);
+            // console.log('in save survey reducer', action);
             return { ...state, ...action.payload };
         case GET_SURVEY_A:
-            console.log('in getSurveyA reducer', action, action.payload);
+            // console.log('in getSurveyA reducer', action, action.payload);
             return state[action.payload]; // ?
         default:
             return state;

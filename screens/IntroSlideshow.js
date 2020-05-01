@@ -91,6 +91,7 @@ class IntroSlideshow extends Component {
         </Button> */}
         <StatusBar translucent backgroundColor="transparent" />
         <AppIntroSlider
+          style={{ marginBottom: 100 }}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           data={slides}
@@ -171,8 +172,8 @@ const slides = [
         />
         <Text style={styles.text}>
           In this app, we would like you to log <Bold> microaggressions</Bold> and
-                    <Bold> microaffirmations</Bold> that you encounter in real time at SF State.
-                </Text>
+          <Bold> microaffirmations</Bold> that you encounter in real time at SF State.
+        </Text>
       </View>
     ),
     bg: '#fff',
@@ -198,12 +199,12 @@ const slides = [
           },
         ]}>
           Microaggressions are subtle, often unintentional insults due to an aspect of
-                    your identity (most commonly ethnicity, gender, and sexual orientation).{"\n\n"}
-                    They can lead you to question if you're overreacting or reading into the situation
-                    too much. They can also make you feel invisible and/or unimportant.{"\n\n"}
-                    Microaggressions can be expressed verbally, through someone's behavior, or
-                    simply present in the environment.
-                </Text>
+          your identity (most commonly ethnicity, gender, and sexual orientation).{"\n\n"}
+          They can lead you to question if you're overreacting or reading into the situation
+          too much. They can also make you feel invisible and/or unimportant.{"\n\n"}
+          Microaggressions can be expressed verbally, through someone's behavior, or
+          simply present in the environment.
+      </Text>
       </View>
     ),
     bg: '#fff',
@@ -433,36 +434,38 @@ const slides = [
     key: 10,
     title: '10',
     content: (
-      <ScrollView style={{ flex: 0 }}>
-        <Text style={[
-          styles.title,
-          {
-            paddingBottom: 20,
-            textAlign: 'left',
-          },
-        ]}>
-          <Bold>Emotion reporting</Bold>
-        </Text>
-        <Text style={[
-          styles.text,
-          {
-            textAlign: 'left',
-          },
-        ]}>
-          Each time you report a microaggression or microaffirmation, we will ask you to
-                    rate how intensely you feel the following emotions:{"\n\n"}
+      <ScrollView style={{ flex: 0, paddingBottom: 100 }}>
+        <SafeAreaView style={{ paddingBottom: 100 }}>
+          <Text style={[
+            styles.title,
+            {
+              paddingBottom: 20,
+              textAlign: 'left',
+            },
+          ]}>
+            <Bold>Emotion reporting</Bold>
+          </Text>
+          <Text style={[
+            styles.text,
+            {
+              textAlign: 'left',
+            },
+          ]}>
+            Each time you report a microaggression or microaffirmation, we will ask you to
+            rate how intensely you feel the following emotions:{"\n\n"}
 
-                    1. <Bold>Angry</Bold> - a strong feeling of hostility{"\n\n"}
-                    2. <Bold>Contempt</Bold> - the feeling that something is worthless{"\n\n"}
-                    3. <Bold>Disgust</Bold> - a feeling of distaste or profound disapproval{"\n\n"}
-                    4. <Bold>Fear</Bold> - distress prompted by a real or imagined threat{"\n\n"}
-                    5. <Bold>Guilt</Bold> - a feeling of remorse for some offense{"\n\n"}
-                    6. <Bold>Happy</Bold> - feeling pleasure or contentment{"\n\n"}
-                    7. <Bold>Pride</Bold> - satisfaction associated with one{"\n\n"}
-                    8. <Bold>Sad</Bold> - feeling sorrow or unhappiness{"\n\n"}
-                    9. <Bold>Shame</Bold> - a feeling of shame following one{"\n\n"}
-                    10. <Bold>Surprise</Bold> - astonishment due to an unexpected event
-                </Text>
+            1. <Bold>Angry</Bold> - a strong feeling of hostility{"\n\n"}
+            2. <Bold>Contempt</Bold> - the feeling that something is worthless{"\n\n"}
+            3. <Bold>Disgust</Bold> - a feeling of distaste or profound disapproval{"\n\n"}
+            4. <Bold>Fear</Bold> - distress prompted by a real or imagined threat{"\n\n"}
+            5. <Bold>Guilt</Bold> - a feeling of remorse for some offense{"\n\n"}
+            6. <Bold>Happy</Bold> - feeling pleasure or contentment{"\n\n"}
+            7. <Bold>Pride</Bold> - satisfaction associated with one{"\n\n"}
+            8. <Bold>Sad</Bold> - feeling sorrow or unhappiness{"\n\n"}
+            9. <Bold>Shame</Bold> - a feeling of shame following one{"\n\n"}
+            10. <Bold>Surprise</Bold> - astonishment due to an unexpected event
+          </Text>
+        </SafeAreaView>
       </ScrollView>
     ),
     bg: '#fff',
