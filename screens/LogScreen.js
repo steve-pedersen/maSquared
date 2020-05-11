@@ -23,7 +23,11 @@ class LogScreen extends Component {
             return (
               <View key={i} style={{ marginBottom: 20 }}> 
                 <Title>Report #{++i}</Title>
-                <Text>Description: {report.description}</Text>
+                {report.incidentTime ?
+                  <Text>Incident Time:{"\t"}{report.incidentTime}</Text> :
+                  undefined
+                }
+                <Text>Description:{"\t\t"}{report.description}</Text>
               </View>
             );
           })}

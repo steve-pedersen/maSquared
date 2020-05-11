@@ -46,6 +46,19 @@ class AggressionReport extends Component {
         this.props.report.otherEmotionValue || this.props.report.otherEmotionText
       ),
     };
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <Icon
+          name="md-trash"
+          color="#fff"
+          size={35}
+          onPress={() => {
+            this.props.resetAggressionReport({});
+            this.props.navigation.navigate('Root');
+          }}
+        />
+      )
+    });
   }
 
   onReportChange = (key, value) => {
@@ -92,7 +105,7 @@ class AggressionReport extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
         <SafeAreaView>
-          <Title style={styles.aggressionText}>
+          <Title style={{...styles.aggressionText, fontWeight: 'bold' }}>
             MICROAGGRESSION REPORT
           </Title>
 
@@ -100,12 +113,7 @@ class AggressionReport extends Component {
             <Text style={styles.label}>Time of incident</Text>
             <View style={{
               ...styles.reportComponent, 
-              borderWidth: 1, 
-              borderRadius: 4,
-              borderColor: '#787878',
-              backgroundColor: '#f7f7f7',
-              padding: 9,
-              textAlign: 'left',
+              ...styles.datetimePicker
             }}>
               <DateTimePicker 
                 style={{flexGrow: 1}} 
@@ -248,7 +256,8 @@ class AggressionReport extends Component {
           <View style={{ paddingHorizontal: 50 }}>
             <CampusMap 
               location={this.state.selectedLocation} 
-              onMarkerPress={(value) => this.onLocationChange('location', value)}
+              onMarkerPress={value => this.onLocationChange('location', value)}
+              campus={this.props.report.campus}
             />
           </View>
 
@@ -480,6 +489,15 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 10,
   },
+  datetimePicker: {
+    borderWidth: 1, 
+    borderRadius: 4,
+    borderColor: '#787878',
+    backgroundColor: '#f7f7f7',
+    paddingVertical: 9,
+    paddingHorizontal: 5,
+    alignItems: 'baseline',
+  }
 });
 
 

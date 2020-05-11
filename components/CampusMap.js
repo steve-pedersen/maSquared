@@ -11,20 +11,26 @@ const INITIAL_REGION = {
 };
 
 class CampusMap extends Component {
-  
+
   constructor(props) {
     super(props);
 
     this.state = {
       region: INITIAL_REGION,
-      campus: 'sfsu'
+      campus: this.props.campus ? this.props.campus : 'sfsu'
     };
   }
-  
-  onRegionChange = (region) => {
-    this.setState({ region: INITIAL_REGION });
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.campus !== this.props.campus) {
+      this.setState({ campus: this.props.campus });
+    }
   }
-  
+
+  onRegionChange = (region) => {
+    // this.setState({ region: INITIAL_REGION });
+  }
+
 
   render() {
     return (
@@ -42,14 +48,15 @@ class CampusMap extends Component {
                   return (
                     <Marker
                       key={marker.title}
+                      id={marker.key}
                       coordinate={marker.latlng}
                       title={marker.title}
                       description={marker.description}
-                      onPress={this.props.onMarkerChange}>
-                      {this.props.location == marker.key ? 
-                        (<View style={{backgroundColor: "#74b783", padding: 10}}></View>) :
+                      onPress={() => this.props.onMarkerPress(marker.key)}
+                      pinColor={this.props.location == marker.key ?
+                        '#74b783' :
                         undefined
-                      }
+                      }>
                     </Marker>
                   );
                 })}
@@ -83,7 +90,8 @@ export default CampusMap;
 
 
 const markers = [
-  { 
+  {
+    null: [],
     sfsu: [
       {
         key: 'lib',
@@ -129,7 +137,7 @@ const markers = [
         key: 'parking',
         title: 'Parking Garage',
         latlng: {
-          latitude: 37.724594, 
+          latitude: 37.724594,
           longitude: -122.480891
         }
       },
@@ -137,7 +145,7 @@ const markers = [
         key: 'quad',
         title: 'Quad',
         latlng: {
-          latitude: 37.722352, 
+          latitude: 37.722352,
           longitude: -122.477386
         }
       },
@@ -145,7 +153,7 @@ const markers = [
         key: 'sci',
         title: 'Science (SCI)',
         latlng: {
-          latitude: 37.722923, 
+          latitude: 37.722923,
           longitude: -122.476347
         }
       },
@@ -153,18 +161,28 @@ const markers = [
         key: 'ssb',
         title: 'Student Services (SSB)',
         latlng: {
-          latitude: 37.723530, 
-          longitude: -122.480546 
+          latitude: 37.723530,
+          longitude: -122.480546
         }
       },
       {
         key: 'th',
         title: 'Thornton Hall (TH)',
         latlng: {
-          latitude: 37.723636, 
-          longitude: -122.476966 
+          latitude: 37.723636,
+          longitude: -122.476966
         }
       },
     ],
+    'sjsu': [
+      {
+        key: 'lib',
+        title: 'J. Paul Leonard Library (LIB)',
+        latlng: {
+          latitude: 37.721416,
+          longitude: -122.478162
+        }
+      },
+    ]
   }
 ];

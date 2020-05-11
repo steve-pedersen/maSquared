@@ -2,14 +2,14 @@ import * as React from 'react';
 // import { Provider } from 'react-redux';
 
 
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Image, View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
 
 import BottomTabNavigator from './BottomTabNavigator';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 
@@ -110,7 +110,7 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="AggressionReport"
               component={AggressionReport}
-              options={headerStyles}
+              options={reportHeader}
             />
             <Stack.Screen
               name="AffirmationReport"
@@ -134,6 +134,40 @@ class NavigationStack extends React.Component {
   }
 }
 
+function LogoTitle() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Title style={{ color: '#fff', }}>New Report</Title>
+      {/* <Image
+        style={{ width: 44, height: 44, marginLeft: 10 }}
+        resizeMode="contain"
+        source={require('../assets/images/AppIcon.appiconset/120.png')}
+      /> */}
+    </View>
+  );
+}
+
+function HeaderRight() {
+  return (
+    <Icon
+      name="md-trash"
+      color="#fff"
+      size={35}
+      // onPress={this._onDone}
+    />
+  );
+}
+
+function BackIcon() {
+  return (
+    <Icon
+      name="md-arrow-back"
+      color="#fff"
+      size={35}
+      // onPress={this._onDone}
+    />
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -145,6 +179,7 @@ const styles = StyleSheet.create({
 const slideshowHeaderStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
+    height: 100,
   },
   headerTintColor: '#74b783',
 
@@ -153,12 +188,33 @@ const slideshowHeaderStyles = {
 const headerStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
+    height: 100,
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
   },
 };
+
+const reportHeader = {
+  headerTitle: props => <LogoTitle {...props} />,
+  headerBackImage: props => <BackIcon {...props} />,
+  headerBackTitleVisible: false,
+  headerLeftContainerStyle: {paddingHorizontal: 10, alignSelf: 'center'},
+  // headerRight: props => <HeaderRight {...props} />,
+  headerRightContainerStyle: {paddingHorizontal: 10, alignSelf: 'center'},
+  headerStyle: {
+    backgroundColor: '#74b783',
+    height: 100,
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    alignItems: 'left',
+    alignSelf: 'left',
+    justifyContent: 'left',
+  },
+}
 
 function mapStateToProps(state) {
   return {
