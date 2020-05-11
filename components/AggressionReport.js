@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from './DateTimePicker';
 import { Text, 
   View, 
   StyleSheet, 
@@ -38,30 +39,14 @@ class AggressionReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDateTimePicker: false,
-      dateTimePickerMode: '',
-      description: '', 
-      show: false,
-      date: (new Date),
       selectedLocation: '',
+      selectedDate: '',
+      selectedTime: '',
       otherEmotionAdded: (
         this.props.report.otherEmotionValue || this.props.report.otherEmotionText
       ),
     };
   }
-
-  showMode = currentMode => {
-    this.setState({show: true});
-    this.setState({dateTimePickerMode: currentMode});
-  };
-
-  showDatepicker = () => {
-    this.showMode('date');
-  };
-
-  showTimepicker = () => {
-    this.showMode('time');
-  };
 
   onReportChange = (key, value) => {
     this.props.saveAggressionReport(key, value);
@@ -73,10 +58,6 @@ class AggressionReport extends Component {
     this.props.navigation.navigate('Root');
   };
 
-  onDateChange = () => {
-    console.log('date changed');
-  }
-
   onLocationChange = (key, value) => {
     this.setState({ selectedLocation: value });
     this.onReportChange(key, value);
@@ -84,6 +65,22 @@ class AggressionReport extends Component {
 
   addOtherEmotion = () => {
     this.setState({ otherEmotionAdded: true });
+  }
+
+  onDateTimeChange = (value) => {
+    let incidentDateTime = this.formatDate(new Date(value - 86400 * 1000));
+    this.props.saveAggressionReport('incidentTime', incidentDateTime);
+  }
+
+  formatDate = (date) => {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
 
   render() {
@@ -99,51 +96,36 @@ class AggressionReport extends Component {
             MICROAGGRESSION REPORT
           </Title>
 
-          {/* <View style={styles.reportComponent}>
-            <View style={{ marginBottom: 15 }}>
-              <Bold>Time of incident</Bold>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <View>
-                <Button onPress={this.showDatepicker} title="Date">
-                  Date
-                </Button>
-              </View>
-              <View>
-                <Button onPress={this.showTimepicker} title="Time">
-                  Time
-                </Button>
-              </View>
-            </View>
-            {this.state.show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                timeZoneOffsetInMinutes={0}
-                value={this.state.date}
-                mode={this.state.mode}
-                is24Hour={true}
-                display="default"
-                onChange={this.onDateChange}
-              />
-            )}
-          </View> */}
-
-          
-          <View style={styles.reportComponent}>
+          <View>
             <Text style={styles.label}>Time of incident</Text>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <TextInput
-                value={this.props.report.incidentTime}
-                onChangeText={(value) => this.onReportChange('incidentTime', value)}
-                label='Approximate date and time'
-                mode='outlined'
-              />
-            </TouchableWithoutFeedback>
+            <View style={{
+              ...styles.reportComponent, 
+              borderWidth: 1, 
+              borderRadius: 4,
+              borderColor: '#787878',
+              backgroundColor: '#f7f7f7',
+              padding: 9,
+              textAlign: 'left',
+            }}>
+              <DateTimePicker 
+                style={{flexGrow: 1}} 
+                mode='datetime' 
+                currentDateTime={this.props.report.incidentTime ?
+                  new Date(this.props.report.incidentTime) :
+                  new Date
+                }
+                text={this.props.report.incidentTime ? 
+                  this.props.report.incidentTime : 'Choose Date & Time'
+                }
+                callbackHandler={this.onDateTimeChange} /> 
+              {/* <Text style={{ fontSize: 16, padding: 5 }}>
+                {this.props.report.incidentTime}
+              </Text> */}
+            </View>      
           </View>
 
           <Divider style={{ marginVertical: 10 }} />
-          
-          
+              
           <View style={styles.reportComponent}>
             <Text style={styles.label}>Describe what happened...</Text>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
