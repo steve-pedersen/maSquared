@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-import DateTimePicker from './DateTimePicker';
 import { Text, 
   View, 
   StyleSheet, 
@@ -9,7 +7,7 @@ import { Text,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  TouchableOpacity ,
+  TouchableOpacity,
   SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -21,9 +19,15 @@ import {
   Divider,
 } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
+import { CommonActions } from '@react-navigation/native';
 
+import DateTimePicker from './DateTimePicker';
 import CampusMap from './CampusMap';
 import EmotionSlider from './EmotionSlider';
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { saveAggressionReport, addAggressionReport, resetAggressionReport } from '../actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
@@ -50,15 +54,24 @@ class AggressionReport extends Component {
       headerRight: () => (
         <Icon
           name="md-trash"
-          color="#fff"
+          color='#74b783'
           size={35}
           onPress={() => {
             this.props.resetAggressionReport({});
-            this.props.navigation.navigate('Root');
+            this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'Root' }],
+              params: [{ message: 'from report' }]
+            });
+            // this.props.navigation.setParams({ message: 'Report cancelled' });
+            // this.props.navigation.navigate('Root', { message: 'From report' });
           }}
         />
       )
     });
+    // this.props.
+    console.log(this.props.route, 'log on report');
+    
   }
 
   onReportChange = (key, value) => {
@@ -126,13 +139,13 @@ class AggressionReport extends Component {
                   this.props.report.incidentTime : 'Choose Date & Time'
                 }
                 callbackHandler={this.onDateTimeChange} /> 
-              {/* <Text style={{ fontSize: 16, padding: 5 }}>
+              {/* <Text style={{ fontSize: hp('2%'), padding: 5 }}>
                 {this.props.report.incidentTime}
               </Text> */}
             </View>      
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
               
           <View style={styles.reportComponent}>
             <Text style={styles.label}>Describe what happened...</Text>
@@ -151,9 +164,9 @@ class AggressionReport extends Component {
             </TouchableWithoutFeedback>
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
 
-          <View style={{ marginVertical: 10 }}>
+          <View style={{ marginVertical: hp('.75%') }}>
           <Text style={styles.label}>What was it related to?</Text>
             <View style={styles.switchContainer}>
               <Switch
@@ -163,7 +176,7 @@ class AggressionReport extends Component {
                 value={this.props.report.relatedToRace}
                 trackColor='#DEDEDE'
               />
-              <Text style={{ marginLeft: 10 }}>Race</Text>
+              <Text style={styles.switchText}>Race</Text>
             </View>
             <View style={styles.switchContainer}>
               <Switch
@@ -173,7 +186,7 @@ class AggressionReport extends Component {
                 value={this.props.report.relatedToCulture}
                 trackColor='#DEDEDE'
               />
-              <Text style={{ marginLeft: 10 }}>Culture</Text>
+              <Text style={styles.switchText}>Culture</Text>
             </View>
             <View style={styles.switchContainer}>
               <Switch
@@ -183,7 +196,7 @@ class AggressionReport extends Component {
                 value={this.props.report.relatedToGender}
                 trackColor='#DEDEDE'
               />
-              <Text style={{ marginLeft: 10 }}>Gender</Text>
+              <Text style={styles.switchText}>Gender</Text>
             </View>
             <View style={styles.switchContainer}>
               <Switch
@@ -193,7 +206,7 @@ class AggressionReport extends Component {
                 value={this.props.report.relatedToSexualOrientation}
                 trackColor='#DEDEDE'
               />
-              <Text style={{ marginLeft: 10 }}>Sexual Orientation</Text>
+              <Text style={styles.switchText}>Sexual Orientation</Text>
             </View>
             <View style={styles.switchContainer}>
               <Switch
@@ -203,7 +216,7 @@ class AggressionReport extends Component {
                 value={this.props.report.relatedToOther}
                 trackColor='#DEDEDE'
               />
-              <Text style={{ marginLeft: 10 }}>Other</Text>
+              <Text style={styles.switchText}>Other</Text>
               {this.props.report.relatedToOther ? 
                 (
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -222,10 +235,10 @@ class AggressionReport extends Component {
             </View>
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
 
           <View style={styles.pickerContainer}>
-            <View style={{ marginBottom: 15 }}>
+            <View style={{ marginBottom: hp('1%') }}>
               <Text style={styles.label}>Where did this happen?</Text>
             </View>
             <RNPickerSelect
@@ -249,11 +262,11 @@ class AggressionReport extends Component {
             />
           </View>
 
-          <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center' }}>
+          <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
             Click the pencil under the map to select a location.
           </Text>
 
-          <View style={{ paddingHorizontal: 50 }}>
+          <View style={{ paddingHorizontal: hp('3.5%') }}>
             <CampusMap 
               location={this.state.selectedLocation} 
               onMarkerPress={value => this.onLocationChange('location', value)}
@@ -286,12 +299,12 @@ class AggressionReport extends Component {
             />
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
 
           <View style={styles.sliders}>
 
             <View key='bother' style={{ marginBottom: 20 }}>
-              {/* <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} /> */}
+              {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
               <EmotionSlider 
                 key='bother'
                 containerStyle={styles.sliders}
@@ -308,7 +321,7 @@ class AggressionReport extends Component {
               />            
             </View>
 
-            <Divider style={{ marginVertical: 10 }} />
+            <Divider style={{ marginVertical: hp('.75%') }} />
 
             <Text 
               style={styles.label}>
@@ -332,13 +345,12 @@ class AggressionReport extends Component {
                     maximumTrackTintColor="#EFEFEF"
                     imageSrc={require('../assets/images/scale2.png')}
                   />
-                  <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
+                  <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} />
                 </View>
               );
             })}
 
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-
               {!this.state.otherEmotionAdded ? 
                 (
                   <TouchableOpacity
@@ -372,14 +384,12 @@ class AggressionReport extends Component {
                     />            
                   </View>
                 )
-              
               }
-
             </TouchableWithoutFeedback>
 
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
           <Button
             onPress={this.handleSubmit}
             style={styles.button}
@@ -414,12 +424,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fbfafa',
-    padding: 10,
+    padding: wp('2%'),
   },
   label: {
-    marginVertical: 10,
+    marginVertical: hp('.75%'),
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: hp('2%'),
   },
   switchContainer: { 
     flexDirection: 'row', 
@@ -428,23 +438,27 @@ const styles = StyleSheet.create({
     marginVertical: 5 
   },
   sliders: {
-    marginVertical: 15,
+    marginVertical: hp('2%'),
   },
   sliderStyle: {
     width: '90%', 
     alignSelf: 'center' 
   },
+  switchText: {
+    marginLeft: wp('3%'),
+    fontSize: hp('1.75%'),
+  },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: hp('2%'),
   },
   reportComponent: {
     width: '100%',
-    marginVertical: 15,
+    marginVertical: hp('2%'),
   },
   aggressionText: {
     color: '#b16d65',
-    fontSize: 20,
-    marginBottom: 15,
+    fontSize: hp('2.5%'),
+    marginBottom: hp('1%'),
   },
   aggressionButton: {
     marginVertical: 40,
@@ -454,7 +468,7 @@ const styles = StyleSheet.create({
     color: '#b16d65',
     padding: 30,
     paddingVertical: 40,
-    fontSize: 18,
+    fontSize: hp('2.25%'),
     fontWeight: '600',
   },
   affirmationButton: {
@@ -465,12 +479,12 @@ const styles = StyleSheet.create({
     color: '#74b783',
     padding: 30,
     paddingVertical: 40,
-    fontSize: 18,
+    fontSize: hp('2.25%'),
     fontWeight: '600',
   },
   button: {
-    marginTop: 30,
-    marginBottom: 100,
+    marginTop: hp('3%'),
+    marginBottom: hp('10%'),
     backgroundColor: '#74b783',
     paddingVertical: 6,
     width: '90%',
@@ -478,7 +492,7 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     flex: 1,
-    paddingVertical: 20,
+    paddingVertical: hp('3%'),
     justifyContent: 'space-between',
   },
   scrollContainer: {
@@ -508,7 +522,7 @@ const pickerSelectStyles = StyleSheet.create({
     right: 20,
   },
   inputIOS: {
-    fontSize: 16,
+    fontSize: hp('2%'),
     paddingVertical: 18,
     paddingHorizontal: 10,
     backgroundColor: '#f8f9fa',
@@ -519,7 +533,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 16,
+    fontSize: hp('2%'),
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
@@ -600,4 +614,60 @@ const sfsuLocations = [
     value: 'th',
     label: 'Thornton Hall (TH)',
   },
+
+  // {
+  //   key: 'sfsu',
+  //   value: 'sfsu',
+  //   label: 'San Francisco State University',
+  // },
+  // {
+  //   key: 'adm',
+  //   value: 'adm',
+  //   label: 'Administration',
+  // },
+  // {
+  //   key: 'bookstore',
+  //   value: 'bookstore',
+  //   label: 'SFSU Bookstore',
+  // },
+  // {
+  //   key: 'bh',
+  //   value: 'bh',
+  //   label: 'Burk Hall (BH)',
+  // },
+  // {
+  //   key: 'bus',
+  //   value: 'bus',
+  //   label: 'Business (BUS)',
+  // },
+  // {
+  //   key: 'ccsc',
+  //   value: 'ccsc',
+  //   label: 'Cesar Chavez Student Center (CCSC)',
+  // },
+  // {
+  //   key: 'stadium',
+  //   value: 'stadium',
+  //   label: 'Cox Stadium',
+  // },
+  // {
+  //   key: 'ca',
+  //   value: 'ca',
+  //   label: 'Creative Arts (CA)',
+  // },
+  // {
+  //   key: 'ep',
+  //   value: 'ep',
+  //   label: 'Ethnic Studies & Psychology (EP)',
+  // },
+  // {
+  //   key: 'fa',
+  //   value: 'fa',
+  //   label: 'Fine Arts (FA)',
+  // },
+  // {
+  //   key: 'gym',
+  //   value: 'gym',
+  //   label: 'Gymnasium (GYM)',
+  // },
 ];

@@ -15,9 +15,23 @@ import {
     SAVE_SURVEY,
     RESET_APP,
     SAVE_POST_MEASURE_SURVEY,
+    SAVE_DEVICE,
 } from './types';
 import { State } from 'react-native-gesture-handler';
+import Constants from 'expo-constants';
 
+
+export function saveDevice(deviceId = null) {
+    deviceId = deviceId ?? Constants.deviceId;
+    // console.log('Device ID: ', deviceId);
+    let payload = {};
+    payload['deviceID'] = deviceId;
+    
+    return {
+        type: SAVE_DEVICE,
+        payload: payload,
+    };
+}
 
 export function saveAffirmationReport(key, affirmation) {
     let payload = {};

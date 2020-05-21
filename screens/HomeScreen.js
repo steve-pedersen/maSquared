@@ -12,19 +12,40 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import reducers from '../reducers';
 import Layout from '../constants/Layout';
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 const Stack = createStackNavigator();
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ route, navigation }) {
 
   const showSlideshow = () => {
     // navigation.setParams({ returnRoute: '' });
     navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
   };
+  console.log(route, 'log on home');
+
+  React.useEffect(() => {
+    console.log('in use effect');
+    
+  }, [route]);
+
+  if (navigation.isFocused()) {
+    console.log('focused');
+    
+  }
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        
+        {/* TODO: turn into a toast message */}
+        {route.params?.message ? 
+          <Text>{route.params.message}</Text> : 
+          undefined
+        }
 
         <View style={{ paddingVertical: 10 }}>
           <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
@@ -32,7 +53,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.reportButton}>
           <Text 
-            onPress={() => navigation.navigate('AggressionReport')} 
+            onPress={() => navigation.navigate('AggressionReport', { message: 'from home' })} 
             style={styles.aggressionButton}>
             MICROAGGRESSION
           </Text>
@@ -164,24 +185,24 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   aggressionButton: {
-    marginVertical: 40,
+    marginVertical: hp('5%'),
     borderWidth: 3,
     borderRadius: 5,
     borderColor: '#b16d65',
     color: '#b16d65',
-    padding: 30,
-    paddingVertical: 40,
+    padding: hp('4%'),
+    paddingVertical: hp('5%'),
     fontSize: 18,
     fontWeight: '600',
   },
   affirmationButton: {
-    marginVertical: 40,
+    marginVertical: hp('5%'),
     borderWidth: 3,
     borderRadius: 5,
     borderColor: '#74b783',
     color: '#74b783',
-    padding: 30,
-    paddingVertical: 40,
+    padding: hp('4%'),
+    paddingVertical: hp('5%'),
     fontSize: 18,
     fontWeight: '600',
   },

@@ -16,3 +16,4 @@ export const GET_CONSENT = 'get_consent';
 export const SAVE_SLIDESHOW = 'save_slideshow';
 export const RESET_APP = 'reset_app';
 export const SAVE_POST_MEASURE_SURVEY = 'save_post_measure_survey';
+export const SAVE_DEVICE = 'save_device';

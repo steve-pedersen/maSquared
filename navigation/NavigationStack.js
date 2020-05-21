@@ -11,9 +11,9 @@ import BottomTabNavigator from './BottomTabNavigator';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
+import Constants from 'expo-constants';
 
-
-// import RootContainer from './components/RootContainer';
+import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
 import AggressionReport from '../components/AggressionReport';
 import IntroSlideshow from '../screens/IntroSlideshow';
@@ -42,13 +42,14 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
-  DEVMODE = true;
+  DEVMODE = false;
   render() {
-    if (!this.DEVMODE && !this.props.slideshowComplete) {
-      // console.log('starting consent and slideshow');
-      
+    if ((!this.DEVMODE && !this.props.consentGranted) || 
+        (Constants.deviceId !== this.props.deviceID)) {
       return (
-        <NavigationContainer ref={this.props.containerRef} initialState={this.props.initialNavigationState}>
+        <NavigationContainer 
+          ref={this.props.containerRef} 
+          initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
             {/* TODO: save consent in state and only show if not granted */}
             <Stack.Screen
@@ -56,6 +57,15 @@ class NavigationStack extends React.Component {
               component={ConsentForm}
               options={slideshowHeaderStyles}
             />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    } else if (!this.DEVMODE && !this.props.slideshowComplete) {
+      return (
+        <NavigationContainer 
+          ref={this.props.containerRef} 
+          initialState={this.props.initialNavigationState}>
+          <Stack.Navigator>
             <Stack.Screen
               name="IntroSlideshow"
               component={IntroSlideshow}
@@ -68,7 +78,9 @@ class NavigationStack extends React.Component {
       // console.log('starting survey...');
       
       return (
-        <NavigationContainer ref={this.props.containerRef} initialState={this.props.initialNavigationState}>
+        <NavigationContainer 
+          ref={this.props.containerRef} 
+          initialState={this.props.initialNavigationState}>
         <Stack.Navigator>
           <Stack.Screen
             name="IntroSurvey"
@@ -100,12 +112,17 @@ class NavigationStack extends React.Component {
       // console.log('starting home screen');
 
       return (
-        <NavigationContainer ref={this.props.containerRef} initialState={this.props.initialNavigationState}>
+        <NavigationContainer 
+          ref={this.props.containerRef} 
+          initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen
               name="Root"
               component={BottomTabNavigator}
               options={headerStyles}
+              initialParams={{
+                message: ''
+              }}
             />
             <Stack.Screen
               name="AggressionReport"
@@ -134,12 +151,12 @@ class NavigationStack extends React.Component {
   }
 }
 
-function LogoTitle() {
+function LogoTitleReport() {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Title style={{ color: '#fff', }}>New Report</Title>
+      <Title style={{ color: '#74b783', fontWeight: '600' }}>New Report</Title>
       {/* <Image
-        style={{ width: 44, height: 44, marginLeft: 10 }}
+        style={{ width: 44, height: 44, marginLeft: 15 }}
         resizeMode="contain"
         source={require('../assets/images/AppIcon.appiconset/120.png')}
       /> */}
@@ -147,11 +164,21 @@ function LogoTitle() {
   );
 }
 
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 44, height: 44 }}
+      resizeMode="contain"
+      source={require('../assets/images/AppIcon.appiconset/120.png')}
+    />
+  );
+}
+
 function HeaderRight() {
   return (
     <Icon
       name="md-trash"
-      color="#fff"
+      color='#74b783'
       size={35}
       // onPress={this._onDone}
     />
@@ -162,7 +189,7 @@ function BackIcon() {
   return (
     <Icon
       name="md-arrow-back"
-      color="#fff"
+      color='#74b783'
       size={35}
       // onPress={this._onDone}
     />
@@ -179,7 +206,7 @@ const styles = StyleSheet.create({
 const slideshowHeaderStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    height: 100,
+    height: (Layout.window.height / 10),
   },
   headerTintColor: '#74b783',
 
@@ -188,26 +215,29 @@ const slideshowHeaderStyles = {
 const headerStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    height: 100,
+    height: (Layout.window.height / 10),
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
   },
+  headerTitle: props => <LogoTitle {...props} />,
 };
 
 const reportHeader = {
-  headerTitle: props => <LogoTitle {...props} />,
+  headerTitle: props => <LogoTitleReport {...props} />,
   headerBackImage: props => <BackIcon {...props} />,
   headerBackTitleVisible: false,
-  headerLeftContainerStyle: {paddingHorizontal: 10, alignSelf: 'center'},
+  headerLeftContainerStyle: {paddingHorizontal: 12, alignSelf: 'center'},
   // headerRight: props => <HeaderRight {...props} />,
-  headerRightContainerStyle: {paddingHorizontal: 10, alignSelf: 'center'},
+  headerRightContainerStyle: {paddingHorizontal: 12, alignSelf: 'center'},
   headerStyle: {
-    backgroundColor: '#74b783',
-    height: 100,
+    backgroundColor: '#fff',
+    height: (Layout.window.height / 10),
+    borderBottomWidth: 2,
+    borderBottomColor: '#74b783',
   },
-  headerTintColor: '#fff',
+  headerTintColor: '#74b783',
   headerTitleStyle: {
     fontWeight: 'bold',
     alignItems: 'left',
@@ -221,6 +251,7 @@ function mapStateToProps(state) {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
     surveyComplete: state.survey.complete,
+    deviceID: state.user.deviceID
   };
 }
 

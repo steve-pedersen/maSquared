@@ -2,8 +2,10 @@ import {
     SAVE_AGGRESSION_REPORT, 
     RESET_AGGRESSION_REPORT, 
 } from '../actions/types';
+import Constants from 'expo-constants';
 
 const INITIAL_STATE = {
+    deviceID: Constants.deviceId,
     incidentTime: '',
     description: '',
 

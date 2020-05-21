@@ -7,7 +7,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { AppText } from '../components/StyledText';
-import Layout from '../constants/Layout';
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import { saveConsent, saveSlideshow, resetApp } from '../actions';
 
@@ -24,7 +27,7 @@ class IntroSlideshow extends Component {
           styles.slide,
           {
             backgroundColor: item.bg,
-            padding: 40
+            padding: wp('12%')
           },
         ]}>
         {item.content}
@@ -50,15 +53,15 @@ class IntroSlideshow extends Component {
         mode="contained"
         title="Next"
       >
-        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: hp('2%') }}>
           Next
-                </Text>
+        </Text>
       </Button>
     );
   };
 
   _onDone = () => {
-    if (this.props.route.params.returnRoute) {
+    if (this.props.route.params && this.props.route.params.returnRoute) {
       this.props.navigation.goBack();
     }
     this.props.saveSlideshow(true);
@@ -72,8 +75,8 @@ class IntroSlideshow extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} keyboardAvoidingView={500}>
-        {this.props.route.params.returnRoute ?
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+        {this.props.route.params && this.props.route.params.returnRoute ?
           <Icon
             name="md-arrow-round-back"
             color="gray"
@@ -122,30 +125,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   image: {
-    height: (Layout.window.height / 3),
-    width: (Layout.window.width / 2),
-    marginTop: (Layout.window.height / 8 - 40),
+    height: hp('33%'),
+    width: wp('90%'),
     alignSelf: 'center',
   },
   exampleImage: {
-    // height: (Layout.window.height / 2),
-    width: (Layout.window.width / 1.25),
+    width: wp('75%'),
+    height: hp('25%'),
     justifyContent: 'center',
-    marginVertical: -(Layout.window.height / 15),
+    alignSelf: 'flex-end',
+    marginVertical: hp('3%'),
   },
   text: {
     color: '#000',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: hp('2%'),
   },
   title: {
-    fontSize: 18,
+    fontSize: hp('2.5%'),
+    paddingBottom: hp('1.5%'),
     color: '#000',
     textAlign: 'center',
   },
   button: {
     // marginTop: -30,
-    marginBottom: 100,
+    // marginBottom: hp('25%'),
     backgroundColor: '#74b783',
     paddingVertical: 6
   },
@@ -182,11 +186,11 @@ const slides = [
     key: 2,
     title: '2',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -205,7 +209,7 @@ const slides = [
           Microaggressions can be expressed verbally, through someone's behavior, or
           simply present in the environment.
       </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -213,11 +217,11 @@ const slides = [
     key: 3,
     title: '3',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -237,7 +241,7 @@ const slides = [
           A math professor giving verbal praise and encouragement to the male
           students in their class, but not to the female students.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -245,11 +249,11 @@ const slides = [
     key: 4,
     title: '4',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -269,7 +273,7 @@ const slides = [
           When instructed to break into small groups, someone makes a face in
           your direction and turns away to avoid being in your group.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -277,11 +281,11 @@ const slides = [
     key: 5,
     title: '5',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -300,7 +304,7 @@ const slides = [
         ]}>
           Posters in your department only picturing white, male scientists and scholars.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -308,11 +312,11 @@ const slides = [
     key: 6,
     title: '6',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -331,7 +335,7 @@ const slides = [
                     {"\n\n"}Microaffirmations can also be expressed verbally, through someone's behavior,
                     or simply present in the environment.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -339,11 +343,11 @@ const slides = [
     key: 7,
     title: '7',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -363,7 +367,7 @@ const slides = [
           A math professor giving verbal praise and encouragement to their female students
           as well as their male students.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -371,11 +375,11 @@ const slides = [
     key: 8,
     title: '8',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -395,7 +399,7 @@ const slides = [
           When instructed to break into small groups, someone smiles and scoots
           toward you to be in your group.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -403,11 +407,11 @@ const slides = [
     key: 9,
     title: '9',
     content: (
-      <View style={{ flex: 0 }}>
+      <ScrollView style={{ flex: 0 }}>
         <Title style={[
           styles.title,
           {
-            paddingBottom: 20,
+            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -426,7 +430,7 @@ const slides = [
         ]}>
           Posters in your department picturing a diverse representation of scientists and scholars.
                 </Text>
-      </View>
+      </ScrollView>
     ),
     bg: '#fff',
   },
@@ -439,7 +443,7 @@ const slides = [
           <Text style={[
             styles.title,
             {
-              paddingBottom: 20,
+              // paddingBottom: 20,
               textAlign: 'left',
             },
           ]}>

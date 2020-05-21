@@ -25,6 +25,7 @@ export default function BottomTabNavigator({ navigation, route }) {
           title: 'Home',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
         }}
+        initialParams={{ message: '' }}
       />
       <BottomTab.Screen
         name="Log"

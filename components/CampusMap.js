@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 // SFSU: @37.7232119,-122.4800182,17.56z
 const INITIAL_REGION = {
@@ -77,8 +81,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mapStyle: {
-    width: Dimensions.get('window').width / 1.115,
-    height: (Dimensions.get('window').height / 4),
+    width: wp('91.5%'),
+    height: hp('30%'),
     borderRadius: 4,
     borderColor: 'gray',
     borderWidth: 1,
@@ -91,7 +95,8 @@ export default CampusMap;
 
 const markers = [
   {
-    null: [],
+    null: [
+],
     sfsu: [
       {
         key: 'lib',

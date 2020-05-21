@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, Slider, Image, StyleSheet } from 'react-native';
 import Layout from '../constants/Layout';
-
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 class EmotionSlider extends Component {
     render() {
@@ -16,7 +19,7 @@ class EmotionSlider extends Component {
               <Slider
                 value={this.props.value}
                 onValueChange={this.props.onChange}
-                style={{ width: '90%', alignSelf: 'center' }}
+                style={{ width: wp('90%'), alignSelf: 'center' }}
                 minimumValue={this.props.minimumValue}
                 maximumValue={this.props.maximumValue}
                 minimumTrackTintColor={this.props.minimumTrackTintColor}
@@ -24,8 +27,8 @@ class EmotionSlider extends Component {
                 step={1}
               />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>Not at all</Text>
-                <Text>Extremely</Text>
+                <Text style={styles.text}>Not at all</Text>
+                <Text style={styles.text}>Extremely</Text>
               </View>
             </View>
         );
@@ -43,14 +46,14 @@ const styles = StyleSheet.create({
   },
   exampleImage: {
       // height: (Layout.window.height / 2),
-      width: (Layout.window.width / 1.25),
+      width: wp('90%'),
       justifyContent: 'center',
       marginVertical: -(Layout.window.height / 15),     
   },
   text: {
       color: '#000',
       textAlign: 'center',
-      fontSize: 16,
+      fontSize: hp('1.75%'),
   },
 });
 
