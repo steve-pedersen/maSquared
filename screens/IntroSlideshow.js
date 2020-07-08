@@ -438,7 +438,7 @@ const slides = [
     key: 10,
     title: '10',
     content: (
-      <ScrollView style={{ flex: 0, paddingBottom: 100 }}>
+      <ScrollView style={{ flex: 0, width: wp('80%'), paddingRight: 10}}>
         <SafeAreaView style={{ paddingBottom: 100 }}>
           <Text style={[
             styles.title,

@@ -7,6 +7,7 @@ import {
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
     SAVE_SURVEY_C,
+    SAVE_SURVEY_D,
     GET_SURVEY_A,
     GET_SURVEY_B,
     GET_SURVEY_C,
@@ -108,6 +109,15 @@ export const saveSurveyC = (key, value) => {
     payload[key] = { value: value };
     return {
         type: SAVE_SURVEY_C,
+        payload: payload
+    };
+}
+
+export const saveSurveyD = (key, value) => {
+    let payload = {};
+    payload[key] = { value: value };
+    return {
+        type: SAVE_SURVEY_D,
         payload: payload
     };
 }

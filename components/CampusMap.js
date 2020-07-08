@@ -48,7 +48,8 @@ class CampusMap extends Component {
           {markers.map((campuses, i) => {
             return (
               <View key={i}>
-                {campuses[this.state.campus].map(marker => {
+                {/* {campuses[this.state.campus].map(marker => { */}
+                  {campuses['sfsu'].map(marker => {
                   return (
                     <Marker
                       key={marker.title}
@@ -95,8 +96,6 @@ export default CampusMap;
 
 const markers = [
   {
-    null: [
-],
     sfsu: [
       {
         key: 'lib',
@@ -179,15 +178,15 @@ const markers = [
         }
       },
     ],
-    'sjsu': [
-      {
-        key: 'lib',
-        title: 'J. Paul Leonard Library (LIB)',
-        latlng: {
-          latitude: 37.721416,
-          longitude: -122.478162
-        }
-      },
-    ]
+    // 'sjsu': [
+    //   {
+    //     key: 'lib',
+    //     title: 'J. Paul Leonard Library (LIB)',
+    //     latlng: {
+    //       latitude: 37.721416,
+    //       longitude: -122.478162
+    //     }
+    //   },
+    // ]
   }
 ];

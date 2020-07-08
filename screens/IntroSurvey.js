@@ -10,7 +10,7 @@ class IntroSurvey extends Component {
 
     render() {
         return (
-            // <View style={styles.container}>
+            // <View style={{backgroundColor: '#fff'}}>
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={styles.contentContainer}>

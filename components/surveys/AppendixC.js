@@ -26,7 +26,8 @@ class AppendixC extends Component {
     // TODO: update redux state to survey complete, 
     // then allow App to go to Home nav stack
     // this.props.navigation.navigate('Root', {});
-    this.props.saveSurvey(true);
+    this.props.navigation.navigate('AppendixC', {});
+    // this.props.saveSurvey(true);
   }
 
   render() {
@@ -82,7 +83,7 @@ class AppendixC extends Component {
             title="Next"
           >
             <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
-              Done
+              Next
             </Text>
           </Button>
         </ScrollView>
@@ -103,7 +104,7 @@ export default connect(
 
 
 const answerScale = [
-  { key: 1, value: 1, label: '1', displayValue: false },
+  { key: 1, value: 1, label: '1 (Completely Unsure)', displayValue: false },
   { key: 2, value: 2, label: '2', displayValue: false },
   { key: 3, value: 3, label: '3', displayValue: false },
   { key: 4, value: 4, label: '4', displayValue: false },
@@ -112,7 +113,7 @@ const answerScale = [
   { key: 7, value: 7, label: '7', displayValue: false },
   { key: 8, value: 8, label: '8', displayValue: false },
   { key: 9, value: 9, label: '9', displayValue: false },
-  { key: 10, value: 10, label: '10', displayValue: false },
+  { key: 10, value: 10, label: '10 (Completely Sure)', displayValue: false },
 ];
 
 
