@@ -6,6 +6,7 @@ import surveyAReducer from './surveyA';
 import surveyBReducer from './surveyB';
 import surveyCReducer from './surveyC';
 import surveyDReducer from './surveyD';
+import surveyEReducer from './surveyE';
 import surveyReducer from './survey';
 import consentReducer from './consent';
 import slideshowReducer from './slideshow';
@@ -20,6 +21,7 @@ export default combineReducers({
     surveyB: surveyBReducer,
     surveyC: surveyCReducer,
     surveyD: surveyDReducer,
+    surveyE: surveyEReducer,
     survey: surveyReducer,
     consent: consentReducer,
     slideshow: slideshowReducer,

@@ -25,17 +25,17 @@ export default function HomeScreen({ route, navigation }) {
     // navigation.setParams({ returnRoute: '' });
     navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
   };
-  console.log(route, 'log on home');
+  // console.log(route, 'log on home');
 
-  React.useEffect(() => {
-    console.log('in use effect');
+  // React.useEffect(() => {
+  //   console.log('in use effect');
     
-  }, [route]);
+  // }, [route]);
 
-  if (navigation.isFocused()) {
-    console.log('focused');
+  // if (navigation.isFocused()) {
+  //   console.log('focused');
     
-  }
+  // }
 
   return (
     <View style={styles.container}>

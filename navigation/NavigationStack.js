@@ -23,6 +23,7 @@ import AppendixA from '../components/surveys/AppendixA';
 import AppendixB from '../components/surveys/AppendixB';
 import AppendixC from '../components/surveys/AppendixC';
 import AppendixD from '../components/surveys/AppendixD';
+import AppendixE from '../components/surveys/AppendixE';
 import PostMeasure from '../components/surveys/PostMeasure';
 
 import { saveConsent, saveSlideshow, resetApp } from '../actions';
@@ -43,7 +44,7 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
-  DEVMODE = true;
+  DEVMODE = false;
   render() {
     if ((!this.DEVMODE && !this.props.consentGranted) || 
         (Constants.deviceId !== this.props.deviceID)) {
@@ -75,16 +76,14 @@ class NavigationStack extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       );
-    // } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.surveyComplete) {
-    } else if (true) {
-    // console.log('starting survey...');
-      
+    } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.surveyComplete) {
+    // } else if (true) {
       return (
         <NavigationContainer 
           ref={this.props.containerRef} 
           initialState={this.props.initialNavigationState}>
         <Stack.Navigator>
-          {/* <Stack.Screen
+          <Stack.Screen
             name="IntroSurvey"
             component={IntroSurvey}
             options={slideshowHeaderStyles}
@@ -106,10 +105,15 @@ class NavigationStack extends React.Component {
             component={AppendixC}
             // options={{ title: 'Intro Survey: Appendix C' }}
             options={slideshowHeaderStyles}
-          /> */}
+          />
           <Stack.Screen
             name="AppendixD"
             component={AppendixD}
+            options={slideshowHeaderStyles}
+          />
+          <Stack.Screen
+            name="AppendixE"
+            component={AppendixE}
             options={slideshowHeaderStyles}
           />
         </Stack.Navigator>

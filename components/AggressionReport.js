@@ -139,9 +139,6 @@ class AggressionReport extends Component {
                   this.props.report.incidentTime : 'Choose Date & Time'
                 }
                 callbackHandler={this.onDateTimeChange} /> 
-              {/* <Text style={{ fontSize: hp('2%'), padding: 5 }}>
-                {this.props.report.incidentTime}
-              </Text> */}
             </View>      
           </View>
 

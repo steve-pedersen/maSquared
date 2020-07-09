@@ -47,8 +47,8 @@ class AppendixD extends Component {
 	handleSubmit = values => {
 		// TODO: update redux state to survey complete, 
 		// then allow App to go to Home nav stack
-		// this.props.navigation.navigate('Root', {});
-		this.props.saveSurvey(true);
+		this.props.navigation.navigate('AppendixE', {});
+		// this.props.saveSurvey(true);
 	}
 
 	render() {
@@ -109,7 +109,7 @@ class AppendixD extends Component {
 								</View>
 								<RadioButton.Group
 									key={prop.key}
-									onValueChange={this.onSurveyChange.bind(this, key)}
+									onValueChange={this.onSurveyChange.bind(this, prop.key)}
 									value={this.props.surveyD[prop.key].value}
 								>
 									{surveyAsAppendixD5.map(function (answer) {

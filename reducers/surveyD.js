@@ -28,7 +28,7 @@ const INITIAL_STATE = {
     "10c": { value: null },
     "10d": { value: null },
     "10e": { value: null },
-    "10eOther": { value: '' }
+    "10eOther": { value: null }
 };
 
 export default (state = INITIAL_STATE, action) => {

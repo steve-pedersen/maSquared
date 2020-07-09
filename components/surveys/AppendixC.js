@@ -26,7 +26,7 @@ class AppendixC extends Component {
     // TODO: update redux state to survey complete, 
     // then allow App to go to Home nav stack
     // this.props.navigation.navigate('Root', {});
-    this.props.navigation.navigate('AppendixC', {});
+    this.props.navigation.navigate('AppendixD', {});
     // this.props.saveSurvey(true);
   }
 
