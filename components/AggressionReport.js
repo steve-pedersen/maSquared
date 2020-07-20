@@ -43,10 +43,10 @@ class AggressionReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedLocation: '',
-      selectedDate: '',
-      selectedTime: '',
-      otherEmotionAdded: (
+      aggressionSelectedLocation: '',
+      aggressionSelectedDate: '',
+      aggressionSelectedTime: '',
+      aggressionOtherEmotionAdded: (
         this.props.report.otherEmotionValue || this.props.report.otherEmotionText
       ),
     };
@@ -70,7 +70,7 @@ class AggressionReport extends Component {
       )
     });
     // this.props.
-    console.log(this.props.route, 'log on report');
+    // console.log(this.props.route, 'log on report');
     
   }
 
@@ -85,12 +85,12 @@ class AggressionReport extends Component {
   };
 
   onLocationChange = (key, value) => {
-    this.setState({ selectedLocation: value });
+    this.setState({ aggressionSelectedLocation: value });
     this.onReportChange(key, value);
   }
 
   addOtherEmotion = () => {
-    this.setState({ otherEmotionAdded: true });
+    this.setState({ aggressionOtherEmotionAdded: true });
   }
 
   onDateTimeChange = (value) => {
@@ -265,7 +265,7 @@ class AggressionReport extends Component {
 
           <View style={{ paddingHorizontal: hp('3.5%') }}>
             <CampusMap 
-              location={this.state.selectedLocation} 
+              location={this.state.aggressionSelectedLocation} 
               onMarkerPress={value => this.onLocationChange('location', value)}
               campus={this.props.report.campus}
             />
@@ -348,7 +348,7 @@ class AggressionReport extends Component {
             })}
 
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              {!this.state.otherEmotionAdded ? 
+              {!this.state.aggressionOtherEmotionAdded ? 
                 (
                   <TouchableOpacity
                     style={{...styles.sliders, flexDirection: 'row', alignItems: 'center'}}

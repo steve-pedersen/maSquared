@@ -1,16 +1,18 @@
-import { SAVE_AFFIRMATION_REPORT } from '../actions/types';
+import { SAVE_AFFIRMATION_REPORT, RESET_AFFIRMATION_REPORT  } from '../actions/types';
+import Constants from 'expo-constants';
 
 const INITIAL_STATE = {
+    deviceID: Constants.deviceId,
     incidentTime: '',
     description: '',
-    relatedTo: {
-        race: false,
-        culture: false,
-        gender: false,
-        sexualOrientation: false,
-        other: false,
-        otherDesciption: '',
-    },
+
+    relatedToRace: false,
+    relatedTocCulture: false,
+    relatedToGender: false,
+    relatedToSexualOrientation: false,
+    relatedToOther: false,
+    relatedToOtherDesciption: '',
+
     campus: '',
     location: null,
     uplift: 0,
@@ -24,10 +26,8 @@ const INITIAL_STATE = {
     disgust: 0,
     pride: 0,
     guilt: 0,
-    otherEmotion: {
-        name: '',
-        intensity: 0,
-    },
+    otherEmotionName: '',
+    otherEmotionValue: 0,
     modifiedDate: null,
 };
 
@@ -35,6 +35,8 @@ export default function(state = INITIAL_STATE, action) {
     switch (action.type) {
         case SAVE_AFFIRMATION_REPORT:
             return {...state, ...action.payload};
+        case RESET_AFFIRMATION_REPORT:
+            return INITIAL_STATE;
         default:
             return state;
     }

@@ -42,7 +42,11 @@ const styles = StyleSheet.create({
       // marginTop: (Layout.window.height / 8 - 40),
       // width: '100%', 
       alignSelf: 'center',
-      marginBottom: 5,
+      // marginBottom: 5,
+      // marginVertical: 0,
+      // paddingVertical: 0,
+      width: wp('89%'),
+      height: hp('6%')
   },
   exampleImage: {
       // height: (Layout.window.height / 2),

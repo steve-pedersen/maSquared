@@ -1,17 +1,36 @@
 import { 
-    SAVE_DEVICE
+    SAVE_DEVICE,
+    SAVE_USER,
+    GET_USER,
+    GET_USER_SUCCESS,
+    GET_USER_ERROR,
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    deviceID: null,
-    userID: null,
+    deviceId: null,
+    userId: null,
+    groupId: null,
+    loading: true,
+    errorMessage: '',
 };
 
 function userReducer(state = INITIAL_STATE, action) { 
     switch (action.type) {
         case SAVE_DEVICE:
             return {...state, ...action.payload};
-        default:
+        case SAVE_USER:
+            return {...state, store: action.payload};
+        case GET_USER: 
+            return {...state, loading: action.payload};
+        case GET_USER_SUCCESS:
+            return {
+                ...state, 
+                userId: action.payload, 
+                loading: action.loading
+            };
+        case GET_USER_ERROR:
+            return {...state, errorMessage: action.payload, loading: action.loading};
+        default: 
             return state;
     }
 }

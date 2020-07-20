@@ -1,27 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Text, Picker, View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, 
+  View, 
+  StyleSheet, 
+  ScrollView, 
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  SafeAreaView
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   Switch,
-  Paragraph,
   Button,
   TextInput,
   Title,
   Divider,
 } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
-import { Slider } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 
+import DateTimePicker from './DateTimePicker';
 import CampusMap from './CampusMap';
 import EmotionSlider from './EmotionSlider';
-import { saveAffirmationReport, addAffirmationReport } from '../actions';
+import {
+  widthPercentageToDP as wp, 
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { saveAffirmationReport, addAffirmationReport, resetAffirmationReport } from '../actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
 const placeholder = {
-  label: '_',
+  label: 'Select an option...',
   value: null,
   color: '#9EA0A4',
 };
@@ -31,27 +43,36 @@ class AffirmationReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDateTimePicker: false,
-      dateTimePickerMode: '',
-      description: '', 
-      show: false,
-      date: (new Date),
-      selectedLocation: '',
+      affirmationSelectedLocation: '',
+      affirmationSelectedDate: '',
+      affirmationSelectedTime: '',
+      affirmationOtherEmotionAdded: (
+        this.props.report.otherEmotionValue || this.props.report.otherEmotionText
+      ),
     };
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <Icon
+          name="md-trash"
+          color='#74b783'
+          size={35}
+          onPress={() => {
+            this.props.resetAffirmationReport({});
+            this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'Root' }],
+              params: [{ message: 'from report' }]
+            });
+            // this.props.navigation.setParams({ message: 'Report cancelled' });
+            // this.props.navigation.navigate('Root', { message: 'From report' });
+          }}
+        />
+      )
+    });
+    // this.props.
+    // console.log(this.props.route, 'log on report');
+    
   }
-
-  showMode = currentMode => {
-    this.setState({show: true});
-    this.setState({dateTimePickerMode: currentMode});
-  };
-
-  showDatepicker = () => {
-    this.showMode('date');
-  };
-
-  showTimepicker = () => {
-    this.showMode('time');
-  };
 
   onReportChange = (key, value) => {
     this.props.saveAffirmationReport(key, value);
@@ -59,248 +80,252 @@ class AffirmationReport extends Component {
 
   handleSubmit = () => {
     this.props.addAffirmationReport(this.props.report);
-    // this.props.navigation.navigate('HomeScreen');
+    this.props.resetAffirmationReport({});
+    this.props.navigation.navigate('Root');
   };
 
-  onDateChange = () => {
-    console.log('date changed');
+  onLocationChange = (key, value) => {
+    this.setState({ affirmationSelectedLocation: value });
+    this.onReportChange(key, value);
   }
 
-  onLocationChange = (key, value) => {
-    this.setState({ selectedLocation: value });
-    this.onReportChange(key, value);
+  addOtherEmotion = () => {
+    this.setState({ affirmationOtherEmotionAdded: true });
+  }
+
+  onDateTimeChange = (value) => {
+    let incidentDateTime = this.formatDate(new Date(value - 86400 * 1000));
+    this.props.saveAffirmationReport('incidentTime', incidentDateTime);
+  }
+
+  formatDate = (date) => {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
 
   render() {
     return (
-      <View
-        behavior="padding"
-        style={styles.container}
-        keyboardVerticalOffset={500}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
+        <SafeAreaView>
+          <Title style={{...styles.affirmationText, fontWeight: 'bold' }}>
+            MICROAFFIRMATION REPORT
+          </Title>
 
-          <View style={styles.reportComponent}>
-            <Title style={styles.affirmationText}>
-              MICROAFFIRMATION REPORT
-            </Title>
+          <View>
+            <Text style={styles.label}>Time of incident</Text>
+            <View style={{
+              ...styles.reportComponent, 
+              ...styles.datetimePicker
+            }}>
+              <DateTimePicker 
+                style={{flexGrow: 1}} 
+                mode='datetime' 
+                currentDateTime={this.props.report.incidentTime ?
+                  new Date(this.props.report.incidentTime) :
+                  new Date
+                }
+                text={this.props.report.incidentTime ? 
+                  this.props.report.incidentTime : 'Choose Date & Time'
+                }
+                callbackHandler={this.onDateTimeChange} /> 
+            </View>      
           </View>
 
+          <Divider style={{ marginVertical: hp('.75%') }} />
+              
           <View style={styles.reportComponent}>
-            <Text>
-              Time of incident
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <View>
-                <Button onPress={this.showDatepicker} title="Date">
-                  Date
-                </Button>
-              </View>
-              <View>
-                <Button onPress={this.showTimepicker} title="Time">
-                  Time
-                </Button>
-              </View>
-            </View>
-            {this.state.show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                timeZoneOffsetInMinutes={0}
-                value={this.state.date}
-                mode={this.state.mode}
-                is24Hour={true}
-                display="default"
-                onChange={this.onDateChange}
-              />
-            )}
-          </View>
-
-          <Divider style={{ marginVertical: 10 }} />
-
-          <View style={styles.reportComponent}>
-            <TextInput
-              value={this.props.report['description']}
-              onChangeText={(value) => this.onReportChange('description', value)}
-              label='Describe what happened...'
-              multiline={true}
-              mode='outlined'
-              style={{
-                minHeight: 150,
-                textAlignVertical: "top",
-              }}
-              numberOfLines={8} />
-          </View>
-
-          <Divider style={{ marginVertical: 10 }} />
-
-          <View style={{ marginVertical: 10 }}>
-            <Text>
-              <Bold>What was it related to?</Bold>
-            </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginVertical: 5 }}>
-              <Switch
-                onValueChange={(value) => this.onReportChange('relatedTo', { race: value })}
-                value={this.props.report.relatedTo.race}
-                trackColor='#DEDEDE'
-              />
-              <Text style={{ marginLeft: 10 }}>Race</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginVertical: 5 }}>
-              <Switch
-                onValueChange={(value) => this.onReportChange('relatedTo', { culture: value })}
-                value={this.props.report.relatedTo.culture}
-                trackColor='#DEDEDE'
-              />
-              <Text style={{ marginLeft: 10 }}>Culture</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginVertical: 5 }}>
-              <Switch
-                onValueChange={(value) => this.onReportChange('relatedTo', { gender: value })}
-                value={this.props.report.relatedTo.gender}
-                trackColor='#DEDEDE'
-              />
-              <Text style={{ marginLeft: 10 }}>Gender</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginVertical: 5 }}>
-              <Switch
-                onValueChange={(value) => this.onReportChange('relatedTo', { sexualOrientation: value })}
-                value={this.props.report.relatedTo.sexualOrientation}
-                trackColor='#DEDEDE'
-              />
-              <Text style={{ marginLeft: 10 }}>Sexual Orientation</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginVertical: 5 }}>
-              <Switch
-                onValueChange={(value) => this.onReportChange('relatedTo', { other: value })}
-                value={this.props.report.relatedTo.other}
-                trackColor='#DEDEDE'
-              />
-              <Text style={{ marginLeft: 10 }}>Other</Text>
+            <Text style={styles.label}>Describe what happened...</Text>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <TextInput
-                style={{ marginLeft: 10, flexGrow: 1 }}
+                value={this.props.report['description']}
+                onChangeText={(value) => this.onReportChange('description', value)}
+                label='Description'
+                multiline={true}
                 mode='outlined'
-                value={this.props.report.relatedTo.otherDescription}
-                onChangeText={(value) => this.onReportChange('relatedTo', { otherDescription: value })}
+                style={{
+                  // minHeight: 150,
+                  textAlignVertical: "top",
+                }}
+                numberOfLines={8} />
+            </TouchableWithoutFeedback>
+          </View>
+
+          <Divider style={{ marginVertical: hp('.75%') }} />
+
+          <View style={{ marginVertical: hp('.75%') }}>
+          <Text style={styles.label}>What was it related to?</Text>
+            <View style={styles.switchContainer}>
+              <Switch
+                onValueChange={
+                  value => this.onReportChange('relatedToRace', value)
+                }
+                value={this.props.report.relatedToRace}
+                trackColor='#DEDEDE'
               />
+              <Text style={styles.switchText}>Race</Text>
+            </View>
+            <View style={styles.switchContainer}>
+              <Switch
+                onValueChange={
+                  value => this.onReportChange('relatedToCulture', value)
+                }
+                value={this.props.report.relatedToCulture}
+                trackColor='#DEDEDE'
+              />
+              <Text style={styles.switchText}>Culture</Text>
+            </View>
+            <View style={styles.switchContainer}>
+              <Switch
+                onValueChange={
+                  value => this.onReportChange('relatedToGender', value)
+                }
+                value={this.props.report.relatedToGender}
+                trackColor='#DEDEDE'
+              />
+              <Text style={styles.switchText}>Gender</Text>
+            </View>
+            <View style={styles.switchContainer}>
+              <Switch
+                onValueChange={
+                  value => this.onReportChange('relatedToSexualOrientation', value)
+                }
+                value={this.props.report.relatedToSexualOrientation}
+                trackColor='#DEDEDE'
+              />
+              <Text style={styles.switchText}>Sexual Orientation</Text>
+            </View>
+            <View style={styles.switchContainer}>
+              <Switch
+                onValueChange={
+                  value => this.onReportChange('relatedToOther', value)
+                }
+                value={this.props.report.relatedToOther}
+                trackColor='#DEDEDE'
+              />
+              <Text style={styles.switchText}>Other</Text>
+              {this.props.report.relatedToOther ? 
+                (
+                  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <TextInput
+                      style={{ marginLeft: 10, flexGrow: 1 }}
+                      mode='outlined'
+                      value={this.props.report.relatedToOtherDescription}
+                      onChangeText={
+                        value => this.onReportChange('relatedToOtherDescription', value)
+                      }
+                    />
+                  </TouchableWithoutFeedback>
+                ) :
+                undefined
+              }
             </View>
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
 
           <View style={styles.pickerContainer}>
-            <View paddingVertical={20} />
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              height: '100%',
-            }}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{ flex: 1 }}>
-                <Bold>Where did this happen?</Bold>
-                </View>
-                <RNPickerSelect
-                  placeholder={placeholder}
-                  items={campusOptions}
-                  onValueChange={(value) => this.onReportChange('campus', value)}
-                  style={pickerSelectStyles}
-                  value={this.props.report.campus}
-                  useNativeAndroidPickerStyle={false}
-                  textInputProps={{ underlineColorAndroid: 'cyan' }}
-                  // InputAccessoryView={() => null}
-                  Icon={() => {
-                    return (
-                      <Icon
-                        name="md-arrow-dropdown"
-                        color="#000"
-                        size={30}
-                      />
-                    );
-                  }}
-                />
-              </View>
+            <View style={{ marginBottom: hp('1%') }}>
+              <Text style={styles.label}>Where did this happen?</Text>
             </View>
+            <RNPickerSelect
+              placeholder={placeholder}
+              items={campusOptions}
+              onValueChange={(value) => this.onReportChange('campus', value)}
+              style={pickerSelectStyles}
+              value={this.props.report.campus}
+              useNativeAndroidPickerStyle={false}
+              textInputProps={{ underlineColorAndroid: 'cyan' }}
+              // InputAccessoryView={() => null}
+              Icon={() => {
+                return (
+                  <Icon
+                    name="md-arrow-dropdown"
+                    color="#000"
+                    size={30}
+                  />
+                );
+              }}
+            />
           </View>
 
-          <Text style={{ fontStyle: 'italic', paddingVertical: 20 }}>
+          <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
             Click the pencil under the map to select a location.
           </Text>
 
-          <CampusMap 
-            location={this.state.selectedLocation} 
-            onMarkerPress={(value) => this.onLocationChange('location', value)}
-          />
+          <View style={{ paddingHorizontal: hp('3.5%') }}>
+            <CampusMap 
+              location={this.state.affirmationSelectedLocation} 
+              onMarkerPress={value => this.onLocationChange('location', value)}
+              campus={this.props.report.campus}
+            />
+          </View>
 
           <View style={styles.pickerContainer}>
-            <View paddingVertical={20} />
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              height: '100%',
-            }}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{ flex: 1 }}>
-                  <Text>Choose a location</Text>
-                </View>
-                <RNPickerSelect
-                  placeholder={placeholder}
-                  items={sfsuLocations}
-                  onValueChange={(value) => this.onLocationChange('location', value)}
-                  style={pickerSelectStyles}
-                  value={this.props.report.location}
-                  useNativeAndroidPickerStyle={false}
-                  textInputProps={{ underlineColorAndroid: 'cyan' }}
-                  // InputAccessoryView={() => null}
-                  Icon={() => {
-                    return (
-                      <Icon
-                        name="md-arrow-dropdown"
-                        color="#000"
-                        size={30}
-                      />
-                    );
-                  }}
-                />
-              </View>
-            </View>
-          </View>         
+            <RNPickerSelect
+              placeholder={{
+                label: 'Choose a location',
+                value: null,
+                color: '#9EA0A4',
+              }}
+              items={sfsuLocations}
+              onValueChange={(value) => this.onLocationChange('location', value)}
+              style={pickerSelectStyles}
+              value={this.props.report.location}
+              useNativeAndroidPickerStyle={false}
+              textInputProps={{ underlineColorAndroid: 'cyan' }}
+              Icon={() => {
+                return (
+                  <Icon
+                    name="md-create"
+                    color="#74b783"
+                    size={25}
+                  />
+                );
+              }}
+            />
+          </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
 
           <View style={styles.sliders}>
 
-            <View key='bother' style={{ marginBottom: 20 }}>
-              {/* <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} /> */}
+            <View key='uplift' style={{ marginBottom: 20 }}>
+              {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
               <EmotionSlider 
-                key='bother'
+                key='uplift'
                 containerStyle={styles.sliders}
-                titleStyle={{
-                    ...styles.affirmationText, 
-                    color: '#000', 
-                }}
-                title='How much did it bother you?'
-                value={this.props.report['bother']}
-                onChange={value => this.onReportChange('bother', value)}
+                titleStyle={styles.label}
+                title='How much did it uplift you?'
+                value={this.props.report['uplift']}
+                onChange={value => this.onReportChange('uplift', value)}
                 sliderStyle={styles.sliderStyle}
                 minimumValue={0}
                 maximumValue={10}
-                minimumTrackTintColor="#b16d65"
+                minimumTrackTintColor="#74b783"
                 maximumTrackTintColor="#EFEFEF"
                 imageSrc={require('../assets/images/scale1.png')}
               />            
             </View>
 
-            <Divider style={{ marginVertical: 10 }} />
+            <Divider style={{ marginVertical: hp('.75%') }} />
 
             <Text 
-              style={{
-                  ...styles.affirmationText, 
-                  color: '#000', 
-              }}>
+              style={styles.label}>
                 At this moment, how intensely do you feel the following?
             </Text>
 
-            {affirmationEmotionSliders.map((emotion, i) => {
+            {aggressionEmotionSliders.map((emotion, i) => {
               return (
                 <View key={i}>
                   <EmotionSlider 
@@ -313,32 +338,66 @@ class AffirmationReport extends Component {
                     sliderStyle={styles.sliderStyle}
                     minimumValue={0}
                     maximumValue={5}
-                    minimumTrackTintColor="#b16d65"
+                    minimumTrackTintColor="#74b783"
                     maximumTrackTintColor="#EFEFEF"
                     imageSrc={require('../assets/images/scale2.png')}
                   />
-                  <Divider style={{ marginVertical: 10, alignSelf: 'center', width: '60%' }} />
+                  <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} />
                 </View>
               );
             })}
 
-            <View style={{...styles.sliders, flexDirection: 'row', alignItems: 'center'}}>
-              <Icon name="md-add" style={{color:'#74b783', marginRight: 15}} size={35} />
-              <Text>Add another emotion (optional)</Text>
-            </View>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              {!this.state.affirmationOtherEmotionAdded ? 
+                (
+                  <TouchableOpacity
+                    style={{...styles.sliders, flexDirection: 'row', alignItems: 'center'}}
+                    onPress={this.addOtherEmotion}>
+                    <Icon name="md-add" style={{color:'#74b783', marginRight: 15}} size={35} />
+                    <Text>Add another emotion (optional)</Text>
+                  </TouchableOpacity>
+                ) :
+                (
+                  <View key='other' style={{ marginBottom: 20 }}>
+                    <TextInput
+                      value={this.props.report.otherEmotionText}
+                      onChangeText={(value) => this.onReportChange('otherEmotionText', value)}
+                      label='Name of emotion'
+                      mode='outlined'
+                    />
+                    <EmotionSlider 
+                      key='other'
+                      containerStyle={styles.sliders}
+                      titleStyle={styles.affirmationText}
+                      title={this.props.report.otherEmotionText ?? ''}
+                      value={this.props.report.otherEmotionValue}
+                      onChange={value => this.onReportChange('otherEmotionValue', value)}
+                      sliderStyle={styles.sliderStyle}
+                      minimumValue={0}
+                      maximumValue={10}
+                      minimumTrackTintColor="#74b783"
+                      maximumTrackTintColor="#EFEFEF"
+                      imageSrc={require('../assets/images/scale2.png')}
+                    />            
+                  </View>
+                )
+              }
+            </TouchableWithoutFeedback>
 
           </View>
 
-          <Divider style={{ marginVertical: 10 }} />
+          <Divider style={{ marginVertical: hp('.75%') }} />
           <Button
             onPress={this.handleSubmit}
-            style={{ marginVertical: 35, backgroundColor: '#74b783' }}
+            style={styles.button}
             icon="send"
             mode="contained">
             Submit
           </Button>
+
+          </SafeAreaView>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 
@@ -352,7 +411,7 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { saveAffirmationReport, addAffirmationReport }
+  { saveAffirmationReport, addAffirmationReport, resetAffirmationReport }
 )(AffirmationReport);
 
 
@@ -362,28 +421,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fbfafa',
-    padding: 10,
+    padding: wp('2%'),
+  },
+  label: {
+    marginVertical: hp('.75%'),
+    fontWeight: 'bold',
+    fontSize: hp('2%'),
+  },
+  switchContainer: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    padding: 5, 
+    marginVertical: 5 
   },
   sliders: {
-    marginVertical: 15,
+    marginVertical: hp('2%'),
   },
   sliderStyle: {
     width: '90%', 
     alignSelf: 'center' 
   },
+  switchText: {
+    marginLeft: wp('3%'),
+    fontSize: hp('1.75%'),
+  },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: hp('2%'),
   },
   reportComponent: {
     width: '100%',
-    marginVertical: 15,
+    marginVertical: hp('2%'),
   },
   affirmationText: {
-    color: '#b16d65',
-    fontSize: 20,
-    marginBottom: 15,
+    color: '#74b783',
+    fontSize: hp('2.5%'),
+    marginBottom: hp('1%'),
   },
-  affirmationButton: {
+  aggressionButton: {
     marginVertical: 40,
     borderWidth: 3,
     borderRadius: 5,
@@ -391,7 +465,7 @@ const styles = StyleSheet.create({
     color: '#b16d65',
     padding: 30,
     paddingVertical: 40,
-    fontSize: 18,
+    fontSize: hp('2.25%'),
     fontWeight: '600',
   },
   affirmationButton: {
@@ -402,11 +476,20 @@ const styles = StyleSheet.create({
     color: '#74b783',
     padding: 30,
     paddingVertical: 40,
-    fontSize: 18,
+    fontSize: hp('2.25%'),
     fontWeight: '600',
+  },
+  button: {
+    marginTop: hp('3%'),
+    marginBottom: hp('10%'),
+    backgroundColor: '#74b783',
+    paddingVertical: 6,
+    width: '90%',
+    alignSelf: 'center',
   },
   pickerContainer: {
     flex: 1,
+    paddingVertical: hp('3%'),
     justifyContent: 'space-between',
   },
   scrollContainer: {
@@ -417,32 +500,48 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 10,
   },
+  datetimePicker: {
+    borderWidth: 1, 
+    borderRadius: 4,
+    borderColor: '#787878',
+    backgroundColor: '#f7f7f7',
+    paddingVertical: 9,
+    paddingHorizontal: 5,
+    alignItems: 'baseline',
+  }
 });
 
+
 const pickerSelectStyles = StyleSheet.create({
-  flex: 1,
+  flexGrow: 1,
   iconContainer: {
-    width: 30,
-    height: 30,
-    right: 12,
-    top: -5,
+    top: 16,
+    right: 20,
   },
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
+    fontSize: hp('2%'),
+    paddingVertical: 18,
     paddingHorizontal: 10,
+    backgroundColor: '#f8f9fa',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 16,
+    fontSize: hp('2%'),
     paddingHorizontal: 10,
     paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-const affirmationEmotionSliders = [
+
+const aggressionEmotionSliders = [
   { key: 'angry', title: 'Angry' },
   { key: 'sad', title: 'Sad' },
   { key: 'shame', title: 'Shame' },
@@ -457,8 +556,8 @@ const affirmationEmotionSliders = [
 
 const campusOptions = [
   { key: 1, value: 'sfsu', label: 'SF State', displayValue: false },
-  { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
-  { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
+  // { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
+  // { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
 ];
 
 const sfsuLocations = [
@@ -512,4 +611,60 @@ const sfsuLocations = [
     value: 'th',
     label: 'Thornton Hall (TH)',
   },
+
+  // {
+  //   key: 'sfsu',
+  //   value: 'sfsu',
+  //   label: 'San Francisco State University',
+  // },
+  // {
+  //   key: 'adm',
+  //   value: 'adm',
+  //   label: 'Administration',
+  // },
+  // {
+  //   key: 'bookstore',
+  //   value: 'bookstore',
+  //   label: 'SFSU Bookstore',
+  // },
+  // {
+  //   key: 'bh',
+  //   value: 'bh',
+  //   label: 'Burk Hall (BH)',
+  // },
+  // {
+  //   key: 'bus',
+  //   value: 'bus',
+  //   label: 'Business (BUS)',
+  // },
+  // {
+  //   key: 'ccsc',
+  //   value: 'ccsc',
+  //   label: 'Cesar Chavez Student Center (CCSC)',
+  // },
+  // {
+  //   key: 'stadium',
+  //   value: 'stadium',
+  //   label: 'Cox Stadium',
+  // },
+  // {
+  //   key: 'ca',
+  //   value: 'ca',
+  //   label: 'Creative Arts (CA)',
+  // },
+  // {
+  //   key: 'ep',
+  //   value: 'ep',
+  //   label: 'Ethnic Studies & Psychology (EP)',
+  // },
+  // {
+  //   key: 'fa',
+  //   value: 'fa',
+  //   label: 'Fine Arts (FA)',
+  // },
+  // {
+  //   key: 'gym',
+  //   value: 'gym',
+  //   label: 'Gymnasium (GYM)',
+  // },
 ];

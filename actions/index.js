@@ -1,8 +1,11 @@
-import { 
-    SAVE_AFFIRMATION_REPORT, 
-    SAVE_AGGRESSION_REPORT, 
+import {
+    SAVE_STORE,
+    GET_STORE,
+    SAVE_AFFIRMATION_REPORT,
+    SAVE_AGGRESSION_REPORT,
     ADD_AGGRESSION_REPORT,
     RESET_AGGRESSION_REPORT,
+    RESET_AFFIRMATION_REPORT,
     GET_AGGRESSION_REPORTS,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
@@ -18,22 +21,116 @@ import {
     RESET_APP,
     SAVE_POST_MEASURE_SURVEY,
     SAVE_DEVICE,
+    SAVE_USER,
+    GET_USER,
+    GET_USER_SUCCESS,
+    GET_USER_ERROR,
 } from './types';
 import { State } from 'react-native-gesture-handler';
+import axios from 'axios';
 import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-community/async-storage';
 
+
+export function saveStore(store) {
+    // console.log('in saveStore action', store.store, store);
+    // let payload = {};
+    // payload['store'] = store.store;
+    return {
+        type: SAVE_STORE,
+        payload: store.store
+    };
+}
+
+export function getStore(state) { return state.store }
 
 export function saveDevice(deviceId = null) {
     deviceId = deviceId ?? Constants.deviceId;
     // console.log('Device ID: ', deviceId);
     let payload = {};
-    payload['deviceID'] = deviceId;
-    
+    payload['deviceId'] = deviceId;
+
     return {
         type: SAVE_DEVICE,
         payload: payload,
     };
 }
+
+export function saveUser(user = {}) {
+    let payload = {};
+    payload['userId'] = user;
+
+    return {
+        type: SAVE_USER,
+        payload: payload
+    }
+}
+
+export const fetchUser = bool => {
+    console.log('in fetchUser');
+    return {
+        type: GET_USER,
+        payload: bool
+    }
+}
+
+export const fetchUserSuccess = data => {
+    // _storeUser(data.userId);
+    return {
+        type: GET_USER_SUCCESS,
+        payload: data.userId,
+        loading: false
+    }
+}
+
+export const fetchUserError = error => {
+    console.log('in fetchUserError');
+    return {
+        type: GET_USER_ERROR,
+        payload: error,
+        loading: false
+    }
+}
+
+export const getUser = () => {
+    console.log('in getUser');
+    axios.get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
+        // _storeUser(JSON.stringify(res.data.userId));
+        return res.data.userId;
+    }).catch(err => dispatch(fetchUserError(err)));
+    // return dispatch => {
+    //     axios.get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
+    //         // _storeUser(JSON.stringify(res.data.userId));
+    //         console.log('fetch user: ', res.data);
+    //         dispatch(fetchUserSuccess(res.data));
+    //     }).catch(err => dispatch(fetchUserError(err)));
+    // }
+}
+
+_storeUser = async (userId) => {
+    try {
+        await AsyncStorage.setItem(
+            'user',
+            JSON.stringify(userId)
+        );
+    } catch (error) {
+        // Error saving data
+        console.log('error storing userId');
+    }
+};
+
+_retrieveUser = async () => {
+    try {
+        const value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+            // We have data!!
+            console.log('found a stored userId: ', value);
+            return value;
+        }
+    } catch (error) {
+        // Error retrieving data
+    }
+};
 
 export function saveAffirmationReport(key, affirmation) {
     let payload = {};
@@ -57,7 +154,7 @@ export function saveAggressionReport(key, aggression) {
 
 export function addAggressionReport(report) {
     // console.log('in addAgg report ', report);
-    
+
     return {
         type: ADD_AGGRESSION_REPORT,
         payload: report
@@ -71,9 +168,14 @@ export function resetAggressionReport() {
     }
 }
 
+export function resetAffirmationReport() {
+    return {
+        type: RESET_AFFIRMATION_REPORT,
+        payload: {}
+    }
+}
+
 export function getAggressionReports() {
-    console.log('in getAgg reports');
-    
     return {
         type: GET_AGGRESSION_REPORTS,
         payload: State.reports
@@ -160,14 +262,14 @@ export function saveConsent(consent) {
     }
 }
 
-export function getConsent() {  
+export function getConsent() {
     return {
         type: GET_CONSENT,
         payload: consent
     }
 }
 
-export function saveSlideshow(complete) { 
+export function saveSlideshow(complete) {
     return {
         type: SAVE_SLIDESHOW,
         payload: complete

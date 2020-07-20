@@ -3,6 +3,7 @@ import * as React from 'react';
 
 
 import { StyleSheet, Image, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
@@ -26,7 +27,18 @@ import AppendixD from '../components/surveys/AppendixD';
 import AppendixE from '../components/surveys/AppendixE';
 import PostMeasure from '../components/surveys/PostMeasure';
 
-import { saveConsent, saveSlideshow, resetApp } from '../actions';
+import { 
+  saveConsent, 
+  saveSlideshow, 
+  resetApp,
+  fetchUser,
+  fetchUserSuccess,
+  fetchUserError,
+  getUser,
+  saveUser,
+  getStore,
+  saveStore
+} from '../actions';
 
 
 const Stack = createStackNavigator();
@@ -44,10 +56,28 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
-  DEVMODE = false;
+  DEVMODE = true;
+
+  constructor(props) {   
+    super(props);
+    let user = saveUser(this.props.userId).payload;
+    this.state = {
+      userId: this.props.userId
+    };
+  }
+
+  componentDidMount() {
+
+    if (!this.props.userId) {
+      // console.log('nav stack found no uid prop', this.props);
+      // this.props.getUser();
+    }
+  }
+
   render() {
+    // this.getUserInfo();
     if ((!this.DEVMODE && !this.props.consentGranted) || 
-        (Constants.deviceId !== this.props.deviceID)) {
+        (Constants.deviceId !== this.props.deviceId)) {
       return (
         <NavigationContainer 
           ref={this.props.containerRef} 
@@ -143,7 +173,7 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="AffirmationReport"
               component={AffirmationReport}
-              options={headerStyles}
+              options={reportHeader}
             />
             <Stack.Screen
               name="IntroSlideshow"
@@ -258,15 +288,31 @@ const reportHeader = {
 }
 
 function mapStateToProps(state) {
+  // console.log('state store: ', getStore(state));
+  console.log('userId: ', state.store.userId);
   return {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
     surveyComplete: state.survey.complete,
-    deviceID: state.user.deviceID
+    deviceId: state.user.deviceId,
+    user: state.user,
+    state: state
+    // store: this.props.initialStore,
+    // store: getStore(state),
   };
 }
 
 export default connect(
   mapStateToProps,
-  { saveConsent, saveSlideshow }
+  { 
+    saveConsent, 
+    saveSlideshow,
+    fetchUser,
+    fetchUserSuccess,
+    fetchUserError,
+    getUser,
+    getStore,
+    saveStore,
+    saveUser
+  }
 )(NavigationStack);

@@ -1,0 +1,454 @@
+{if $welcomeText}
+<div class="container-fluid bg-dark text-white pt-5 pb-3">
+  <div class="container">
+    <div class="row px-lg-4 mx-lg-4">
+      <!-- <div class="col " style=""></div> -->
+      <div class="col text-center welcome-text px-lg-5 mx-lg-5" style="">{$welcomeText}</div>
+      <!-- <div class="col " style=""></div> -->
+    </div>
+  </div>
+</div>
+{/if}
+
+{if $viewer}
+<div class="container text-center my-5">
+  <h1 class="mb-3">MA^2</h1>
+  <a class="login-button btn btn-primary btn-lg" href="{$app->baseUrl('login')}">Log into MA^2</a>
+</div>
+{else}
+
+<div id="wrapper" class="container">
+  <div id="header">
+    <a id="logo-sm" class="title font" href=".">MA<sup class="font">2</sup></a>
+    <br>
+    <span class="subtitle">Submission Reports</span>
+    <button type="button" class="btn btn-danger btn-export">
+      <span>Export</span>
+    </button>
+  </div>
+  <div id="content">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="reports-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="reports"
+          aria-selected="true">Reports <span id="reports-tab-count"></span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab" aria-controls="feedback"
+          aria-selected="false">Feedback <span id="feedback-tab-count"></span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab"
+          aria-controls="notifications" aria-selected="false">Notifications <span
+            id="notifications-tab-count"></span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
+          aria-selected="false">Stats</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help"
+          aria-selected="false">Help</a>
+      </li>
+    </ul>
+    <br>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="reports" role="tabpanel" aria-labelledby="reports-tab">
+        <div id="reports-count" class="count">
+          Displaying <span class="min-count">0</span> of <span class="max-count">0</span> Reports
+        </div>
+        <div class="tab-pane fade show active" id="reports" role="tabpanel" aria-labelledby="reports-tab">
+          <div id="reports-count" class="count">
+            Displaying <span class="min-count">0</span> of <span class="max-count">0</span> Reports
+          </div>
+
+
+
+          <div class="list-group">
+            <div class="list-group-item d-flex">
+              <i class="fa fa-caret-down"></i>
+              <span class="nowrap col-1"></span>
+              <span class="nowrap col-xs-1 col-sm-1">Type</span>
+              <span class="nowrap col-xs-4 col-sm-3">Description</span>
+              <span class="nowrap col-xs-2 col-sm-2">Time</span>
+              <span class="nowrap col-xs-3 col-sm-3">Location</span>
+              <span class="nowrap col-xs-2 col-sm-2 d-none d-sm-block">Submit Time</span>
+            </div>
+            <div id="items">
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+          <div id="feedback-count" class="count">
+            Displaying <span class="min-count">0</span> of <span class="max-count">0</span> Feedback
+          </div>
+          <div class="list-group">
+            <div class="list-group-item d-flex">
+              <i class="fa fa-caret-down"></i>
+              <span class="nowrap col-1"></span>
+              <span class="nowrap col-xs-1 col-sm-1">Type</span>
+              <span class="nowrap col-xs-4 col-sm-3">Text</span>
+              <span class="nowrap col-xs-2 col-sm-2 d-none d-sm-block">Submit Time</span>
+            </div>
+            <div id="feedback-items">
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+          <div id="notifications-count" class="count">
+            Displaying <span class="min-count">0</span> of <span class="max-count">0</span> Notifications
+          </div>
+          <div class="list-group">
+            <div class="list-group-item d-flex">
+              <i class="fa fa-caret-down"></i>
+              <span class="nowrap col-1"></span>
+              <span class="nowrap col-xs-1 col-sm-1">Type</span>
+              <span class="nowrap col-xs-4 col-sm-3">Message</span>
+              <span class="nowrap col-xs-4 col-sm-3">Response</span>
+              <span class="nowrap col-xs-2 col-sm-2">Start Time</span>
+              <span class="nowrap col-xs-2 col-sm-2">End Time</span>
+            </div>
+            <div id="notifications-items">
+            </div>
+            <div>
+              <br>
+              <span class="server-time">Server Time: <span class="time">Jul 17th 2020, 9:36:14 AM</span></span>
+            </div>
+            <div id="notifications-editor">
+              <br>
+              <form>
+                <div class="form-row">
+                  <div class="col-auto">
+                    <select class="custom-select" name="type">
+                      <option value="0" selected="">Message</option>
+                      <option value="1">Submit</option>
+                      <option value="2">Accept</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-6 col-sm-6">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="text" placeholder="Message">
+                      <input type="text" class="form-control" name="response" placeholder="Response">
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="datetimepicker-start" name="start-time"
+                        placeholder="Start Time">
+                      <input type="text" class="form-control" id="datetimepicker-end" name="end-time"
+                        placeholder="End Time">
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-danger btn-send">Send</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <hr>
+          <div class="count">
+            Tokens Redeemed by Users (Last 30 Days)
+          </div>
+          <div class="list-group">
+            <select class="custom-select user-list" name="user">
+              <option value="0" selected="">Choose User</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="tab-pane fade show active" id="help" role="tabpanel" aria-labelledby="help-tab">
+          <div id="update-time">
+            <i>Last Updated: June 19th 2018</i>
+          </div>
+          <ul>
+            <li><a href="#1" class="dl-link">How do I connect to a WiFi hotspot from within the app?</a></li>
+            <li><a href="#2" class="dl-link">How do I go about creating a report?</a></li>
+            <li><a href="#3" class="dl-link">How do I set a location of the incident when creating a report?</a></li>
+            <li><a href="#4" class="dl-link">How do I add an emotion that's not on the list?</a></li>
+            <li><a href="#5" class="dl-link">How do I view and edit existing reports?</a></li>
+            <li><a href="#6" class="dl-link">The app is not letting me create or edit reports. How can I fix this?</a>
+            </li>
+            <li><a href="#7" class="dl-link">How do I view the introduction/tutorial once more?</a></li>
+            <li><a href="#8" class="dl-link">What are notifications and where can I view them?</a></li>
+            <li><a href="#9" class="dl-link">How do I access the "Post-Measure Survey"?</a></li>
+            <li><a href="#10" class="dl-link">How do I check if there is a newer version of the app?</a></li>
+            <li><a href="#11" class="dl-link">How do I send feedback?</a></li>
+            <li><a href="#12" class="dl-link">When creating reports, the map is not functional and I don't have access
+                to the app store, how do I fix this?</a></li>
+          </ul>
+          <ul class="help-list list-group">
+            <li id="1" class="list-group-item">
+              <span class="question">How do I connect to a WiFi hotspot from within the app?</span>
+              <div class="image-block">
+                <img src="assets/images/21.png" alt="Image 21">
+                <span class="caption">If there is no network available, a red "Go Online" label will appear at the top.
+                  Tapping on it will bring you to another screen to choose WiFi hotspots.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Upon returning from successfully connecting to a WiFi hotspot, the red label turns
+                  into a green "Connected" label.</span>
+              </div>
+            </li>
+            <li id="2" class="list-group-item">
+              <span class="question">How do I go about creating a report?</span>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Tap on boxes labeled "Microaggression" or "Microaffirmation".</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/report.png" alt="Image Report">
+                </div>
+                <span class="caption">Send report using the upper rightmost icon. Leaving without sending will cause the
+                  report to be saved as a draft for later editing.</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/report_2.png" alt="Image Report">
+                </div>
+                <span class="caption">The microaffirmation report asks the exact same questions except with slightly
+                  different wordings.</span>
+              </div>
+            </li>
+            <li id="3" class="list-group-item">
+              <span class="question">How do I set a location of the incident when creating a report?</span>
+              <div class="image-block">
+                <img src="assets/images/25.png" alt="Image 25">
+                <span class="caption">Tap on the section below the map labeled "No Location Selected" to bring up an
+                  interactive map to select a location.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/26.png" alt="Image 26">
+                <span class="caption">Choose one of the many preset marker locations or tap on the section below the map
+                  to bring up a list of locations.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/27.png" alt="Image 27">
+                <span class="caption">Here you can choose a location by name.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/28.png" alt="Image 28">
+                <span class="caption">For a user-defined location, scroll to the bottom and tap on "Other".</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/29.png" alt="Image 29">
+                <span class="caption">Upon tapping on "Other", you can enter any location name as your input.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/44.png" alt="Image 44">
+                <span class="caption">If changing the "Campus" selection to any other than SFSU, you will be asked to
+                  manually input a location name.</span>
+              </div>
+            </li>
+            <li id="4" class="list-group-item">
+              <span class="question">How do I add an emotion that's not on the list?</span>
+              <div class="image-block">
+                <img src="assets/images/30.png" alt="Image 30">
+                <span class="caption">Scroll to the bottom and tap on "Add another emotion (optional)".</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/31.png" alt="Image 31">
+                <span class="caption">Type in your emotion and set its intensity.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/32.png" alt="Image 32">
+                <span class="caption">User-defined emotions are labeled in orange.</span>
+              </div>
+            </li>
+            <li id="5" class="list-group-item">
+              <span class="question">How do I view and edit existing reports?</span>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Tap on "Log" at the bottom.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/33.png" alt="Image 33">
+                <span class="caption">Microaggressions will be labeled red while microaffirmations are green. Reports
+                  that haven't been sent are labeled as drafts.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/34.png" alt="Image 34">
+                <span class="caption">Tapping on a report from the list will bring up a card view where each card
+                  displays a brief description of the report with the option of editing it by tapping on "Edit".</span>
+              </div>
+            </li>
+            <li id="6" class="list-group-item">
+              <span class="question">The app is not letting me create or edit reports. How can I fix this?</span>
+              <div class="image-block">
+                <img src="assets/images/22.png" alt="Image 22">
+                <span class="caption">You must be within campus to use the creating and editing features of the
+                  app.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/23.png" alt="Image 23">
+                <span class="caption">You must have location services enabled for the app to determine your
+                  location.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/24.png" alt="Image 24">
+                <span class="caption">Tapping on "Show Map" will show you where the app thinks you're located. You must
+                  be within the radius as shown on the map. If location toggle is off, tap on it to enable location
+                  services.</span>
+              </div>
+            </li>
+            <li id="7" class="list-group-item">
+              <span class="question">How do I view the introduction/tutorial once more?</span>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Tap on "Did you forget what these are?".</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; white-space: nowrap; width:640px; height:426px;">
+                  <img src="assets/images/39.png" alt="Image 39">
+                  <img src="assets/images/2.png" alt="Image 2">
+                  <img src="assets/images/3.png" alt="Image 3">
+                  <img src="assets/images/4.png" alt="Image 4">
+                  <img src="assets/images/5.png" alt="Image 5">
+                  <img src="assets/images/6.png" alt="Image 6">
+                  <img src="assets/images/7.png" alt="Image 7">
+                  <img src="assets/images/8.png" alt="Image 8">
+                  <img src="assets/images/9.png" alt="Image 9">
+                  <img src="assets/images/10.png" alt="Image 10">
+                </div>
+                <span class="caption">Use left and right swipe motions to navigate.</span>
+              </div>
+            </li>
+            <li id="8" class="list-group-item">
+              <span class="question">What are notifications and where can I view them?</span>
+              <div class="image-block">
+                <img src="assets/images/41.png" alt="Image 41">
+                <span class="caption">Notifications are used to send you a message while some such as the one above asks
+                  you to respond.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/18.png" alt="Image 18">
+                <span class="caption">Previously received notifications can be viewed in the "More" tab.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/42.png" alt="Image 42">
+                <span class="caption">Here's a list of notifications you had might've received.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/43.png" alt="Image 43">
+                <span class="caption">Notifications may contain a followup message. To view this message, simply tap on
+                  the notification listed.</span>
+              </div>
+            </li>
+            <li id="9" class="list-group-item">
+              <span class="question">How do I access the "Post-Measure Survey"?</span>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Tap on "More" at the bottom.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/18.png" alt="Image 18">
+                <span class="caption">Tap on "Post-Measure Survey"</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/11.png" alt="Image 11">
+                <span class="caption">Tap on "Next" to begin survey.</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/belonging.png" alt="Belonging">
+                </div>
+                <span class="caption">School Connectedness/Sense of Belonging</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/efficacy.png" alt="Efficacy">
+                </div>
+                <span class="caption">College SME Self-Efficacy Scale</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/dignity.png" alt="Dignity">
+                </div>
+                <span class="caption">Dignity Scale</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/sleep_1.png" alt="Sleep 1">
+                </div>
+                <span class="caption">Pittsburgh Sleep Quality Index (PSQI) 1/4</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/sleep_2.png" alt="Sleep 2">
+                </div>
+                <span class="caption">Pittsburgh Sleep Quality Index (PSQI) 2/4</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/sleep_3.png" alt="Sleep 3">
+                </div>
+                <span class="caption">Pittsburgh Sleep Quality Index (PSQI) 3/4</span>
+              </div>
+              <div class="image-block">
+                <div style="overflow:scroll; height:426px;">
+                  <img src="assets/images/sleep_4.png" alt="Sleep 4">
+                </div>
+                <span class="caption">Pittsburgh Sleep Quality Index (PSQI) 4/4</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/40.png" alt="Image 40">
+                <span class="caption">Tap on "Done" to end survey.</span>
+              </div>
+            </li>
+            <li id="10" class="list-group-item">
+              <span class="question">How do I check if there is a newer version of the app?</span>
+              <div class="image-block">
+                <img src="assets/images/35.png" alt="Image 35">
+                <span class="caption">Tap on "More" at the bottom. The green badge signifies there's already a newer
+                  version available.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/36.png" alt="Image 36">
+                <span class="caption">Scroll down and tap on "Software Update". If there's a newer version, the app will
+                  attempt to download the latest.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/37.png" alt="Image 37">
+                <span class="caption">Once download is complete, you will be prompted to tap on "Continue" to finish
+                  installing the latest version. The app will then restart.</span>
+              </div>
+            </li>
+            <li id="11" class="list-group-item">
+              <span class="question">How do I send feedback?</span>
+              <div class="image-block">
+                <img src="assets/images/0.png" alt="Image 0">
+                <span class="caption">Tap on "More" at the bottom.</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/18.png" alt="Image 18">
+                <span class="caption">Scroll down and tap on "Send Feedback".</span>
+              </div>
+              <div class="image-block">
+                <img src="assets/images/38.png" alt="Image 38">
+                <span class="caption">Type in your feedback and submit.</span>
+              </div>
+            </li>
+            <li id="12" class="list-group-item">
+              <span class="question">When creating reports, the map is not functional and I don't have access to the app
+                store, how do I fix this?</span>
+              <div class="image-block">
+                <img src="assets/images/25.png" alt="Image 25">
+                <span class="caption">If the map as shown above is not visible, it's most likely your device needs an
+                  update. Please install one of the following: <a
+                    href="download/com.google.android.gms_12.6.88_minAPI21.apk" class="dl-link">21+ (Newer Devices)</a>
+                  or <a href="download/com.google.android.gms_12.6.88_minAPI14.apk" class="dl-link">14+ (Older
+                    Devices)</a></span>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  {/if}

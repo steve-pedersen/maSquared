@@ -12,8 +12,10 @@ import consentReducer from './consent';
 import slideshowReducer from './slideshow';
 import postMeasureSurveyReducer from './postMeasureSurvey';
 import userReducer from './user';
+import storeReducer from './store';
 
 export default combineReducers({
+    store: storeReducer,
     affirmations: affirmationsReducer,
     aggressions: aggressionsReducer,
     reports: reportsReducer,

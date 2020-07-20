@@ -32,6 +32,9 @@
       "versionCode": 1
     },
     "description": "MA^2 at SF State",
-    "entryPoint": "index.js"
+    "entryPoint": "index.js",
+    "extra": {
+      
+    }
   }
 }
