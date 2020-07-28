@@ -5,7 +5,7 @@ import { Text, Button, Paragraph } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNPickerSelect from 'react-native-picker-select';
 
-import { saveSurveyC, saveSurvey } from '../../actions';
+import { saveSurveyC, saveSurvey } from '../../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
@@ -104,7 +104,7 @@ export default connect(
 
 
 const answerScale = [
-  { key: 1, value: 1, label: '1 (Completely Unsure)', displayValue: false },
+  { key: 1, value: 1, label: '1 (Never)', displayValue: false },
   { key: 2, value: 2, label: '2', displayValue: false },
   { key: 3, value: 3, label: '3', displayValue: false },
   { key: 4, value: 4, label: '4', displayValue: false },
@@ -113,7 +113,7 @@ const answerScale = [
   { key: 7, value: 7, label: '7', displayValue: false },
   { key: 8, value: 8, label: '8', displayValue: false },
   { key: 9, value: 9, label: '9', displayValue: false },
-  { key: 10, value: 10, label: '10 (Completely Sure)', displayValue: false },
+  { key: 10, value: 10, label: '10 (Always)', displayValue: false },
 ];
 
 

@@ -28,7 +28,7 @@ import {
   widthPercentageToDP as wp, 
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { saveAggressionReport, addAggressionReport, resetAggressionReport } from '../actions';
+import { saveAggressionReport, addAggressionReport, resetAggressionReport } from '../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 

@@ -3,7 +3,6 @@ import * as React from 'react';
 
 
 import { StyleSheet, Image, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
@@ -14,6 +13,7 @@ import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-nati
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 
+import { getUser } from '../components/util/Api';
 import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
 import AggressionReport from '../components/AggressionReport';
@@ -27,18 +27,15 @@ import AppendixD from '../components/surveys/AppendixD';
 import AppendixE from '../components/surveys/AppendixE';
 import PostMeasure from '../components/surveys/PostMeasure';
 
+
 import { 
   saveConsent, 
   saveSlideshow, 
   resetApp,
-  fetchUser,
-  fetchUserSuccess,
-  fetchUserError,
-  getUser,
   saveUser,
   getStore,
   saveStore
-} from '../actions';
+} from '../redux/actions';
 
 
 const Stack = createStackNavigator();
@@ -56,34 +53,27 @@ const theme = {
 
 
 class NavigationStack extends React.Component {
-  DEVMODE = true;
+  DEVMODE = false;
+  STARTOVER = true;
 
   constructor(props) {   
     super(props);
-    let user = saveUser(this.props.userId).payload;
+    this.props.saveUser(this.props.user);
     this.state = {
-      userId: this.props.userId
+      userId: this.props.user.userId,
+      loading: false
     };
   }
 
-  componentDidMount() {
-
-    if (!this.props.userId) {
-      // console.log('nav stack found no uid prop', this.props);
-      // this.props.getUser();
-    }
-  }
-
   render() {
-    // this.getUserInfo();
-    if ((!this.DEVMODE && !this.props.consentGranted) || 
-        (Constants.deviceId !== this.props.deviceId)) {
+    if (this.state.loading) {
+      return null;
+    } else if (!this.DEVMODE && !this.props.consentGranted) {
       return (
         <NavigationContainer 
           ref={this.props.containerRef} 
           initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
-            {/* TODO: save consent in state and only show if not granted */}
             <Stack.Screen
               name="ConsentForm"
               component={ConsentForm}
@@ -288,17 +278,12 @@ const reportHeader = {
 }
 
 function mapStateToProps(state) {
-  // console.log('state store: ', getStore(state));
-  console.log('userId: ', state.store.userId);
   return {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
     surveyComplete: state.survey.complete,
     deviceId: state.user.deviceId,
-    user: state.user,
-    state: state
-    // store: this.props.initialStore,
-    // store: getStore(state),
+    userId: state.user.userId,
   };
 }
 
@@ -307,10 +292,6 @@ export default connect(
   { 
     saveConsent, 
     saveSlideshow,
-    fetchUser,
-    fetchUserSuccess,
-    fetchUserError,
-    getUser,
     getStore,
     saveStore,
     saveUser

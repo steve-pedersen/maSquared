@@ -1,19 +1,15 @@
 import * as React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AppState } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { SplashScreen } from 'expo';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import Constants from 'expo-constants';
+import { PersistGate } from 'redux-persist/es/integration/react'
+import { store, persistor } from './redux/store/store';
 
-import reducers from './reducers';
-import { saveStore, saveUser } from './actions';
 import NavigationStack from './navigation/NavigationStack';
+import Api from './components/util/Api';
+import Loader from './components/util/Loader';
+import { getUser } from './components/util/Api';
 
 
 const theme = {
@@ -26,110 +22,25 @@ const theme = {
   },
 };
 
-const API_URL = 'https://ilearn.test.at.sfsu.edu/ma2/api';
-
-
-// let store = createStore(reducers, middleware);
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
-
-    // const containerRef = React.useRef();
-    const middleware = applyMiddleware(thunk);
-    const initialStore = createStore(reducers, middleware);
-
+    
     this.state = {
       isLoadingComplete: false,
-      userId: initialStore.userId,
-      isStoreLoading: false,
-      store: initialStore,
-      initialNavigationState: null
+      user: store.getState().user ?? {}
     }
-  }
-
-  getUser = async () => {
-    let userApi = `${API_URL}/user`;
-    console.log('apiKey: ', Constants.manifest.extra.apiKey);
-    let params = { 
-      // a: Constants.manifest.extra.apiKey,
-      d: Constants.deviceId 
-    };
-
-    axios.get(userApi, params).then(res => {
-      console.log('response: ', res.data);
-      this.setState({ userId: res.data.userId });
-      this.setState({ isStoreLoading: false });
-      let payload = saveUser({ userId: res.data.userId }).payload;
-      // saveStore(this.state);
-      // this._handleAppStateChange();
-    }).catch(error => {
-      console.log('error getting user from API');
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
-      }
-      console.log(error.config);
-    });
-  }
-
-  // stores any state change into local storage
-  _handleAppStateChange = (currentAppState) => {
-    let storingValue = JSON.stringify(this.state.store.getState())
-    AsyncStorage.setItem('completeStore', storingValue).then(() => {
-      console.log('storing store in redux', storingValue);
-      saveStore(storingValue);
-    });
   }
   
   // Load any resources or data that we need prior to rendering the app
-  componentDidMount() {
-
+  async componentDidMount() {
     try {
       SplashScreen.preventAutoHide();
-      AppState.addEventListener('change', this._handleAppStateChange);
-      this.setState({ isStoreLoading: true });
-
-      AsyncStorage.getItem('completeStore').then(value => {
-        if (value && value.length){
-          let initialStore = JSON.parse(value);
-          let newStore = createStore(reducers, initialStore, this.middleware);
-          this.setState({ store: newStore });
-          // this.setState({ userId: newStore.user.userId });
-        } else {
-          this.setState({ store: this.state.store });
-        }
-        // console.log('first',!this.state.userId,'second',!this.state.store.user.userId);
-        if (!this.state.userId && !this.state.store.user.userId) {
-          // console.log('getting user....');
-          this.getUser();
-        } else {
-          console.log(this.state.userId);
-        }
-      }).catch((error)=>{
-        this.setState({ store: this.state.store });
-        this.setState({ isStoreLoading: false });
-      });
-      
-      if (!this.state.store.userId) {
-        // console.log('no uid in state on load');
-        this.getUser();
+      if (!this.state.user.userId) {
+        await this.loadDataFromApi();
       }
-
     } catch (e) {
-      // We might want to provide this error information to an error reporting service
       console.warn(e);
     } finally {
       this.setState({ isLoadingComplete: true });
@@ -137,26 +48,31 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+  loadDataFromApi = async () => {
+    let res = await getUser();
+    this.setState({ user: { 
+      deviceId: res.deviceId, 
+      userId: res.userId, 
+      groupId: res.groupId,
+      createdDate: res.createdDate,
+      university: res.university
+    }});
   }
 
   render() {
-    // console.log('loading: ', !this.state.isLoadingComplete || this.state.isStoreLoading);
-    if (!this.state.isLoadingComplete || this.state.isStoreLoading) {
-      // console.log('not rendering app...');
+    if (!this.state.isLoadingComplete) {
       return null;
     } else {
-      // console.log('rendering app...');
-      // console.log('store: ', this.state.store.getState());
       return (
-        <StoreProvider store={this.state.store}>
-          <PaperProvider>
-            <View style={styles.container} theme={theme}>
-              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-              <NavigationStack userId={this.state.userId} initialStore={this.state.store} />
-            </View>
-          </PaperProvider>
+        <StoreProvider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <PaperProvider>
+              <View style={styles.container} theme={theme}>
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                <NavigationStack user={this.state.user} />
+              </View>
+            </PaperProvider>
+          </PersistGate>
         </StoreProvider>
       );
     }

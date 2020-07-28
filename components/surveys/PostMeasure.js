@@ -11,7 +11,7 @@ import {
 import { Text, Button, RadioButton, Title, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import { savePostMeasureSurvey } from '../../actions';
+import { savePostMeasureSurvey } from '../../redux/actions';
 
 class PostMeasure extends Component {
   

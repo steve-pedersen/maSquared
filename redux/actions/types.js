@@ -1,5 +1,3 @@
-export const SAVE_STORE = 'save_store';
-export const GET_STORE = 'get_store';
 export const SAVE_AFFIRMATION_REPORT = 'save_affirmation_report';
 export const SAVE_AGGRESSION_REPORT = 'save_aggression_report';
 export const RESET_AGGRESSION_REPORT = 'reset_aggression_report';

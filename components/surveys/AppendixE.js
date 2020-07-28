@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { saveSurveyE, saveSurvey } from '../../actions';
+import { saveSurveyE, saveSurvey } from '../../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
@@ -95,6 +95,7 @@ class AppendixE extends Component {
                 return (
                   <View key={answer.key}>
                     <RadioButton.Item
+                      key={answer.key}
                       label={answer.label}
                       value={answer.key}
                       status={isChecked ? 'checked' : 'unchecked'}
@@ -118,7 +119,7 @@ class AppendixE extends Component {
                 </View>
                 {surveyAsAppendixE2a.map(function (answer) {
                   return (
-                    <View style={styles.switchContainer}>
+                    <View style={styles.switchContainer} key={answer.key}>
                       <Switch
                         key={answer.key}
                         onValueChange={
@@ -185,7 +186,7 @@ class AppendixE extends Component {
                 <View style={{ paddingBottom: 10 }}>
                   <Text style={styles.questionText}>
                     <Bold>3a. </Bold> As which gender were you raised?
-              </Text>
+                  </Text>
                 </View>
                 <RadioButton.Group
                   key={'3a'}
@@ -246,7 +247,7 @@ class AppendixE extends Component {
             </View>
             {surveyAsAppendixE5.map(function (answer) {
               return (
-                <View>
+                <View key={answer.key}>
                   <View style={styles.switchContainer}>
                     <Switch
                       key={answer.key}

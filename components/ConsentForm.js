@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { RadioButton, Text, Button, Title, Paragraph } from 'react-native-paper';
 
-import { getConsent, saveConsent, saveDevice } from '../actions';
+import { getConsent, saveConsent, saveDevice } from '../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
@@ -21,6 +21,10 @@ class ConsentForm extends Component {
       this.props.saveDevice();
       // this.props.navigation.navigate('IntroSlideshow', {});
     }
+  }
+
+  componentDidMount() {
+    // console.log('USER: ', this.props.user);
   }
 
   render() {
@@ -71,7 +75,7 @@ class ConsentForm extends Component {
 
 
 function mapStateToProps(state) {
-  return { consentGranted: state.consent.value }
+  return { consentGranted: state.consent.value, user: state.user }
 }
 
 

@@ -6,7 +6,7 @@ import { Text, Button, Paragraph } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNPickerSelect from 'react-native-picker-select';
 
-import { getSurveyB, saveSurveyB } from '../../actions';
+import { getSurveyB, saveSurveyB } from '../../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;

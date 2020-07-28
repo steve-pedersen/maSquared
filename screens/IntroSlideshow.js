@@ -12,7 +12,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { saveConsent, saveSlideshow, resetApp } from '../actions';
+import { saveConsent, saveSlideshow, resetApp } from '../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 

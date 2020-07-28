@@ -1,6 +1,4 @@
 import {
-    SAVE_STORE,
-    GET_STORE,
     SAVE_AFFIRMATION_REPORT,
     SAVE_AGGRESSION_REPORT,
     ADD_AGGRESSION_REPORT,
@@ -27,22 +25,8 @@ import {
     GET_USER_ERROR,
 } from './types';
 import { State } from 'react-native-gesture-handler';
-import axios from 'axios';
 import Constants from 'expo-constants';
-import AsyncStorage from '@react-native-community/async-storage';
 
-
-export function saveStore(store) {
-    // console.log('in saveStore action', store.store, store);
-    // let payload = {};
-    // payload['store'] = store.store;
-    return {
-        type: SAVE_STORE,
-        payload: store.store
-    };
-}
-
-export function getStore(state) { return state.store }
 
 export function saveDevice(deviceId = null) {
     deviceId = deviceId ?? Constants.deviceId;
@@ -57,12 +41,10 @@ export function saveDevice(deviceId = null) {
 }
 
 export function saveUser(user = {}) {
-    let payload = {};
-    payload['userId'] = user;
-
+    // console.log('user from action: ', user);
     return {
         type: SAVE_USER,
-        payload: payload
+        payload: user
     }
 }
 
@@ -92,45 +74,6 @@ export const fetchUserError = error => {
     }
 }
 
-export const getUser = () => {
-    console.log('in getUser');
-    axios.get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
-        // _storeUser(JSON.stringify(res.data.userId));
-        return res.data.userId;
-    }).catch(err => dispatch(fetchUserError(err)));
-    // return dispatch => {
-    //     axios.get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
-    //         // _storeUser(JSON.stringify(res.data.userId));
-    //         console.log('fetch user: ', res.data);
-    //         dispatch(fetchUserSuccess(res.data));
-    //     }).catch(err => dispatch(fetchUserError(err)));
-    // }
-}
-
-_storeUser = async (userId) => {
-    try {
-        await AsyncStorage.setItem(
-            'user',
-            JSON.stringify(userId)
-        );
-    } catch (error) {
-        // Error saving data
-        console.log('error storing userId');
-    }
-};
-
-_retrieveUser = async () => {
-    try {
-        const value = await AsyncStorage.getItem('user');
-        if (value !== null) {
-            // We have data!!
-            console.log('found a stored userId: ', value);
-            return value;
-        }
-    } catch (error) {
-        // Error retrieving data
-    }
-};
 
 export function saveAffirmationReport(key, affirmation) {
     let payload = {};

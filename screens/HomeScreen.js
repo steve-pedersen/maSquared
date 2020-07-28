@@ -10,7 +10,7 @@ import AggressionReport from '../components/AggressionReport';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import reducers from '../reducers';
+import reducers from '../redux/reducers';
 import Layout from '../constants/Layout';
 import {
   widthPercentageToDP as wp, 

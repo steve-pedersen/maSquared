@@ -10,8 +10,10 @@ const INITIAL_STATE = {
     deviceId: null,
     userId: null,
     groupId: null,
+    university: '',
     loading: true,
     errorMessage: '',
+    createdDate: ''
 };
 
 function userReducer(state = INITIAL_STATE, action) { 
@@ -19,7 +21,7 @@ function userReducer(state = INITIAL_STATE, action) {
         case SAVE_DEVICE:
             return {...state, ...action.payload};
         case SAVE_USER:
-            return {...state, store: action.payload};
+            return {...state, ...action.payload};
         case GET_USER: 
             return {...state, loading: action.payload};
         case GET_USER_SUCCESS:

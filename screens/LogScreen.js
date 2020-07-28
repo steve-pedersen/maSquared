@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Title, Paragraph } from 'react-native-paper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-import { getAggressionReports } from '../actions';
+import { getAggressionReports } from '../redux/actions';
 
 class LogScreen extends Component {
 

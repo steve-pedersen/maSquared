@@ -26,7 +26,7 @@ import {
 	heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { saveSurveyD, saveSurvey } from '../../actions';
+import { saveSurveyD, saveSurvey } from '../../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
