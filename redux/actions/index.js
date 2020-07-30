@@ -16,6 +16,7 @@ import {
     SAVE_CONSENT,
     SAVE_SLIDESHOW,
     SAVE_SURVEY,
+    COMPLETE_INTRO_SURVEY,
     RESET_APP,
     SAVE_POST_MEASURE_SURVEY,
     SAVE_DEVICE,
@@ -125,11 +126,18 @@ export function getAggressionReports() {
     }
 }
 
-export function saveSurvey(complete) {
+export function saveSurvey(survey) {
     return {
         type: SAVE_SURVEY,
-        payload: complete
+        payload: survey
     };
+}
+
+export function completeIntroSurvey() {
+    return {
+        type: COMPLETE_INTRO_SURVEY,
+        payload: true
+    }
 }
 
 export const saveSurveyA = (key, value) => {

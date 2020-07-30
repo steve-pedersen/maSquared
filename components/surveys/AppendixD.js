@@ -311,7 +311,7 @@ class AppendixD extends Component {
 								}
 								<RadioButton.Group
 									key={prop.key}
-									onValueChange={this.onSurveyChange.bind(this, key)}
+									onValueChange={this.onSurveyChange.bind(this, prop.key)}
 									value={this.props.surveyD[prop.key].value}
 								>
 									{surveyAsAppendixD5.map(function (answer) {

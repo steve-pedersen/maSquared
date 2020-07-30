@@ -13,9 +13,21 @@ function reportsReducer(state = [], action) {
     
     switch (action.type) {
         case ADD_AGGRESSION_REPORT:
-            return [...state, action.payload];
+            return [...state, 
+                {
+                    dateCompleted: new Date(),
+                    report: action.payload.report,
+                    user: action.payload.user
+                }
+            ];
         case ADD_AFFIRMATION_REPORT:
-            return [...state, action.payload];
+            return [...state, 
+                {
+                    dateCompleted: new Date(),
+                    report: action.payload.report,
+                    user: action.payload.user
+                }
+            ];
         default:
             return state;
     }

@@ -29,6 +29,8 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { saveAffirmationReport, addAffirmationReport, resetAffirmationReport } from '../redux/actions';
+import { postReport } from './util/Api';
+
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
@@ -68,10 +70,7 @@ class AffirmationReport extends Component {
           }}
         />
       )
-    });
-    // this.props.
-    // console.log(this.props.route, 'log on report');
-    
+    });  
   }
 
   onReportChange = (key, value) => {
@@ -79,9 +78,23 @@ class AffirmationReport extends Component {
   }
 
   handleSubmit = () => {
-    this.props.addAffirmationReport(this.props.report);
-    this.props.resetAffirmationReport({});
-    this.props.navigation.navigate('Root');
+    let report = {
+      type: 'MICROAFFIRMATION',
+      report: this.props.report,
+      user: this.props.user
+    };
+    // Post to API then save to redux
+    postReport(report).then(res => {
+      if (res.data && res.data.reportId) {
+        report.id = res.data.reportId;
+      }
+      this.props.addAffirmationReport(report);
+    }).catch(error => {
+      console.warn('Error posting report to API');
+    }).finally(() => {
+      this.props.resetAffirmationReport({});
+      this.props.navigation.navigate('Root');
+    });
   };
 
   onLocationChange = (key, value) => {
@@ -405,7 +418,8 @@ class AffirmationReport extends Component {
 
 function mapStateToProps(state) {
   return {
-    report: state.affirmations
+    report: state.affirmations,
+    user: state.user
   };
 }
 

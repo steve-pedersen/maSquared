@@ -6,6 +6,18 @@ import {
 const INITIAL_STATE = {
   1: { value: null },
   2: { value: null },
+  3: { value: null },
+  "3a": { value: null },
+  4: { value: null },
+  "4other": { value: null },
+  "5a": { value: null },
+  "5b": { value: null },
+  "5c": { value: null },
+  "5d": { value: null },
+  "5e": { value: null },
+  "5f": { value: null },
+  "5g": { value: null },
+  "5gOther": { value: null },
   "2a1": { value: null }, // Woman
   "2a2": { value: null }, // Man
   "2a3": { value: null }, // Transgender
@@ -39,18 +51,6 @@ const INITIAL_STATE = {
   "2a31": { value: null }, // Other
   "2a31Other": { value: null }, // Other Text
   "2a32": { value: null }, // Not Applicable
-  3: { value: null },
-  "3a": { value: null },
-  4: { value: null },
-  "4other": { value: null },
-  "5a": { value: null },
-  "5b": { value: null },
-  "5c": { value: null },
-  "5d": { value: null },
-  "5e": { value: null },
-  "5f": { value: null },
-  "5g": { value: null },
-  "5gOther": { value: null },
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -28,7 +28,11 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { saveSurveyE, saveSurvey } from '../../redux/actions';
+import { postSurvey } from '../util/Api';
+import { saveSurveyE, saveSurvey, completeIntroSurvey } from '../../redux/actions';
+import surveyA from '../../redux/reducers/surveyA';
+import surveyB from '../../redux/reducers/surveyB';
+import surveyC from '../../redux/reducers/surveyC';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
@@ -47,8 +51,28 @@ class AppendixE extends Component {
   }
 
   handleSubmit = values => {
-    this.props.saveSurvey(true);
-    // console.log(this.props.surveyInfo);
+    const surveyData = {
+      appendices: {
+        appendixA: this.props.surveyA,
+        appendixB: this.props.surveyB,
+        appendixC: this.props.surveyC,
+        appendixD: this.props.surveyD,
+        appendixE: this.props.surveyE,
+      },
+      user: this.props.user
+    };
+    // console.log('surveyData: ', surveyData);
+    // post to api backend then save to redux
+    postSurvey(surveyData).then(res => {
+      if (res.data && res.data.surveyId) {
+        surveyData.id = res.data.surveyId ?? null;
+      }
+      this.props.saveSurvey(surveyData);
+    }).catch(error => {
+      console.warn('Unable to post survey to API.', error);
+    }).finally(() => {
+      this.props.completeIntroSurvey();
+    });
   }
 
   render() {
@@ -298,12 +322,19 @@ class AppendixE extends Component {
 }
 
 function mapStateToProps(state) {
-  return { surveyE: state.surveyE, surveyInfo: state.survey };
+  return { 
+    surveyA: state.surveyA, 
+    surveyB: state.surveyB, 
+    surveyC: state.surveyC, 
+    surveyD: state.surveyD, 
+    surveyE: state.surveyE, 
+    user: state.user
+  };
 }
 
 export default connect(
   mapStateToProps,
-  { saveSurveyE, saveSurvey }
+  { saveSurveyE, saveSurvey, completeIntroSurvey }
 )(AppendixE);
 
 

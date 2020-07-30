@@ -1,7 +1,4 @@
 import * as React from 'react';
-// import { Provider } from 'react-redux';
-
-
 import { StyleSheet, Image, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,9 +8,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
-import Constants from 'expo-constants';
 
-import { getUser } from '../components/util/Api';
 import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
 import AggressionReport from '../components/AggressionReport';
@@ -27,14 +22,11 @@ import AppendixD from '../components/surveys/AppendixD';
 import AppendixE from '../components/surveys/AppendixE';
 import PostMeasure from '../components/surveys/PostMeasure';
 
-
 import { 
   saveConsent, 
   saveSlideshow, 
   resetApp,
   saveUser,
-  getStore,
-  saveStore
 } from '../redux/actions';
 
 
@@ -56,19 +48,12 @@ class NavigationStack extends React.Component {
   DEVMODE = false;
   STARTOVER = true;
 
-  constructor(props) {   
-    super(props);
+  componentDidMount() {
     this.props.saveUser(this.props.user);
-    this.state = {
-      userId: this.props.user.userId,
-      loading: false
-    };
   }
 
   render() {
-    if (this.state.loading) {
-      return null;
-    } else if (!this.DEVMODE && !this.props.consentGranted) {
+    if (!this.DEVMODE && !this.props.consentGranted) {
       return (
         <NavigationContainer 
           ref={this.props.containerRef} 
@@ -140,8 +125,6 @@ class NavigationStack extends React.Component {
       </NavigationContainer>
       );
     } else {
-      // console.log('starting home screen');
-
       return (
         <NavigationContainer 
           ref={this.props.containerRef} 
@@ -282,8 +265,6 @@ function mapStateToProps(state) {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
     surveyComplete: state.survey.complete,
-    deviceId: state.user.deviceId,
-    userId: state.user.userId,
   };
 }
 
@@ -292,8 +273,6 @@ export default connect(
   { 
     saveConsent, 
     saveSlideshow,
-    getStore,
-    saveStore,
     saveUser
   }
 )(NavigationStack);

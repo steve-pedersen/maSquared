@@ -5,21 +5,11 @@ import {
 
 
 const INITIAL_STATE = {
-    1: {
-        value: null,
-    },
-    2: {
-        value: null,
-    },
-    3: {
-        value: null,
-    },
-    4: {
-        value: null,
-    },
-    5: {
-        value: null,
-    },
+    1: { value: null },
+    2: { value: null },
+    3: { value: null },
+    4: { value: null },
+    5: { value: null },
 };
 
 export default (state = INITIAL_STATE, action) => {

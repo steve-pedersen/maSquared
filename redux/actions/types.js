@@ -11,6 +11,7 @@ export const SAVE_SURVEY_C = 'save_survey_c';
 export const SAVE_SURVEY_D = 'save_survey_d';
 export const SAVE_SURVEY_E = 'save_survey_e';
 export const SAVE_SURVEY = 'save_survey';
+export const COMPLETE_INTRO_SURVEY = 'complete_intro_survey';
 export const GET_SURVEY_A = 'get_survey_a';
 export const GET_SURVEY_B = 'get_survey_b';
 export const GET_SURVEY_C = 'get_survey_c';

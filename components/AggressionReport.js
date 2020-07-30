@@ -29,6 +29,8 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { saveAggressionReport, addAggressionReport, resetAggressionReport } from '../redux/actions';
+import { postReport } from './util/Api';
+
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
@@ -69,9 +71,6 @@ class AggressionReport extends Component {
         />
       )
     });
-    // this.props.
-    // console.log(this.props.route, 'log on report');
-    
   }
 
   onReportChange = (key, value) => {
@@ -79,9 +78,23 @@ class AggressionReport extends Component {
   }
 
   handleSubmit = () => {
-    this.props.addAggressionReport(this.props.report);
-    this.props.resetAggressionReport({});
-    this.props.navigation.navigate('Root');
+    let report = {
+      type: 'MICROAGGRESSION',
+      report: this.props.report,
+      user: this.props.user
+    };
+
+    postReport(report).then(res => {
+      if (res.data && res.data.reportId) {
+        report.id = res.data.reportId;
+      }
+      this.props.addAggressionReport(report);
+    }).catch(error => {
+      console.warn('Error posting report to API');
+    }).finally(() => {
+      this.props.resetAggressionReport({});
+      this.props.navigation.navigate('Root');
+    });
   };
 
   onLocationChange = (key, value) => {
@@ -405,7 +418,8 @@ class AggressionReport extends Component {
 
 function mapStateToProps(state) {
   return {
-    report: state.aggressions
+    report: state.aggressions,
+    user: state.user
   };
 }
 
