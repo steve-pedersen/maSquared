@@ -33,8 +33,13 @@
     },
     "description": "MA^2 at SF State",
     "entryPoint": "index.js",
+    "splash": {
+      "image": "./assets/images/1024.imageset/1024.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#fff"
+    },
     "extra": {
-      
+      "apiKey": "e071c6ed-6e08-4ac3-9a36-46d51cadcf8c"
     }
   }
 }
