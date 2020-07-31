@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react'
 import { store, persistor } from './redux/store/store';
 
+import NotificationsContainer from './components/util/NotificationsContainer';
 import NavigationStack from './navigation/NavigationStack';
 import Api from './components/util/Api';
 import Loader from './components/util/Loader';
@@ -26,13 +27,13 @@ const theme = {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       isLoadingComplete: false,
       user: store.getState().user ?? {}
     }
   }
-  
+
   // Load any resources or data that we need prior to rendering the app
   async componentDidMount() {
     try {
@@ -50,14 +51,18 @@ class App extends React.Component {
 
   loadDataFromApi = async () => {
     let res = await getUser();
-    this.setState({ user: { 
-      deviceId: res.deviceId, 
-      userId: res.userId, 
-      groupId: res.groupId,
-      createdDate: res.createdDate,
-      university: res.university
-    }});
+    this.setState({
+      user: {
+        deviceId: res.deviceId,
+        userId: res.userId,
+        groupId: res.groupId,
+        createdDate: res.createdDate,
+        university: res.university
+      }
+    });
   }
+
+
 
   render() {
     if (!this.state.isLoadingComplete) {
@@ -67,10 +72,11 @@ class App extends React.Component {
         <StoreProvider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <PaperProvider>
-              <View style={styles.container} theme={theme}>
-                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                <NavigationStack user={this.state.user} />
-              </View>
+              <NotificationsContainer />
+                <View style={styles.container} theme={theme}>
+                  {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                  <NavigationStack user={this.state.user} />
+                </View>
             </PaperProvider>
           </PersistGate>
         </StoreProvider>
