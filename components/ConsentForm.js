@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { RadioButton, Text, Button, Title, Paragraph } from 'react-native-paper';
-
+import NotificationsContainer from './util/NotificationsContainer';
 import { getConsent, saveConsent, saveDevice } from '../redux/actions';
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
@@ -33,7 +33,7 @@ class ConsentForm extends Component {
       
       <ScrollView style={styles.container}>
         <SafeAreaView>
-
+        {/* <NotificationsContainer /> */}
         {consentText}
 
         <View style={styles.radioGroup}>

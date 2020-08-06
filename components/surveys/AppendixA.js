@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { RadioButton, Text, DefaultTheme, Button, TextInput } from 'react-native-paper';
+import { RadioButton, Text, Button } from 'react-native-paper';
 
 import { getSurveyA, saveSurveyA } from '../../redux/actions';
 

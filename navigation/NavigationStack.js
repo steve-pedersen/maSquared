@@ -22,9 +22,9 @@ import AppendixD from '../components/surveys/AppendixD';
 import AppendixE from '../components/surveys/AppendixE';
 import PostMeasure from '../components/surveys/PostMeasure';
 
-import { 
-  saveConsent, 
-  saveSlideshow, 
+import {
+  saveConsent,
+  saveSlideshow,
   resetApp,
   saveUser,
 } from '../redux/actions';
@@ -55,8 +55,8 @@ class NavigationStack extends React.Component {
   render() {
     if (!this.DEVMODE && !this.props.consentGranted) {
       return (
-        <NavigationContainer 
-          ref={this.props.containerRef} 
+        <NavigationContainer
+          ref={this.props.containerRef}
           initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen
@@ -69,8 +69,8 @@ class NavigationStack extends React.Component {
       );
     } else if (!this.DEVMODE && !this.props.slideshowComplete) {
       return (
-        <NavigationContainer 
-          ref={this.props.containerRef} 
+        <NavigationContainer
+          ref={this.props.containerRef}
           initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen
@@ -81,53 +81,28 @@ class NavigationStack extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       );
-    } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.surveyComplete) {
-    // } else if (true) {
+    } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.introSurveyComplete) {
+      // } else if (true) {
       return (
-        <NavigationContainer 
-          ref={this.props.containerRef} 
+        <NavigationContainer
+          ref={this.props.containerRef}
           initialState={this.props.initialNavigationState}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="IntroSurvey"
-            component={IntroSurvey}
-            options={slideshowHeaderStyles}
-          />
-          <Stack.Screen
-            name="AppendixA"
-            component={AppendixA}
-            // options={}
-            options={slideshowHeaderStyles}
-          />
-          <Stack.Screen
-            name="AppendixB"
-            component={AppendixB}
-            // options={{ title: 'Intro Survey: Appendix B' }}
-            options={slideshowHeaderStyles}
-          />
-          <Stack.Screen
-            name="AppendixC"
-            component={AppendixC}
-            // options={{ title: 'Intro Survey: Appendix C' }}
-            options={slideshowHeaderStyles}
-          />
-          <Stack.Screen
-            name="AppendixD"
-            component={AppendixD}
-            options={slideshowHeaderStyles}
-          />
-          <Stack.Screen
-            name="AppendixE"
-            component={AppendixE}
-            options={slideshowHeaderStyles}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          {surveyStack}
+        </NavigationContainer>
+      );
+    } else if (this.props.activeSurvey.isActive) {
+      // } else if (true) {
+      return (
+        <NavigationContainer
+          ref={this.props.containerRef}
+          initialState={this.props.initialNavigationState}>
+          {surveyStack}
+        </NavigationContainer>
       );
     } else {
       return (
-        <NavigationContainer 
-          ref={this.props.containerRef} 
+        <NavigationContainer
+          ref={this.props.containerRef}
           initialState={this.props.initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen
@@ -165,6 +140,7 @@ class NavigationStack extends React.Component {
   }
 }
 
+
 function LogoTitleReport() {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -194,7 +170,7 @@ function HeaderRight() {
       name="md-trash"
       color='#74b783'
       size={35}
-      // onPress={this._onDone}
+    // onPress={this._onDone}
     />
   );
 }
@@ -205,7 +181,7 @@ function BackIcon() {
       name="md-arrow-back"
       color='#74b783'
       size={35}
-      // onPress={this._onDone}
+    // onPress={this._onDone}
     />
   );
 }
@@ -242,9 +218,9 @@ const reportHeader = {
   headerTitle: props => <LogoTitleReport {...props} />,
   headerBackImage: props => <BackIcon {...props} />,
   headerBackTitleVisible: false,
-  headerLeftContainerStyle: {paddingHorizontal: 12, alignSelf: 'center'},
+  headerLeftContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
   // headerRight: props => <HeaderRight {...props} />,
-  headerRightContainerStyle: {paddingHorizontal: 12, alignSelf: 'center'},
+  headerRightContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
   headerStyle: {
     backgroundColor: '#fff',
     height: (Layout.window.height / 10),
@@ -260,18 +236,59 @@ const reportHeader = {
   },
 }
 
+
+const surveyStack = (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="IntroSurvey"
+      component={IntroSurvey}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixA"
+      component={AppendixA}
+      // options={}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixB"
+      component={AppendixB}
+      // options={{ title: 'Intro Survey: Appendix B' }}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixC"
+      component={AppendixC}
+      // options={{ title: 'Intro Survey: Appendix C' }}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixD"
+      component={AppendixD}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixE"
+      component={AppendixE}
+      options={slideshowHeaderStyles}
+    />
+  </Stack.Navigator>
+);
+
+
 function mapStateToProps(state) {
   return {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
-    surveyComplete: state.survey.complete,
+    introSurveyComplete: state.introSurvey.complete,
+    activeSurvey: state.activeSurvey
   };
 }
 
 export default connect(
   mapStateToProps,
-  { 
-    saveConsent, 
+  {
+    saveConsent,
     saveSlideshow,
     saveUser
   }

@@ -5,6 +5,9 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react'
 import { store, persistor } from './redux/store/store';
+import Constants from 'expo-constants';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 import NotificationsContainer from './components/util/NotificationsContainer';
 import NavigationStack from './navigation/NavigationStack';
@@ -30,6 +33,7 @@ class App extends React.Component {
 
     this.state = {
       isLoadingComplete: false,
+      pushToken: store.getState().user.pushToken ?? '',
       user: store.getState().user ?? {}
     }
   }
@@ -38,6 +42,7 @@ class App extends React.Component {
   async componentDidMount() {
     try {
       SplashScreen.preventAutoHide();
+      await this.registerForPushNotificationsAsync();
       if (!this.state.user.userId) {
         await this.loadDataFromApi();
       }
@@ -50,19 +55,47 @@ class App extends React.Component {
   }
 
   loadDataFromApi = async () => {
-    let res = await getUser();
+    let res = await getUser(this.state.pushToken);
     this.setState({
       user: {
         deviceId: res.deviceId,
         userId: res.userId,
         groupId: res.groupId,
         createdDate: res.createdDate,
-        university: res.university
+        university: res.university,
+        pushToken: res.pushToken
       }
     });
   }
 
+  registerForPushNotificationsAsync = async () => {
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      const token = await Notifications.getExpoPushTokenAsync();
+      // console.log(token);
+      this.setState({ pushToken: token });
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
 
+    if (Platform.OS === 'android') {
+      Notifications.createChannelAndroidAsync('default', {
+        name: 'default',
+        sound: true,
+        priority: 'max',
+        vibrate: [0, 250, 250, 250],
+      });
+    }
+  };
 
   render() {
     if (!this.state.isLoadingComplete) {
@@ -73,10 +106,10 @@ class App extends React.Component {
           <PersistGate loading={null} persistor={persistor}>
             <PaperProvider>
               <NotificationsContainer />
-                <View style={styles.container} theme={theme}>
-                  {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                  <NavigationStack user={this.state.user} />
-                </View>
+              <View style={styles.container} theme={theme}>
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                <NavigationStack user={this.state.user} />
+              </View>
             </PaperProvider>
           </PersistGate>
         </StoreProvider>

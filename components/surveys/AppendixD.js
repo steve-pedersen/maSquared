@@ -4,12 +4,8 @@ import {
 	View,
 	StyleSheet,
 	ScrollView,
-	Picker,
-	KeyboardAvoidingView,
 	Keyboard,
 	TouchableWithoutFeedback,
-	TouchableOpacity,
-	SafeAreaView
 } from 'react-native';
 import {
 	Text,

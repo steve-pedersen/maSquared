@@ -5,11 +5,12 @@ const API_URL = 'https://ilearn.test.at.sfsu.edu/ma2/api';
 
 export const apiUrl = API_URL;
 
-export function getUser() {
+export function getUser(token) {
   let userApi = `${API_URL}/user/`;
   let params = { params: { 
     a: Constants.manifest.extra.apiKey,
-    d: Constants.deviceId 
+    d: Constants.deviceId,
+    t: token 
   }};
   // console.log('params: ', params);
   // console.log('api url: ', userApi);
@@ -65,5 +66,19 @@ export function postReport(report) {
     return response.data;
   }).catch(error => {
     console.log('error saving report.', error);
+  });
+}
+
+export function notificationAccepted(data) {
+  let url = `${API_URL}/notifications/?a=${Constants.manifest.extra.apiKey}`;
+  let params = {
+    notificationId: data.notificationId,
+    user: data.user,
+    acceptTime: new Date()
+  }
+  return axios.post(url, params).then(response => {
+    return response.data;
+  }).catch(error => {
+    console.log('error sending notification accepted');
   });
 }

@@ -4,39 +4,41 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Picker,
-  KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  TouchableOpacity,
-  SafeAreaView
 } from 'react-native';
 import {
   Text,
   Button,
-  Paragraph,
   RadioButton,
   TextInput,
   Title,
-  Divider,
   Switch
 } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
-import RNPickerSelect from 'react-native-picker-select';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
 import { postSurvey } from '../util/Api';
-import { saveSurveyE, saveSurvey, completeIntroSurvey } from '../../redux/actions';
-import surveyA from '../../redux/reducers/surveyA';
-import surveyB from '../../redux/reducers/surveyB';
-import surveyC from '../../redux/reducers/surveyC';
+import { 
+  saveSurveyE, 
+  saveIntroSurvey, 
+  addSurvey,
+  completeIntroSurvey,
+  resetA,
+  resetB,
+  resetC,
+  resetD,
+  resetE,
+  deactivateSurvey,
+  updatePendingSurvey,
+} from '../../redux/actions';
+
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
-const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
-const I = ({ children }) => <Text style={{ fontStyle: 'italic' }}>{children}</Text>;
+// const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
+// const I = ({ children }) => <Text style={{ fontStyle: 'italic' }}>{children}</Text>;
 
 const placeholder = {
   label: '_',
@@ -59,19 +61,44 @@ class AppendixE extends Component {
         appendixD: this.props.surveyD,
         appendixE: this.props.surveyE,
       },
-      user: this.props.user
+      user: this.props.user,
+      id: null
     };
-    // console.log('surveyData: ', surveyData);
+
+    let surveyId = null;
+
     // post to api backend then save to redux
     postSurvey(surveyData).then(res => {
-      if (res.data && res.data.surveyId) {
-        surveyData.id = res.data.surveyId ?? null;
+      if (res && res.data && res.data.surveyId) {
+        surveyData.id = res.data.surveyId;
+        surveyId = surveyData.id;
       }
-      this.props.saveSurvey(surveyData);
+      this.props.addSurvey(surveyData);
+      if (this.props.activeSurvey.isActive) {
+        this.props.updatePendingSurvey({
+          notificationId: this.props.activeSurvey.notificationId,
+          surveyId: surveyId
+        });
+      } else {
+        this.props.saveIntroSurvey(surveyData);
+      }
     }).catch(error => {
       console.warn('Unable to post survey to API.', error);
     }).finally(() => {
+      this.props.resetA();
+      this.props.resetB();
+      this.props.resetC();
+      this.props.resetD();
+      this.props.resetE();
       this.props.completeIntroSurvey();
+      // if (this.props.activeSurvey.isActive) {
+      //   this.props.updatePendingSurvey({
+      //     notificationId: this.props.activeSurvey.notificationId,
+      //     surveyId: surveyId
+      //   });
+      // }
+      this.props.deactivateSurvey();
+      // console.log('active survey was deactivated, active survey is now: ', this.props.activeSurvey);
     });
   }
 
@@ -328,13 +355,26 @@ function mapStateToProps(state) {
     surveyC: state.surveyC, 
     surveyD: state.surveyD, 
     surveyE: state.surveyE, 
-    user: state.user
+    user: state.user,
+    activeSurvey: state.activeSurvey
   };
 }
 
 export default connect(
   mapStateToProps,
-  { saveSurveyE, saveSurvey, completeIntroSurvey }
+  { 
+    saveSurveyE, 
+    saveIntroSurvey, 
+    addSurvey,
+    completeIntroSurvey,
+    resetA,
+    resetB,
+    resetC,
+    resetD,
+    resetE,
+    deactivateSurvey,
+    updatePendingSurvey
+  }
 )(AppendixE);
 
 

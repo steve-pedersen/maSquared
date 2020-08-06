@@ -11,11 +11,6 @@
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
     "scheme": "http",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

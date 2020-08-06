@@ -1,45 +1,109 @@
 import { Component } from 'react';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Button, Text, Vibration, Platform  } from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
+import { Notifications } from 'expo';
+import * as ExpoNotifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+
+import { notificationAccepted } from './Api';
+import { 
+  saveUser, 
+  completeIntroSurvey, 
+  addPendingSurvey,
+  updatePendingSurvey,
+  activateSurvey
+} from '../../redux/actions';
+
 
 
 class NotificationsContainer extends Component {
-  // registerForPushNotificationsAsync = async () => {
-  //   if (Constants.isDevice) {
-  //     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  //     let finalStatus = existingStatus;
-  //     if (existingStatus !== 'granted') {
-  //       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //       finalStatus = status;
-  //     }
-  //     if (finalStatus !== 'granted') {
-  //       alert('Failed to get push token for push notification!');
-  //       return;
-  //     }
-  //     const token = await Notifications.getExpoPushTokenAsync();
-  //     console.log(token);
-  //     this.setState({ expoPushToken: token });
-  //   } else {
-  //     alert('Must use physical device for Push Notifications');
-  //   }
+  _isMounted = false;
+  notificationListener = null;
+  responseListener = null;
 
-  //   if (Platform.OS === 'android') {
-  //     Notifications.createChannelAndroidAsync('default', {
-  //       name: 'default',
-  //       sound: true,
-  //       priority: 'max',
-  //       vibrate: [0, 250, 250, 250],
-  //     });
-  //   }
-  // };
+  state = {
+    notification: {},
+  };
+
 
   componentDidMount() {
+    this._isMounted = true;
+    // this.registerForPushNotificationsAsync();
 
+    if (this._isMounted) {
+
+      let pendingSurveys = this.props.pendingSurveys.filter(survey => {
+        if (survey) {
+          return survey[Object.keys(survey)[0]].complete === false;
+        }
+        return true;
+      });
+      ExpoNotifications.setBadgeCountAsync(pendingSurveys.length);
+      
+      // this.props.updatePendingSurvey({
+      //   notificationId: "49",
+      //   surveyId: "cheese"
+      // });
+      // console.log('pending surveys: ', pendingSurveys['45']);
+      console.log('pending surveys: ', pendingSurveys.length);
+
+      ExpoNotifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: true,
+        }),
+      });
+
+      // this._notificationSubscription = Notifications.addListener(this._handleNotification);
+      this.notificationListener = ExpoNotifications.addNotificationReceivedListener(
+        this._handleNotification
+      );
+      
+      // This listener is fired whenever a user taps on or interacts with a notification 
+      // (works when app is foregrounded, backgrounded, or killed)
+      this.responseListener = ExpoNotifications.addNotificationResponseReceivedListener(
+        this._handleNotificationResponse
+      );
+    }
   }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    ExpoNotifications.removeNotificationSubscription(this.notificationListener);
+    ExpoNotifications.removeNotificationSubscription(this.responseListener);
+  }
+
+  _handleNotification = async notification => {
+    // console.log('new notification received', notification);
+    this.setState({ notification: notification });
+
+    let data = notification.request.content.data;
+    let resp = this.props.addPendingSurvey({
+      notificationId: data.body.notificationId,
+      expiration: data.body.expiration
+    });
+  };
+
+  _handleNotificationResponse = response => {
+    let data = response.notification.request.content.data;
+
+    // Dismiss notification from Notification Center tray
+    ExpoNotifications.dismissNotificationAsync(data.id);
+
+    // Let API know that user has accepted notification
+    // notificationAccepted({
+    //   notificationId: this.props.notificationId,
+    //   user: this.props.user,
+    // });
+
+    this.props.activateSurvey({
+      notificationId: data.body.notificationId,
+      isActive: true
+    });
+  };
 
   render() {
     return null;
@@ -47,11 +111,14 @@ class NotificationsContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {  };
+  return { 
+    user: state.user,
+    pendingSurveys: state.pendingSurveys 
+  };
 };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { saveUser, completeIntroSurvey, addPendingSurvey, updatePendingSurvey, activateSurvey }
 )
 (NotificationsContainer);
-// export default NotificationsContainer;

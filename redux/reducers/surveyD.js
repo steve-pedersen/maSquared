@@ -1,5 +1,6 @@
 import { 
     SAVE_SURVEY_D,
+    RESET_SURVEY_D
 } from '../actions/types';
 
 
@@ -35,6 +36,8 @@ export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SAVE_SURVEY_D:
             return { ...state, ...action.payload };
+        case RESET_SURVEY_D:
+            return INITIAL_STATE;
         default:
             return state;
     }

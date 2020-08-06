@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     university: '',
     loading: true,
     errorMessage: '',
-    createdDate: ''
+    createdDate: '',
+    pushToken: '',
 };
 
 function userReducer(state = INITIAL_STATE, action) { 

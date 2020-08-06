@@ -1,5 +1,6 @@
 import { 
   SAVE_SURVEY_E,
+  RESET_SURVEY_E
 } from '../actions/types';
 
 
@@ -55,9 +56,11 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-      case SAVE_SURVEY_E:
-          return { ...state, ...action.payload };
-      default:
-          return state;
+    case SAVE_SURVEY_E:
+      return { ...state, ...action.payload };
+    case RESET_SURVEY_E:
+      return INITIAL_STATE;
+    default:
+      return state;
   }
 };

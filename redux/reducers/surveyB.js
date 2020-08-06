@@ -1,6 +1,7 @@
 import { 
     SAVE_SURVEY_B,
     GET_SURVEY_B, 
+    RESET_SURVEY_B
 } from '../actions/types';
 
 
@@ -29,6 +30,8 @@ export default (state = INITIAL_STATE, action) => {
         case GET_SURVEY_B:
             // console.log('in getSurveyB reducer', action, action.payload);
             return state[action.payload]; // ?
+        case RESET_SURVEY_B:
+            return INITIAL_STATE;
         default:
             return state;
     }
