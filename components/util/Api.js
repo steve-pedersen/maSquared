@@ -72,10 +72,12 @@ export function postReport(report) {
 export function notificationAccepted(data) {
   let url = `${API_URL}/notifications/?a=${Constants.manifest.extra.apiKey}`;
   let params = {
-    notificationId: data.notificationId,
-    user: data.user,
-    acceptTime: new Date()
+    notification: {
+      notificationId: data.notificationId,
+      user: data.user,
+    }
   }
+  console.log('POSTING RESPONSE: ', params);
   return axios.post(url, params).then(response => {
     return response.data;
   }).catch(error => {

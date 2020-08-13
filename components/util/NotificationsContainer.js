@@ -1,11 +1,10 @@
 import { Component } from 'react';
-import * as React from 'react';
-import { View, Button, Text, Vibration, Platform  } from 'react-native';
+// import * as React from 'react';
 import { connect } from 'react-redux';
-import Constants from 'expo-constants';
-import { Notifications } from 'expo';
+// import Constants from 'expo-constants';
+// import { Notifications } from 'expo';
 import * as ExpoNotifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
+// import * as Permissions from 'expo-permissions';
 
 import { notificationAccepted } from './Api';
 import { 
@@ -94,10 +93,10 @@ class NotificationsContainer extends Component {
     ExpoNotifications.dismissNotificationAsync(data.id);
 
     // Let API know that user has accepted notification
-    // notificationAccepted({
-    //   notificationId: this.props.notificationId,
-    //   user: this.props.user,
-    // });
+    notificationAccepted({
+      notificationId: data.body.notificationId,
+      user: this.props.user,
+    });
 
     this.props.activateSurvey({
       notificationId: data.body.notificationId,

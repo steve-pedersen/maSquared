@@ -272,7 +272,7 @@ class AggressionReport extends Component {
             />
           </View>
 
-          <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
+          {/* <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
             Click the pencil under the map to select a location.
           </Text>
 
@@ -282,7 +282,7 @@ class AggressionReport extends Component {
               onMarkerPress={value => this.onLocationChange('location', value)}
               campus={this.props.report.campus}
             />
-          </View>
+          </View> */}
 
           <View style={styles.pickerContainer}>
             <RNPickerSelect
@@ -291,7 +291,7 @@ class AggressionReport extends Component {
                 value: null,
                 color: '#9EA0A4',
               }}
-              items={sfsuLocations}
+              items={ucsdLocations}
               onValueChange={(value) => this.onLocationChange('location', value)}
               style={pickerSelectStyles}
               value={this.props.report.location}
@@ -569,9 +569,23 @@ const aggressionEmotionSliders = [
 ];
 
 const campusOptions = [
-  { key: 1, value: 'sfsu', label: 'SF State', displayValue: false },
+  { key: 1, value: 'UCSD', label: 'UC San Diego', displayValue: false },
+  // { key: 2, value: 'sfsu', label: 'SF State', displayValue: false },
   // { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
   // { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
+];
+
+const ucsdLocations = [
+  {
+    key: 'on-campus',
+    value: 'on-campus',
+    label: 'On-campus'
+  },
+  {
+    key: 'virtual',
+    value: 'virtual',
+    label: 'Virtual meeting'
+  },
 ];
 
 const sfsuLocations = [

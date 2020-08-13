@@ -4,7 +4,6 @@ import {
     ADD_AGGRESSION_REPORT,
     RESET_AGGRESSION_REPORT,
     RESET_AFFIRMATION_REPORT,
-    GET_AGGRESSION_REPORTS,
     ADD_SURVEY,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
@@ -16,9 +15,6 @@ import {
     RESET_SURVEY_C,
     RESET_SURVEY_D,
     RESET_SURVEY_E,
-    GET_SURVEY_A,
-    GET_SURVEY_B,
-    GET_SURVEY_C,
     SAVE_CONSENT,
     SAVE_SLIDESHOW,
     SAVE_INTRO_SURVEY,
@@ -32,7 +28,6 @@ import {
     ACTIVATE_SURVEY,
     DEACTIVATE_SURVEY,
 } from './types';
-import { State } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
 
@@ -104,10 +99,6 @@ export function resetAffirmationReport() {
     return { type: RESET_AFFIRMATION_REPORT, payload: {} }
 }
 
-export function getAggressionReports() {
-    return { type: GET_AGGRESSION_REPORTS, payload: State.reports }
-}
-
 export function saveIntroSurvey(survey) {
     return { type: SAVE_INTRO_SURVEY, payload: survey };
 }
@@ -177,24 +168,8 @@ export const saveSurveyE = (key, value) => {
     };
 }
 
-export function getSurveyA(key) {
-    return { type: GET_SURVEY_A, payload: surveyA.key }
-}
-
-export function getSurveyB(surveyB) {
-    return { type: GET_SURVEY_B, payload: surveyB.key }
-}
-
-export function getSurveyC(surveyC) {
-    return { type: GET_SURVEY_C, payload: surveyC.key }
-}
-
 export function saveConsent(consent) {
     return { type: SAVE_CONSENT, payload: consent }
-}
-
-export function getConsent() {
-    return { type: GET_CONSENT, payload: consent }
 }
 
 export function saveSlideshow(complete) {

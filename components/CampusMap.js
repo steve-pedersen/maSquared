@@ -21,7 +21,7 @@ class CampusMap extends Component {
 
     this.state = {
       region: INITIAL_REGION,
-      campus: this.props.campus ? this.props.campus : 'sfsu'
+      campus: this.props.campus ? this.props.campus : 'ucsd'
     };
   }
 
@@ -49,7 +49,7 @@ class CampusMap extends Component {
             return (
               <View key={i}>
                 {/* {campuses[this.state.campus].map(marker => { */}
-                  {campuses['sfsu'].map(marker => {
+                  {campuses['ucsd'].map(marker => {
                   return (
                     <Marker
                       key={marker.title}
@@ -96,89 +96,7 @@ export default CampusMap;
 
 const markers = [
   {
-    sfsu: [
-      {
-        key: 'lib',
-        title: 'J. Paul Leonard Library (LIB)',
-        latlng: {
-          latitude: 37.721416,
-          longitude: -122.478162
-        }
-      },
-      {
-        key: 'shs',
-        title: 'Student Health Center (SHS)',
-        latlng: {
-          latitude: 37.723277,
-          longitude: -122.479774
-        }
-      },
-      {
-        key: 'hh',
-        title: 'Hensill Hall (HH)',
-        latlng: {
-          latitude: 37.723572,
-          longitude: -122.475712
-        }
-      },
-      {
-        key: 'hss',
-        title: 'Health and Social Sciences (HSS)',
-        latlng: {
-          latitude: 37.721993,
-          longitude: -122.476055
-        }
-      },
-      {
-        key: 'hum',
-        title: 'Humanities (HUM)',
-        latlng: {
-          latitude: 37.722240,
-          longitude: -122.481514
-        }
-      },
-      {
-        key: 'parking',
-        title: 'Parking Garage',
-        latlng: {
-          latitude: 37.724594,
-          longitude: -122.480891
-        }
-      },
-      {
-        key: 'quad',
-        title: 'Quad',
-        latlng: {
-          latitude: 37.722352,
-          longitude: -122.477386
-        }
-      },
-      {
-        key: 'sci',
-        title: 'Science (SCI)',
-        latlng: {
-          latitude: 37.722923,
-          longitude: -122.476347
-        }
-      },
-      {
-        key: 'ssb',
-        title: 'Student Services (SSB)',
-        latlng: {
-          latitude: 37.723530,
-          longitude: -122.480546
-        }
-      },
-      {
-        key: 'th',
-        title: 'Thornton Hall (TH)',
-        latlng: {
-          latitude: 37.723636,
-          longitude: -122.476966
-        }
-      },
-    ],
-    // 'sjsu': [
+    // sfsu: [
     //   {
     //     key: 'lib',
     //     title: 'J. Paul Leonard Library (LIB)',
@@ -187,6 +105,96 @@ const markers = [
     //       longitude: -122.478162
     //     }
     //   },
-    // ]
+    //   {
+    //     key: 'shs',
+    //     title: 'Student Health Center (SHS)',
+    //     latlng: {
+    //       latitude: 37.723277,
+    //       longitude: -122.479774
+    //     }
+    //   },
+    //   {
+    //     key: 'hh',
+    //     title: 'Hensill Hall (HH)',
+    //     latlng: {
+    //       latitude: 37.723572,
+    //       longitude: -122.475712
+    //     }
+    //   },
+    //   {
+    //     key: 'hss',
+    //     title: 'Health and Social Sciences (HSS)',
+    //     latlng: {
+    //       latitude: 37.721993,
+    //       longitude: -122.476055
+    //     }
+    //   },
+    //   {
+    //     key: 'hum',
+    //     title: 'Humanities (HUM)',
+    //     latlng: {
+    //       latitude: 37.722240,
+    //       longitude: -122.481514
+    //     }
+    //   },
+    //   {
+    //     key: 'parking',
+    //     title: 'Parking Garage',
+    //     latlng: {
+    //       latitude: 37.724594,
+    //       longitude: -122.480891
+    //     }
+    //   },
+    //   {
+    //     key: 'quad',
+    //     title: 'Quad',
+    //     latlng: {
+    //       latitude: 37.722352,
+    //       longitude: -122.477386
+    //     }
+    //   },
+    //   {
+    //     key: 'sci',
+    //     title: 'Science (SCI)',
+    //     latlng: {
+    //       latitude: 37.722923,
+    //       longitude: -122.476347
+    //     }
+    //   },
+    //   {
+    //     key: 'ssb',
+    //     title: 'Student Services (SSB)',
+    //     latlng: {
+    //       latitude: 37.723530,
+    //       longitude: -122.480546
+    //     }
+    //   },
+    //   {
+    //     key: 'th',
+    //     title: 'Thornton Hall (TH)',
+    //     latlng: {
+    //       latitude: 37.723636,
+    //       longitude: -122.476966
+    //     }
+    //   },
+    // ],
+    'ucsd': [
+      {
+        key: 'campus',
+        title: 'On-campus',
+        latlng: {
+          latitude: 37.721416,
+          longitude: -122.478162
+        }
+      },
+      {
+        key: 'virtual',
+        title: 'Virtual meeting',
+        latlng: {
+          latitude: 37.721416,
+          longitude: -122.478162
+        }
+      },
+    ]
   }
 ];
