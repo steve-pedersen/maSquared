@@ -2,33 +2,45 @@ import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
-import { Title, Paragraph } from 'react-native-paper';
+import { StyleSheet, View, Keyboard, TouchableHighlight } from 'react-native';
+import { Title, Text, Paragraph } from 'react-native-paper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { getAggressionReports } from '../redux/actions';
+import Modal from '../components/Modal';
 
 class LogScreen extends Component {
 
+  showModal = report => {
+    console.log('REPORT SELECTED: ', report);
+  }
+
   render() {
-    // console.log(this.props.aggressionReports);
-    
+    // console.log(this.props.allReports);
+
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        
-        <Title style={styles.titleText}>Log Screen</Title>
-        
         <View style={styles.container}>
-          {this.props.aggressionReports.map((report, i) => {
+          {this.props.allReports.map((report, i) => {
+            {/* console.log(report); */ }
             return (
-              <View key={i} style={{ marginBottom: 20 }}> 
-                <Title>Report #{++i}</Title>
-                {report.incidentTime ?
-                  <Text>Incident Time:{"\t"}{report.incidentTime}</Text> :
-                  undefined
-                }
-                <Text>Description:{"\t\t"}{report.description}</Text>
-              </View>
+              <TouchableHighlight key={i} underlayColor={"#eee"} onPress={() => this.showModal(report)}>
+                <View key={i} style={styles.reportListItem}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Title style={report.type == 'MICROAGGRESSION' ? styles.aggressionText : styles.affirmationText}>
+                      {report.type}
+                    </Title>
+                    {report.report.incidentTime ?
+                      <Text style={styles.text}>{report.report.incidentTime}</Text> :
+                      undefined
+                    }
+                  </View>
+                  <Text numberOfLines={1} style={styles.text}>{report.report.description.trim()}</Text>
+                </View>
+              </TouchableHighlight>
             );
           })}
         </View>
@@ -40,7 +52,7 @@ class LogScreen extends Component {
 
 function mapStateToProps(state) {
   return {
-    aggressionReports: state.reports,
+    allReports: state.reports,
   };
 }
 
@@ -54,29 +66,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fafafa',
-    padding: 20,
+    // padding: 20,
+  },
+  reportListItem: {
+    paddingHorizontal: wp('3.5%'),
+    paddingVertical: hp('0.9%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#999',
+  },
+  text: {
+    marginVertical: hp('.75%'),
+    // fontWeight: 'bold',
+    fontSize: hp('1.75%'),
+  },
+  aggressionText: {
+    color: '#b16d65',
+    fontSize: hp('2%'),
+    marginBottom: hp('1%'),
+  },
+  affirmationText: {
+    color: '#74b783',
+    fontSize: hp('2%'),
+    marginBottom: hp('1%'),
   },
   contentContainer: {
     paddingTop: 15,
-  },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
   },
   titleText: {
     textAlign: 'center',

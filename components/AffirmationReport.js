@@ -78,16 +78,18 @@ class AffirmationReport extends Component {
   }
 
   handleSubmit = () => {
+    this.props.saveAffirmationReport('complete', true);
     let report = {
-      type: 'MICROAFFIRMATION',
+      reportId: this.props.reportId,
       report: this.props.report,
-      user: this.props.user
+      user: this.props.user,
+      type: 'MICROAFFIRMATION'
     };
     // Post to API then save to redux
     postReport(report).then(res => {
-      if (res.data && res.data.reportId) {
-        report.id = res.data.reportId;
-      }
+      // if (res.data && res.data.reportId) {
+      //   report.id = res.data.reportId;
+      // }
       this.props.addAffirmationReport(report);
     }).catch(error => {
       console.warn('Error posting report to API');
@@ -419,7 +421,8 @@ class AffirmationReport extends Component {
 function mapStateToProps(state) {
   return {
     report: state.affirmations,
-    user: state.user
+    user: state.user,
+    reportId: state.reports.length + 1
   };
 }
 

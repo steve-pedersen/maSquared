@@ -2,6 +2,7 @@ import {
     SAVE_AFFIRMATION_REPORT,
     SAVE_AGGRESSION_REPORT,
     ADD_AGGRESSION_REPORT,
+    ADD_AFFIRMATION_REPORT,
     RESET_AGGRESSION_REPORT,
     RESET_AFFIRMATION_REPORT,
     ADD_SURVEY,
@@ -75,6 +76,14 @@ export function resetAggressionReport() {
     return { type: RESET_AGGRESSION_REPORT, payload: {} }
 }
 
+export function addAffirmationReport(report) {
+    return { type: ADD_AFFIRMATION_REPORT, payload: report }
+}
+
+export function resetAffirmationReport() {
+    return { type: RESET_AFFIRMATION_REPORT, payload: {} }
+}
+
 export function addSurvey(survey) {
     return { type: ADD_SURVEY, payload: survey }
 }
@@ -93,10 +102,6 @@ export function resetD() {
 }
 export function resetE() {
     return { type: RESET_SURVEY_E, payload: {} }
-}
-
-export function resetAffirmationReport() {
-    return { type: RESET_AFFIRMATION_REPORT, payload: {} }
 }
 
 export function saveIntroSurvey(survey) {

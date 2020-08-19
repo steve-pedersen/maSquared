@@ -42,6 +42,14 @@ const persistConfig = {
     'surveyC',
     'surveyD',
     'surveyE',
+
+    // 'user',
+    // 'reports',
+    // 'introSurvey',
+    // 'surveys',
+    // 'consent',
+    // 'slideshow',
+    // 'postMeasureSurvey',
     // 'pendingSurveys'
   ],
 };

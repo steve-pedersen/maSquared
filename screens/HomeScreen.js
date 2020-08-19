@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   aggressionButton: {
     marginVertical: hp('5%'),
     borderWidth: 3,
-    borderRadius: 5,
+    borderRadius: 10,
     borderColor: '#b16d65',
     color: '#b16d65',
     padding: hp('4%'),
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   affirmationButton: {
     marginVertical: hp('5%'),
     borderWidth: 3,
-    borderRadius: 5,
+    borderRadius: 10,
     borderColor: '#74b783',
     color: '#74b783',
     padding: hp('4%'),

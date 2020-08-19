@@ -5,12 +5,13 @@ import {
 import Constants from 'expo-constants';
 
 const INITIAL_STATE = {
+    complete: false,
     deviceID: Constants.deviceId,
     incidentTime: '',
     description: '',
 
     relatedToRace: false,
-    relatedTocCulture: false,
+    relatedToCulture: false,
     relatedToGender: false,
     relatedToSexualOrientation: false,
     relatedToOther: false,

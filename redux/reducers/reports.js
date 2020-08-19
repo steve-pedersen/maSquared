@@ -13,21 +13,46 @@ function reportsReducer(state = [], action) {
     
     switch (action.type) {
         case ADD_AGGRESSION_REPORT:
-            return [...state, 
-                {
-                    dateCompleted: new Date(),
-                    report: action.payload.report,
-                    user: action.payload.user
-                }
-            ];
+            let newAggReport = {};
+            newAggReport = {
+                type: 'MICROAGGRESSION',
+                reportId: action.payload.reportId,
+                dateCompleted: new Date(),
+                report: action.payload.report,
+                user: action.payload.user
+            };
+
+            return [...state, newAggReport];
+
+            // return [...state, 
+            //     {
+            //         type: 'MICROAGGRESSION',
+            //         dateCompleted: new Date(),
+            //         report: action.payload.report,
+            //         user: action.payload.user
+            //     }
+            // ];
         case ADD_AFFIRMATION_REPORT:
-            return [...state, 
-                {
-                    dateCompleted: new Date(),
-                    report: action.payload.report,
-                    user: action.payload.user
-                }
-            ];
+            let newAffReport = {};
+            newAffReport = {
+                type: 'MICROAFFIRMATION',
+                reportId: action.payload.reportId,
+                dateCompleted: new Date(),
+                report: action.payload.report,
+                user: action.payload.user
+            };
+            
+            return [...state, newAffReport];            
+        
+        
+            // return [...state, 
+            //     {
+            //         type: 'MICROAFFIRMATION',
+            //         dateCompleted: new Date(),
+            //         report: action.payload.report,
+            //         user: action.payload.user
+            //     }
+            // ];
         default:
             return state;
     }

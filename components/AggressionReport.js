@@ -78,16 +78,19 @@ class AggressionReport extends Component {
   }
 
   handleSubmit = () => {
+    this.props.saveAggressionReport('complete', true);
     let report = {
-      type: 'MICROAGGRESSION',
+      reportId: this.props.reportId,
       report: this.props.report,
-      user: this.props.user
+      user: this.props.user,
+      type: 'MICROAGGRESSION'
     };
-
+    // console.log(report);
     postReport(report).then(res => {
-      if (res.data && res.data.reportId) {
-        report.id = res.data.reportId;
-      }
+      // if (res.data && res.data.reportId) {
+      //   report.id = res.data.reportId;
+      // }
+      // console.log('RESPONSE', res);
       this.props.addAggressionReport(report);
     }).catch(error => {
       console.warn('Error posting report to API');
@@ -419,7 +422,8 @@ class AggressionReport extends Component {
 function mapStateToProps(state) {
   return {
     report: state.aggressions,
-    user: state.user
+    user: state.user,
+    reportId: state.reports.length + 1
   };
 }
 
