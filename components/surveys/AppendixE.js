@@ -37,8 +37,7 @@ import {
 
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
-// const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
-// const I = ({ children }) => <Text style={{ fontStyle: 'italic' }}>{children}</Text>;
+
 
 const placeholder = {
   label: '_',
@@ -48,12 +47,13 @@ const placeholder = {
 
 class AppendixE extends Component {
 
-  onSurveyChange(key, value) {
-    this.props.saveSurveyE(key, (value != 0 ? value : null));
+  onSurveyChange(key, value, label=null) {
+    this.props.saveSurveyE(key, (value != 0 ? value : null), label);
   }
 
   handleSubmit = values => {
     const surveyData = {
+      type: this.props.type,
       appendices: {
         appendixA: this.props.surveyA,
         appendixB: this.props.surveyB,
@@ -67,39 +67,30 @@ class AppendixE extends Component {
 
     let surveyId = null;
 
-    // post to api backend then save to redux
-    postSurvey(surveyData).then(res => {
-      if (res && res.data && res.data.surveyId) {
-        surveyData.id = res.data.surveyId;
-        surveyId = surveyData.id;
-      }
-      this.props.addSurvey(surveyData);
-      if (this.props.activeSurvey.isActive) {
-        this.props.updatePendingSurvey({
-          notificationId: this.props.activeSurvey.notificationId,
-          surveyId: surveyId
-        });
-      } else {
-        this.props.saveIntroSurvey(surveyData);
-      }
-    }).catch(error => {
-      console.warn('Unable to post survey to API.', error);
-    }).finally(() => {
-      this.props.resetA();
-      this.props.resetB();
-      this.props.resetC();
-      this.props.resetD();
-      this.props.resetE();
-      this.props.completeIntroSurvey();
-      // if (this.props.activeSurvey.isActive) {
-      //   this.props.updatePendingSurvey({
-      //     notificationId: this.props.activeSurvey.notificationId,
-      //     surveyId: surveyId
-      //   });
-      // }
-      this.props.deactivateSurvey();
-      // console.log('active survey was deactivated, active survey is now: ', this.props.activeSurvey);
-    });
+    if (this.props.type === 'PRE') {
+      postSurvey(surveyData).then(res => {
+        if (res && res.data && res.data.surveyId) {
+          surveyData.id = res.data.surveyId;
+          surveyId = surveyData.id;
+        }
+        this.props.addSurvey(surveyData);
+        
+        if (!this.props.activeSurvey.isActive) {
+          this.props.saveIntroSurvey(surveyData);
+        }
+      }).catch(error => {
+        console.warn('Unable to post survey to API.', error);
+      }).finally(() => {
+        this.props.resetA();
+        this.props.resetB();
+        this.props.resetC();
+        this.props.resetD();
+        this.props.resetE();
+        this.props.completeIntroSurvey();
+      });
+    } else {
+      this.props.navigation.navigate('AppendixL', {});
+    }
   }
 
   render() {
@@ -174,23 +165,23 @@ class AppendixE extends Component {
                       <Switch
                         key={answer.key}
                         onValueChange={
-                          value => this.onSurveyChange(answer.key, value)
+                          value => this.onSurveyChange(answer.key, value, answer.label)
                         }
                         value={this.props.surveyE[answer.key].value}
                         trackColor='#DEDEDE'
                       />
                       <Text style={styles.switchText}>{answer.label}</Text>
-                      {this.props.surveyE[answer.key].value ?
+                      {answer.key === '2a31' && this.props.surveyE[answer.key].value ?
                         (
                           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                             <TextInput
                               style={{ flexGrow: 1, marginLeft: 10 }}
-                              key={answer.key + 'Other'}
+                              key={'2a31Other'}
                               mode='outlined'
                               label='Other'
-                              value={this.props.surveyE[answer.key + 'Other'].value}
+                              value={this.props.surveyE['2a31Other'].value}
                               onChangeText={
-                                value => this.onSurveyChange(answer.key + 'Other', value)
+                                value => this.onSurveyChange('2a31Other', value)
                               }
                             />
                           </TouchableWithoutFeedback>
@@ -356,7 +347,8 @@ function mapStateToProps(state) {
     surveyD: state.surveyD, 
     surveyE: state.surveyE, 
     user: state.user,
-    activeSurvey: state.activeSurvey
+    activeSurvey: state.activeSurvey,
+    type: state.introSurvey.complete ? 'POST' : 'PRE',
   };
 }
 

@@ -76,14 +76,24 @@ class NotificationsContainer extends Component {
   }
 
   _handleNotification = async notification => {
-    // console.log('new notification received', notification);
     this.setState({ notification: notification });
-
     let data = notification.request.content.data;
-    let resp = this.props.addPendingSurvey({
-      notificationId: data.body.notificationId,
-      expiration: data.body.expiration
-    });
+
+    switch (data.type) {
+      case 'accept':
+        // 'accept' type notifications last for 1 hour
+        break;
+
+      case 'submit':
+        // 'submit' type notifications start a new pending survey
+        let resp = this.props.addPendingSurvey({
+          notificationId: data.body.notificationId,
+          expiration: data.body.expiration
+        });
+        break;
+
+    }
+
   };
 
   _handleNotificationResponse = response => {

@@ -12,10 +12,11 @@ const INITIAL_STATE = {
     relatedToGender: false,
     relatedToSexualOrientation: false,
     relatedToOther: false,
-    relatedToOtherDesciption: '',
+    relatedToOtherDescription: '',
 
     campus: '',
     location: null,
+    sensitivity: 0,
     uplift: 0,
     anger: 0,
     sad: 0,

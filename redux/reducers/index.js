@@ -8,6 +8,7 @@ import surveyBReducer from './surveyB';
 import surveyCReducer from './surveyC';
 import surveyDReducer from './surveyD';
 import surveyEReducer from './surveyE';
+import surveyLReducer from './surveyL';
 import introSurveyReducer from './introSurvey';
 import pendingSurveysReducer from './pendingSurveys';
 import activeSurveyReducer from './activeSurvey';
@@ -26,6 +27,7 @@ export default combineReducers({
     surveyC: surveyCReducer,
     surveyD: surveyDReducer,
     surveyE: surveyEReducer,
+    surveyL: surveyLReducer,
     introSurvey: introSurveyReducer,
     pendingSurveys: pendingSurveysReducer,
     activeSurvey: activeSurveyReducer,

@@ -87,10 +87,9 @@ class AggressionReport extends Component {
     };
     // console.log(report);
     postReport(report).then(res => {
-      // if (res.data && res.data.reportId) {
-      //   report.id = res.data.reportId;
-      // }
-      // console.log('RESPONSE', res);
+      if (res.data && res.data.reportId) {
+        report.reportId = res.data.reportId;
+      }
       this.props.addAggressionReport(report);
     }).catch(error => {
       console.warn('Error posting report to API');
@@ -316,15 +315,15 @@ class AggressionReport extends Component {
 
           <View style={styles.sliders}>
 
-            <View key='bother' style={{ marginBottom: 20 }}>
+            <View key='sensitivity' style={{ marginBottom: 20 }}>
               {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
               <EmotionSlider 
-                key='bother'
+                key='sensitivity'
                 containerStyle={styles.sliders}
                 titleStyle={styles.label}
                 title='How much did it bother you?'
-                value={this.props.report['bother']}
-                onChange={value => this.onReportChange('bother', value)}
+                value={this.props.report['sensitivity']}
+                onChange={value => this.onReportChange('sensitivity', value)}
                 sliderStyle={styles.sliderStyle}
                 minimumValue={0}
                 maximumValue={10}
@@ -377,7 +376,7 @@ class AggressionReport extends Component {
                   <View key='other' style={{ marginBottom: 20 }}>
                     <TextInput
                       value={this.props.report.otherEmotionText}
-                      onChangeText={(value) => this.onReportChange('otherEmotionText', value)}
+                      onChangeText={(value) => this.onReportChange('otherEmotionName', value)}
                       label='Name of emotion'
                       mode='outlined'
                     />

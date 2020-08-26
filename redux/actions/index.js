@@ -11,11 +11,13 @@ import {
     SAVE_SURVEY_C,
     SAVE_SURVEY_D,
     SAVE_SURVEY_E,
+    SAVE_SURVEY_L,
     RESET_SURVEY_A,
     RESET_SURVEY_B,
     RESET_SURVEY_C,
     RESET_SURVEY_D,
     RESET_SURVEY_E,
+    RESET_SURVEY_L,
     SAVE_CONSENT,
     SAVE_SLIDESHOW,
     SAVE_INTRO_SURVEY,
@@ -48,20 +50,29 @@ export function saveUser(user = {}) {
     return { type: SAVE_USER, payload: user }
 }
 
-export function saveAffirmationReport(key, affirmation) {
+export function saveAffirmationReport(key, affirmation, report=null) {
     let payload = {};
-    payload[key] = affirmation;
-    payload['modifiedDate'] = new Date;
+    if (report) {
+        payload = report;
+    } else {
+        payload[key] = affirmation;
+        payload['modifiedDate'] = new Date;
+    }
+
     return {
         type: SAVE_AFFIRMATION_REPORT,
         payload: payload
     };
 }
 
-export function saveAggressionReport(key, aggression) {
+export function saveAggressionReport(key, aggression, report=null) {
     let payload = {};
-    payload[key] = aggression;
-    payload['modifiedDate'] = new Date;
+    if (report) {
+        payload = report;
+    } else {
+        payload[key] = aggression;
+        payload['modifiedDate'] = new Date;
+    }
     return {
         type: SAVE_AGGRESSION_REPORT,
         payload: payload
@@ -102,6 +113,9 @@ export function resetD() {
 }
 export function resetE() {
     return { type: RESET_SURVEY_E, payload: {} }
+}
+export function resetL() {
+    return { type: RESET_SURVEY_L, payload: {} }
 }
 
 export function saveIntroSurvey(survey) {
@@ -164,11 +178,19 @@ export const saveSurveyD = (key, value) => {
     };
 }
 
-export const saveSurveyE = (key, value) => {
+export const saveSurveyE = (key, value, label=null) => {
+    let payload = {};
+    payload[key] = { value: value, label: label };
+    return {
+        type: SAVE_SURVEY_E,
+        payload: payload
+    };
+}
+export const saveSurveyL = (key, value) => {
     let payload = {};
     payload[key] = { value: value };
     return {
-        type: SAVE_SURVEY_E,
+        type: SAVE_SURVEY_L,
         payload: payload
     };
 }

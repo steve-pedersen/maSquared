@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
-const MyModal = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const MyModal = (props) => {
+  const [modalVisible, setModalVisible] = useState(props.visible);
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -15,7 +15,7 @@ const MyModal = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <Text style={styles.modalText}></Text>
 
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}

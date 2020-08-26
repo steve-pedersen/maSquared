@@ -20,7 +20,7 @@ import AppendixB from '../components/surveys/AppendixB';
 import AppendixC from '../components/surveys/AppendixC';
 import AppendixD from '../components/surveys/AppendixD';
 import AppendixE from '../components/surveys/AppendixE';
-import PostMeasure from '../components/surveys/PostMeasure';
+import AppendixL from '../components/surveys/AppendixL';
 
 import {
   saveConsent,
@@ -126,11 +126,6 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="IntroSlideshow"
               component={IntroSlideshow}
-              options={slideshowHeaderStyles}
-            />
-            <Stack.Screen
-              name="PostMeasure"
-              component={PostMeasure}
               options={slideshowHeaderStyles}
             />
           </Stack.Navigator>
@@ -270,6 +265,11 @@ const surveyStack = (
     <Stack.Screen
       name="AppendixE"
       component={AppendixE}
+      options={slideshowHeaderStyles}
+    />
+    <Stack.Screen
+      name="AppendixL"
+      component={AppendixL}
       options={slideshowHeaderStyles}
     />
   </Stack.Navigator>

@@ -11,38 +11,75 @@ import {
 import { Text, Button, RadioButton, Title, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import { savePostMeasureSurvey } from '../../redux/actions';
+import { postSurvey } from '../util/Api';
 
-class PostMeasure extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      q1Yes: this.props.survey.q1,
-      q2No: this.props.survey.q2,
-    }
+import { 
+  saveSurveyL,
+  addSurvey,
+  resetA,
+  resetB,
+  resetC,
+  resetD,
+  resetE,
+  resetL,
+  deactivateSurvey,
+  updatePendingSurvey
+} from '../../redux/actions';
+
+class AppendixL extends Component {
+
+  onSurveyChange(key, value) {
+    this.props.saveSurveyL(key, (value != 0 ? value : null));
   }
 
-  onSurveyChange = (key, value) => {
-    // console.log(key, value);
-    switch(key) {
-      case 'q1':
-        this.setState({ q1Yes: value }); break;
-      case 'q2':
-        this.setState({ q2No: value }); break;
-    }
-    this.props.savePostMeasureSurvey(key, value);
-  }
+  handleSubmit = values => {
+    const surveyData = {
+      type: this.props.type,
+      appendices: {
+        appendixA: this.props.surveyA,
+        appendixB: this.props.surveyB,
+        appendixC: this.props.surveyC,
+        appendixD: this.props.surveyD,
+        appendixE: this.props.surveyE,
+        appendixL: this.props.surveyL,
+      },
+      user: this.props.user,
+      id: null
+    };
 
-  handleSubmit = () => {
-    this.props.navigation.navigate('Root');
+    let surveyId = null;
+
+    // post to api backend then save to redux
+    postSurvey(surveyData).then(res => {
+      if (res && res.data && res.data.surveyId) {
+        surveyData.surveyId = res.data.surveyId;
+        surveyData.id = res.data.surveyId;
+        surveyId = surveyData.id;
+      }
+      this.props.addSurvey(surveyData);
+
+      if (this.props.activeSurvey.isActive) {
+        this.props.updatePendingSurvey({
+          notificationId: this.props.activeSurvey.notificationId,
+          surveyId: surveyId
+        });
+      }
+    }).catch(error => {
+      console.warn('Unable to post survey to API.', error);
+    }).finally(() => {
+      this.props.resetA();
+      this.props.resetB();
+      this.props.resetC();
+      this.props.resetD();
+      this.props.resetE();
+      this.props.resetL();
+      this.props.deactivateSurvey();
+    });
   }
   
   render() {
-    // console.log(this.props.survey.q1);
-    
-    return (
 
+    return (
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={styles.container}
@@ -53,31 +90,31 @@ class PostMeasure extends Component {
             1) Did you update your iOS system during the time you were using the MA2 app?
           </Text>
           <RadioButton.Group
-            onValueChange={value => this.onSurveyChange('q1', value)}
-            value={this.props.survey.q1}>
+            onValueChange={value => this.onSurveyChange('1', value)}
+            value={this.props.surveyL['1'].value}>
             <View>
               <RadioButton.Item
                 label='Yes'
-                value={true}
-                // status={this.props.q1 && this.props.q1 !== undefined ? 'checked' : 'unchecked'}
+                value={2}
+                status={this.props.surveyL['1'].value == 2 ? 'checked' : 'unchecked'}
               />
               <RadioButton.Item
                 label='No'
-                value={false}
-                status={this.props.survey.q1 === false ? 'checked' : 'unchecked'}
+                value={1}
+                status={this.props.surveyL['1'].value == 1 ? 'checked' : 'unchecked'}
               />
             </View>
           </RadioButton.Group>
         
-          {this.state.q1Yes && (
+          {this.props.surveyL['1'].value === 2 && (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.inner}>
                 <Text>1A) Approximately when did you update your phone's OS?</Text>
                 <TextInput
                   style={{ flexGrow: 1 }}
                   mode='outlined'
-                  value={this.props.survey.q1a}
-                  onChangeText={text => this.onSurveyChange('q1a', text)}
+                  value={this.props.surveyL['1a'].value}
+                  onChangeText={text => this.onSurveyChange('1a', text)}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -90,30 +127,31 @@ class PostMeasure extends Component {
             MA2 during the time you were using the app?
           </Text>
           <RadioButton.Group
-            onValueChange={value => this.onSurveyChange('q2', value)}
-            value={this.props.survey.q2}>
+            onValueChange={value => this.onSurveyChange('2', value)}
+            value={this.props.surveyL['2'].value}>
             <View>
               <RadioButton.Item
                 label='Yes'
-                value={true}
+                value={2}
+                status={this.props.surveyL['2'].value === 2 ? 'checked' : 'unchecked'}
               />
               <RadioButton.Item
                 label='No'
-                value={false}
-                status={this.props.survey.q2 === false ? 'checked' : 'unchecked'}
+                value={1}
+                status={this.props.surveyL['2'].value === 1 ? 'checked' : 'unchecked'}
               />
             </View>
           </RadioButton.Group>
         
-          {this.state.q2No === false && (
+          {this.props.surveyL['2'].value === 1 && (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.inner}>
                 <Text>2A) Approximately how often did you receive notifications from MA2?</Text>
                 <TextInput
                   style={{ flexGrow: 1 }}
                   mode='outlined'
-                  value={this.props.survey.q2a}
-                  onChangeText={text => this.onSurveyChange('q2a', text)}
+                  value={this.props.surveyL['2a'].value}
+                  onChangeText={text => this.onSurveyChange('2a', text)}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -128,8 +166,8 @@ class PostMeasure extends Component {
               All feedback is welcome.
             </Text>
             <TextInput
-              value={this.props.survey.q3}
-              onChangeText={text => this.onSurveyChange('q3', text)}
+              value={this.props.surveyL['3'].value}
+              onChangeText={text => this.onSurveyChange('3', text)}
               // label='Describe what happened...'
               multiline={true}
               mode='outlined'
@@ -159,13 +197,34 @@ class PostMeasure extends Component {
 }
 
 function mapStateToProps(state) {
-  return { survey: state.postMeasureSurvey };
+  return { 
+    surveyA: state.surveyA, 
+    surveyB: state.surveyB, 
+    surveyC: state.surveyC, 
+    surveyD: state.surveyD, 
+    surveyE: state.surveyE, 
+    surveyL: state.surveyL,
+    user: state.user,
+    activeSurvey: state.activeSurvey,
+    type: 'POST',
+  };
 }
 
 export default connect(
   mapStateToProps,
-  { savePostMeasureSurvey }
-)(PostMeasure);
+  { 
+    saveSurveyL,
+    addSurvey,
+    resetA,
+    resetB,
+    resetC,
+    resetD,
+    resetE,
+    resetL,
+    deactivateSurvey,
+    updatePendingSurvey
+  }
+)(AppendixL);
 
 
 const styles = StyleSheet.create({

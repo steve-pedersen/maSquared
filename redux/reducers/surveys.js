@@ -6,6 +6,7 @@ function surveysReducer(state = [], action) {
   switch (action.type) {
     case ADD_SURVEY:
       return [...state, {
+          type: action.payload.type,
           dateCompleted: new Date(),
           survey: action.payload.survey,
           user: action.payload.user
