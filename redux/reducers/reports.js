@@ -9,8 +9,7 @@ import {
 } from '../actions/types';
 
 function reportsReducer(state = [], action) {
-    // console.log('in reports reducer', action.payload);
-    
+
     switch (action.type) {
         case ADD_AGGRESSION_REPORT:
             let newAggReport = {};
@@ -19,19 +18,12 @@ function reportsReducer(state = [], action) {
                 reportId: action.payload.reportId,
                 dateCompleted: new Date(),
                 report: action.payload.report,
-                user: action.payload.user
+                user: action.payload.user,
+                complete: action.payload.complete
             };
 
             return [...state, newAggReport];
 
-            // return [...state, 
-            //     {
-            //         type: 'MICROAGGRESSION',
-            //         dateCompleted: new Date(),
-            //         report: action.payload.report,
-            //         user: action.payload.user
-            //     }
-            // ];
         case ADD_AFFIRMATION_REPORT:
             let newAffReport = {};
             newAffReport = {
@@ -39,20 +31,12 @@ function reportsReducer(state = [], action) {
                 reportId: action.payload.reportId,
                 dateCompleted: new Date(),
                 report: action.payload.report,
-                user: action.payload.user
+                user: action.payload.user,
+                complete: action.payload.complete
             };
             
             return [...state, newAffReport];            
         
-        
-            // return [...state, 
-            //     {
-            //         type: 'MICROAFFIRMATION',
-            //         dateCompleted: new Date(),
-            //         report: action.payload.report,
-            //         user: action.payload.user
-            //     }
-            // ];
         default:
             return state;
     }

@@ -59,13 +59,29 @@ export function postReport(report) {
       user: report.user,
       location: report.report.location,
       description: report.report.description,
-      incidentTime: report.report.incidentTime
+      incidentTime: report.report.incidentTime,
+      complete: report.complete
     }
   }; 
   return axios.post(reportApi, params).then(response => {
     return response.data;
   }).catch(error => {
     console.log('error saving report.', error);
+  });
+}
+
+export function postFeedback(feedback) {
+  let feedbackApi = `${API_URL}/feedback/?a=${Constants.manifest.extra.apiKey}`;
+  let params = { 
+    feedback: {
+      text: feedback.text,
+      user: feedback.user,
+    }
+  }; 
+  return axios.post(feedbackApi, params).then(response => {
+    return response.data;
+  }).catch(error => {
+    console.log('error saving feedback.', error);
   });
 }
 

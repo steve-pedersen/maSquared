@@ -49,6 +49,7 @@ class NavigationStack extends React.Component {
   STARTOVER = true;
 
   componentDidMount() {
+    // console.log('SURVEYS:', this.props.reports);
     this.props.saveUser(this.props.user);
   }
 
@@ -176,7 +177,7 @@ function BackIcon() {
       name="md-arrow-back"
       color='#74b783'
       size={35}
-    // onPress={this._onDone}
+      // onPress={() => console.log('going back!')}
     />
   );
 }
@@ -281,7 +282,8 @@ function mapStateToProps(state) {
     consentGranted: state.consent.value,
     slideshowComplete: state.slideshow.complete,
     introSurveyComplete: state.introSurvey.complete,
-    activeSurvey: state.activeSurvey
+    activeSurvey: state.activeSurvey,
+    reports: state.reports
   };
 }
 

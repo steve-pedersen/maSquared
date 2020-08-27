@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Keyboard, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, View, Keyboard, TouchableHighlight, Modal, TouchableOpacity } from 'react-native';
 import { Title, Text, Paragraph, Subheading } from 'react-native-paper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import {
@@ -55,6 +55,10 @@ class LogScreen extends Component {
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Title style={report.type == 'MICROAGGRESSION' ? styles.aggressionText : styles.affirmationText}>
                       {report.type}
+                      {!report.complete ? (
+                        <Text style={{color: '#777'}}> (Draft)</Text>
+                        ) : undefined
+                      }
                     </Title>
                     {report.report.incidentTime ?
                       <Text style={styles.text}>{report.report.incidentTime}</Text> :
@@ -73,11 +77,20 @@ class LogScreen extends Component {
           transparent={true}
           visible={this.state.modalVisible}
         >
+          <TouchableOpacity 
+            style={styles.modalContainer} 
+            activeOpacity={1} 
+            onPressOut={() => this.setModalVisible(false)}
+          >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={{ borderBottomWidth: 1, narginBottom: 5 }}>
                 <Title style={this.state.selectedData.type == 'MICROAGGRESSION' ? styles.aggressionText : styles.affirmationText}>
-                  {this.state.selectedData.type} Report
+                  {this.state.selectedData.type} Report 
+                  {!this.state.selectedData.complete ? (
+                        <Text style={{color: '#777'}}> (Draft)</Text>
+                        ) : undefined
+                      }
               </Title>
                 <Subheading>{this.state.report.incidentTime}</Subheading>
               </View>
@@ -123,6 +136,7 @@ class LogScreen extends Component {
               </View>
             </View>
           </View>
+          </TouchableOpacity>
         </Modal>
 
       </ScrollView>
@@ -202,6 +216,9 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
   },
 
+  modalContainer: {
+    flex: 1
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",

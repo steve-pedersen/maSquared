@@ -15,6 +15,7 @@ const INITIAL_STATE = {
     errorMessage: '',
     createdDate: '',
     pushToken: '',
+    lastSyncDate: null
 };
 
 function userReducer(state = INITIAL_STATE, action) { 

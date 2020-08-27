@@ -65,16 +65,47 @@ class AffirmationReport extends Component {
               routes: [{ name: 'Root' }],
               params: [{ message: 'from report' }]
             });
-            // this.props.navigation.setParams({ message: 'Report cancelled' });
-            // this.props.navigation.navigate('Root', { message: 'From report' });
           }}
         />
-      )
+      ),
+      headerLeft: () => (
+        <Icon
+          name="md-arrow-back"
+          color='#74b783'
+          size={35}
+          onPress={() => this.saveDraft()}
+        />
+      ),
     });  
   }
 
   onReportChange = (key, value) => {
     this.props.saveAffirmationReport(key, value);
+  }
+
+  saveDraft = () => {
+    let report = {
+      reportId: this.props.reportId,
+      complete: false,
+      type: 'MICROAFFIRMATION',
+      report: this.props.report,
+      user: this.props.user
+    };
+    
+    postReport(report)
+      .then(res => {
+        if (res.data && res.data.reportId) {
+          report.reportId = res.data.reportId;
+        }
+        this.props.addAffirmationReport(report);
+      })
+      .catch(error => {
+        console.warn('Error posting draft to API');
+      })
+      .finally(() => {
+        this.props.resetAffirmationReport({});
+        this.props.navigation.navigate('Root');
+      });
   }
 
   handleSubmit = () => {
