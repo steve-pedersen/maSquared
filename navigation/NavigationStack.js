@@ -8,6 +8,10 @@ import BottomTabNavigator from './BottomTabNavigator';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
@@ -109,7 +113,7 @@ class NavigationStack extends React.Component {
             <Stack.Screen
               name="Root"
               component={BottomTabNavigator}
-              options={headerStyles}
+              options={rootHeader}
               initialParams={{
                 message: ''
               }}
@@ -141,11 +145,6 @@ function LogoTitleReport() {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <Title style={{ color: '#74b783', fontWeight: '600' }}>New Report</Title>
-      {/* <Image
-        style={{ width: 44, height: 44, marginLeft: 15 }}
-        resizeMode="contain"
-        source={require('../assets/images/AppIcon.appiconset/120.png')}
-      /> */}
     </View>
   );
 }
@@ -153,9 +152,9 @@ function LogoTitleReport() {
 function LogoTitle() {
   return (
     <Image
-      style={{ width: 44, height: 44 }}
+      style={{ width: wp('13%') }}
       resizeMode="contain"
-      source={require('../assets/images/AppIcon.appiconset/120.png')}
+      source={require('../assets/images/128.imageset/128_ma2_white.png')}
     />
   );
 }
@@ -192,7 +191,8 @@ const styles = StyleSheet.create({
 const slideshowHeaderStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    height: (Layout.window.height / 10),
+    // height: (Layout.window.height / 10),
+    height: hp('12%'),
   },
   headerTintColor: '#74b783',
 
@@ -201,7 +201,8 @@ const slideshowHeaderStyles = {
 const headerStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    height: (Layout.window.height / 10),
+    // height: (Layout.window.height / 10),
+    height: hp('12%'),
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
@@ -219,19 +220,46 @@ const reportHeader = {
   headerRightContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
   headerStyle: {
     backgroundColor: '#fff',
-    height: (Layout.window.height / 10),
+    // height: (Layout.window.height / 10),
+    height: hp('12%'),
     borderBottomWidth: 2,
     borderBottomColor: '#74b783',
   },
   headerTintColor: '#74b783',
   headerTitleStyle: {
     fontWeight: 'bold',
-    alignItems: 'left',
-    alignSelf: 'left',
-    justifyContent: 'left',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-start',
   },
 }
-
+const rootHeader = {
+  headerTitle: props => <LogoTitle {...props} />,
+  headerLeft: props => (
+    <LogoTitle {...props} />
+  ),
+  headerBackImage: props => <LogoTitle {...props} />,
+  headerBackTitleVisible: false,
+  headerLeftContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
+  // headerRight: props => <HeaderRight {...props} />,
+  headerRightContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
+  headerStyle: {
+    backgroundColor: '#74b783',
+    // height: (Layout.window.height / 10),
+    height: hp('12%'),
+    borderBottomWidth: 2,
+    borderBottomColor: '#74b783',
+    // borderTopWidth: hp('5%'),
+    // borderTopColor: '#74b783'
+  },
+  headerTintColor: '#74b783',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-start'
+  },
+}
 
 const surveyStack = (
   <Stack.Navigator>

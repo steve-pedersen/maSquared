@@ -26,7 +26,7 @@ class MoreScreen extends Component {
       user: this.props.user,
       text: this.state.feedback
     };
-    console.log('posted feedback: ', )
+    console.log('posted feedback: ',)
     postFeedback(feedback)
       .then(res => {
         console.log('feedback response: ', res);
@@ -70,37 +70,67 @@ class MoreScreen extends Component {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-        <Title style={styles.titleText}>More</Title>
-
-        <View>
-          <Text>ACCOUNT</Text>
-          <Text>User ID: {this.props.user.userId}</Text>
-          <Text>Last Synced on: {this.props.user.lastSyncDate ?? this.props.user.createdDate}</Text>
-        </View>
-
-        <View>
-          <Text>Post-Measure Survey</Text>
-          <Text>{this.getPostMeasureSurvey()}</Text>
+        <View style={styles.option}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.optionIconContainer}>
+              <Ionicons name="md-person" size={22} color="#74b783" />
+            </View>
+            <View style={styles.optionTextContainer}>
+              <Text style={styles.label}>Account</Text>
+            </View>
+          </View>
+          <View style={styles.optionTextContainer}>
+            <Text style={styles.optionText}>
+              User ID: {this.props.user.userId}
+            </Text>
+            <Text style={styles.optionText}>
+              Last Synced on: {this.props.user.lastSyncDate ?? this.props.user.createdDate}
+            </Text>
+          </View>
         </View>
 
         <OptionButton
-          icon="md-school"
+          icon="md-notifications"
+          label="Notifications"
+          description="Show previous notifications"
+          onPress={() => console.log('show previous notifications modal...')}
+          isLastOption
+        />
+
+        <View style={styles.option}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.optionIconContainer}>
+              <Ionicons name="md-school" size={22} color="#74b783" />
+            </View>
+            <View style={styles.optionTextContainer}>
+              <Text style={styles.label}>Post-Measure Survey</Text>
+            </View>
+          </View>
+          <View style={styles.optionTextContainer}>
+            <Text style={styles.optionText}>
+              {this.getPostMeasureSurvey()}
+            </Text>
+          </View>
+        </View>
+
+        <OptionButton
+          icon="md-send"
           label="Send Feedback"
           description="Tell us about your experiences of using this app."
           onPress={() => this.setModalVisible(!this.state.modalVisible)}
           isLastOption
         />
 
-        
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => this.setModalVisible(false)}
-          >
-          <TouchableOpacity 
-            style={styles.modalContainer} 
-            activeOpacity={1} 
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => this.setModalVisible(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalContainer}
+            activeOpacity={1}
             onPressOut={() => this.setModalVisible(false)}
           >
             <View style={styles.centeredView}>
@@ -111,7 +141,7 @@ class MoreScreen extends Component {
                 </Title>
                 </View>
 
-                <View style={{width: '100%', marginVertical: hp('2%')}}>
+                <View style={{ width: '100%', marginVertical: hp('2%') }}>
                   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <TextInput
                       value={this.state.feedback}
@@ -136,9 +166,10 @@ class MoreScreen extends Component {
                 </View>
               </View>
             </View>
-            </TouchableOpacity>
-          </Modal>
-        
+            
+          </TouchableOpacity>
+        </Modal>
+
       </ScrollView>
     );
   }
@@ -149,10 +180,10 @@ function OptionButton({ icon, label, onPress, isLastOption, description }) {
     <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
+          <Ionicons name={icon} size={22} color="#74b783" />
         </View>
         <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
+          <Text style={styles.label}>{label}</Text>
         </View>
       </View>
       {description ? (
@@ -179,6 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fdfdfd',
     paddingHorizontal: 15,
     paddingVertical: 15,
+    marginVertical: 5,
     borderWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: 0,
     borderColor: '#ededed',
@@ -187,6 +219,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   optionText: {
+    fontSize: 15,
+    alignSelf: 'flex-start',
+    marginTop: 1,
+  },
+  label: {
+    color: '#74b783',
     fontSize: 15,
     alignSelf: 'flex-start',
     marginTop: 1,
@@ -204,7 +242,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
-    
+
   },
   modalView: {
     margin: 20,

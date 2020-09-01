@@ -5,6 +5,7 @@ import {
     ADD_AFFIRMATION_REPORT,
     RESET_AGGRESSION_REPORT,
     RESET_AFFIRMATION_REPORT,
+    DELETE_REPORT,
     ADD_SURVEY,
     SAVE_SURVEY_A,
     SAVE_SURVEY_B,
@@ -93,6 +94,10 @@ export function addAffirmationReport(report) {
 
 export function resetAffirmationReport() {
     return { type: RESET_AFFIRMATION_REPORT, payload: {} }
+}
+
+export function deleteReport(report) {
+    return { type: DELETE_REPORT, payload: report }
 }
 
 export function addSurvey(survey) {

@@ -43,9 +43,10 @@ class App extends React.Component {
     try {
       SplashScreen.preventAutoHide();
       await this.registerForPushNotificationsAsync();
-      if (!this.state.user.userId) {
-        await this.loadDataFromApi();
-      }
+      await this.loadDataFromApi();
+      // if (!this.state.user.userId) {
+      //   await this.loadDataFromApi();
+      // }
     } catch (e) {
       console.warn(e);
     } finally {

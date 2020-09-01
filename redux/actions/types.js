@@ -5,6 +5,7 @@ export const RESET_AFFIRMATION_REPORT = 'reset_affirmation_report';
 export const ADD_AGGRESSION_REPORT = 'add_aggression_report';
 export const ADD_AFFIRMATION_REPORT = 'add_affirmation_report';
 export const GET_AGGRESSION_REPORTS = 'get_aggression_reports';
+export const DELETE_REPORT = 'delete_report';
 export const SAVE_SURVEY_A = 'save_survey_a';
 export const SAVE_SURVEY_B = 'save_survey_b';
 export const SAVE_SURVEY_C = 'save_survey_c';

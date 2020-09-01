@@ -2,7 +2,9 @@ import { SAVE_AFFIRMATION_REPORT, RESET_AFFIRMATION_REPORT  } from '../actions/t
 import Constants from 'expo-constants';
 
 const INITIAL_STATE = {
+    reportId: null,
     complete: false,
+    deleted: false,
     deviceID: Constants.deviceId,
     incidentTime: '',
     description: '',

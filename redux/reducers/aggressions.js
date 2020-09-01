@@ -5,7 +5,9 @@ import {
 import Constants from 'expo-constants';
 
 const INITIAL_STATE = {
+    reportId: null,
     complete: false,
+    deleted: false,
     deviceID: Constants.deviceId,
     incidentTime: '',
     description: '',

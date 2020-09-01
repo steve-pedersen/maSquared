@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, 
-  View, 
-  StyleSheet, 
-  ScrollView, 
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
@@ -25,7 +26,7 @@ import DateTimePicker from './DateTimePicker';
 import CampusMap from './CampusMap';
 import EmotionSlider from './EmotionSlider';
 import {
-  widthPercentageToDP as wp, 
+  widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { saveAggressionReport, addAggressionReport, resetAggressionReport } from '../redux/actions';
@@ -40,6 +41,14 @@ const placeholder = {
   color: '#9EA0A4',
 };
 
+function LogoTitleReport() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Title style={{ color: '#74b783', fontWeight: '600' }}>Edit Report</Title>
+    </View>
+  );
+}
+
 class AggressionReport extends Component {
 
   constructor(props) {
@@ -52,6 +61,7 @@ class AggressionReport extends Component {
         this.props.report.otherEmotionValue || this.props.report.otherEmotionText
       ),
     };
+
     this.props.navigation.setOptions({
       headerRight: () => (
         <Icon
@@ -77,6 +87,11 @@ class AggressionReport extends Component {
         />
       ),
     });
+    if (this.props.report.reportId) {
+      this.props.navigation.setOptions({
+        headerTitle: props => <LogoTitleReport {...props} />
+      })
+    }
   }
 
   onReportChange = (key, value) => {
@@ -84,34 +99,42 @@ class AggressionReport extends Component {
   }
 
   saveDraft = () => {
-    let report = {
-      reportId: this.props.reportId,
-      complete: false,
-      type: 'MICROAGGRESSION',
-      report: this.props.report,
-      user: this.props.user
-    };
+    if (this.props.report.description) {
+      let report = {
+        reportId: this.props.report.reportId,
+        complete: false,
+        type: 'MICROGGRESSION',
+        report: this.props.report,
+        user: this.props.user
+      };
 
-    postReport(report)
-      .then(res => {
-        if (res.data && res.data.reportId) {
-          report.reportId = res.data.reportId;
-        }
-        this.props.addAggressionReport(report);
-      })
-      .catch(error => {
-        console.warn('Error posting draft to API');
-      })
-      .finally(() => {
-        this.props.resetAggressionReport({});
-        this.props.navigation.navigate('Root');
-      });
+      postReport(report)
+        .then(res => {
+          // console.log('reportId: ', res);
+          if (res && res.reportId && !report.reportId) {
+            report.reportId = res.reportId;
+            report.report.reportId = report.reportId;
+            this.props.saveAggressionReport('reportId', report.reportId);
+          }
+          this.props.addAggressionReport(report);
+        })
+        .catch(error => {
+          console.warn('Error posting draft to API');
+        })
+        .finally(() => {
+          this.props.resetAggressionReport({});
+          this.props.navigation.navigate('Root');
+        });
+    } else {
+      this.props.resetAggressionReport({});
+      this.props.navigation.navigate('Root');
+    }
   }
 
   handleSubmit = () => {
     this.props.saveAggressionReport('complete', true);
     let report = {
-      reportId: this.props.reportId,
+      reportId: this.props.report.reportId,
       report: this.props.report,
       user: this.props.user,
       type: 'MICROAGGRESSION',
@@ -119,8 +142,11 @@ class AggressionReport extends Component {
     };
 
     postReport(report).then(res => {
-      if (res.data && res.data.reportId) {
-        report.reportId = res.data.reportId;
+      // console.log('reportId: ', res.data);
+      if (res && res.reportId && !report.reportId) {
+        report.reportId = res.reportId;
+        report.report.reportId = report.reportId;
+        this.props.saveAggressionReport('reportId', report.reportId);
       }
       this.props.addAggressionReport(report);
     }).catch(error => {
@@ -151,9 +177,9 @@ class AggressionReport extends Component {
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
-    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
 
   render() {
@@ -164,149 +190,149 @@ class AggressionReport extends Component {
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
-        <SafeAreaView>
-          <Title style={{...styles.aggressionText, fontWeight: 'bold' }}>
-            MICROAGGRESSION REPORT
+          <SafeAreaView>
+            <Title style={{ ...styles.aggressionText, fontWeight: 'bold' }}>
+              MICROAGGRESSION REPORT
           </Title>
 
-          <View>
-            <Text style={styles.label}>Time of incident</Text>
-            <View style={{
-              ...styles.reportComponent, 
-              ...styles.datetimePicker
-            }}>
-              <DateTimePicker 
-                style={{flexGrow: 1}} 
-                mode='datetime' 
-                currentDateTime={this.props.report.incidentTime ?
-                  new Date(this.props.report.incidentTime) :
-                  new Date
-                }
-                text={this.props.report.incidentTime ? 
-                  this.props.report.incidentTime : 'Choose Date & Time'
-                }
-                callbackHandler={this.onDateTimeChange} /> 
-            </View>      
-          </View>
+            <View>
+              <Text style={styles.label}>Time of incident</Text>
+              <View style={{
+                ...styles.reportComponent,
+                ...styles.datetimePicker
+              }}>
+                <DateTimePicker
+                  style={{ flexGrow: 1 }}
+                  mode='datetime'
+                  currentDateTime={this.props.report.incidentTime ?
+                    new Date(this.props.report.incidentTime) :
+                    new Date
+                  }
+                  text={this.props.report.incidentTime ?
+                    this.props.report.incidentTime : 'Choose Date & Time'
+                  }
+                  callbackHandler={this.onDateTimeChange} />
+              </View>
+            </View>
 
-          <Divider style={{ marginVertical: hp('.75%') }} />
-              
-          <View style={styles.reportComponent}>
-            <Text style={styles.label}>Describe what happened...</Text>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <TextInput
-                value={this.props.report['description']}
-                onChangeText={(value) => this.onReportChange('description', value)}
-                label='Description'
-                multiline={true}
-                mode='outlined'
-                style={{
-                  // minHeight: 150,
-                  textAlignVertical: "top",
-                }}
-                numberOfLines={8} />
-            </TouchableWithoutFeedback>
-          </View>
+            <Divider style={{ marginVertical: hp('.75%') }} />
 
-          <Divider style={{ marginVertical: hp('.75%') }} />
+            <View style={styles.reportComponent}>
+              <Text style={styles.label}>Describe what happened...</Text>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <TextInput
+                  value={this.props.report['description']}
+                  onChangeText={(value) => this.onReportChange('description', value)}
+                  label='Description'
+                  multiline={true}
+                  mode='outlined'
+                  style={{
+                    // minHeight: 150,
+                    textAlignVertical: "top",
+                  }}
+                  numberOfLines={8} />
+              </TouchableWithoutFeedback>
+            </View>
 
-          <View style={{ marginVertical: hp('.75%') }}>
-          <Text style={styles.label}>What was it related to?</Text>
-            <View style={styles.switchContainer}>
-              <Switch
-                onValueChange={
-                  value => this.onReportChange('relatedToRace', value)
+            <Divider style={{ marginVertical: hp('.75%') }} />
+
+            <View style={{ marginVertical: hp('.75%') }}>
+              <Text style={styles.label}>What was it related to?</Text>
+              <View style={styles.switchContainer}>
+                <Switch
+                  onValueChange={
+                    value => this.onReportChange('relatedToRace', value)
+                  }
+                  value={this.props.report.relatedToRace}
+                  trackColor='#DEDEDE'
+                />
+                <Text style={styles.switchText}>Race</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  onValueChange={
+                    value => this.onReportChange('relatedToCulture', value)
+                  }
+                  value={this.props.report.relatedToCulture}
+                  trackColor='#DEDEDE'
+                />
+                <Text style={styles.switchText}>Culture</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  onValueChange={
+                    value => this.onReportChange('relatedToGender', value)
+                  }
+                  value={this.props.report.relatedToGender}
+                  trackColor='#DEDEDE'
+                />
+                <Text style={styles.switchText}>Gender</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  onValueChange={
+                    value => this.onReportChange('relatedToSexualOrientation', value)
+                  }
+                  value={this.props.report.relatedToSexualOrientation}
+                  trackColor='#DEDEDE'
+                />
+                <Text style={styles.switchText}>Sexual Orientation</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  onValueChange={
+                    value => this.onReportChange('relatedToOther', value)
+                  }
+                  value={this.props.report.relatedToOther}
+                  trackColor='#DEDEDE'
+                />
+                <Text style={styles.switchText}>Other</Text>
+                {this.props.report.relatedToOther ?
+                  (
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                      <TextInput
+                        style={{ marginLeft: 10, flexGrow: 1 }}
+                        mode='outlined'
+                        value={this.props.report.relatedToOtherDescription}
+                        onChangeText={
+                          value => this.onReportChange('relatedToOtherDescription', value)
+                        }
+                      />
+                    </TouchableWithoutFeedback>
+                  ) :
+                  undefined
                 }
-                value={this.props.report.relatedToRace}
-                trackColor='#DEDEDE'
-              />
-              <Text style={styles.switchText}>Race</Text>
+              </View>
             </View>
-            <View style={styles.switchContainer}>
-              <Switch
-                onValueChange={
-                  value => this.onReportChange('relatedToCulture', value)
-                }
-                value={this.props.report.relatedToCulture}
-                trackColor='#DEDEDE'
-              />
-              <Text style={styles.switchText}>Culture</Text>
-            </View>
-            <View style={styles.switchContainer}>
-              <Switch
-                onValueChange={
-                  value => this.onReportChange('relatedToGender', value)
-                }
-                value={this.props.report.relatedToGender}
-                trackColor='#DEDEDE'
-              />
-              <Text style={styles.switchText}>Gender</Text>
-            </View>
-            <View style={styles.switchContainer}>
-              <Switch
-                onValueChange={
-                  value => this.onReportChange('relatedToSexualOrientation', value)
-                }
-                value={this.props.report.relatedToSexualOrientation}
-                trackColor='#DEDEDE'
-              />
-              <Text style={styles.switchText}>Sexual Orientation</Text>
-            </View>
-            <View style={styles.switchContainer}>
-              <Switch
-                onValueChange={
-                  value => this.onReportChange('relatedToOther', value)
-                }
-                value={this.props.report.relatedToOther}
-                trackColor='#DEDEDE'
-              />
-              <Text style={styles.switchText}>Other</Text>
-              {this.props.report.relatedToOther ? 
-                (
-                  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <TextInput
-                      style={{ marginLeft: 10, flexGrow: 1 }}
-                      mode='outlined'
-                      value={this.props.report.relatedToOtherDescription}
-                      onChangeText={
-                        value => this.onReportChange('relatedToOtherDescription', value)
-                      }
+
+            <Divider style={{ marginVertical: hp('.75%') }} />
+
+            <View style={styles.pickerContainer}>
+              <View style={{ marginBottom: hp('1%') }}>
+                <Text style={styles.label}>Where did this happen?</Text>
+              </View>
+              <RNPickerSelect
+                placeholder={placeholder}
+                items={campusOptions}
+                onValueChange={(value) => this.onReportChange('campus', value)}
+                style={pickerSelectStyles}
+                value={this.props.report.campus}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{ underlineColorAndroid: 'cyan' }}
+                // InputAccessoryView={() => null}
+                Icon={() => {
+                  return (
+                    <Icon
+                      name="md-arrow-dropdown"
+                      color="#000"
+                      size={30}
                     />
-                  </TouchableWithoutFeedback>
-                ) :
-                undefined
-              }
+                  );
+                }}
+              />
             </View>
-          </View>
 
-          <Divider style={{ marginVertical: hp('.75%') }} />
-
-          <View style={styles.pickerContainer}>
-            <View style={{ marginBottom: hp('1%') }}>
-              <Text style={styles.label}>Where did this happen?</Text>
-            </View>
-            <RNPickerSelect
-              placeholder={placeholder}
-              items={campusOptions}
-              onValueChange={(value) => this.onReportChange('campus', value)}
-              style={pickerSelectStyles}
-              value={this.props.report.campus}
-              useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColorAndroid: 'cyan' }}
-              // InputAccessoryView={() => null}
-              Icon={() => {
-                return (
-                  <Icon
-                    name="md-arrow-dropdown"
-                    color="#000"
-                    size={30}
-                  />
-                );
-              }}
-            />
-          </View>
-
-          {/* <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
+            {/* <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
             Click the pencil under the map to select a location.
           </Text>
 
@@ -318,128 +344,128 @@ class AggressionReport extends Component {
             />
           </View> */}
 
-          <View style={styles.pickerContainer}>
-            <RNPickerSelect
-              placeholder={{
-                label: 'Choose a location',
-                value: null,
-                color: '#9EA0A4',
-              }}
-              items={ucsdLocations}
-              onValueChange={(value) => this.onLocationChange('location', value)}
-              style={pickerSelectStyles}
-              value={this.props.report.location}
-              useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColorAndroid: 'cyan' }}
-              Icon={() => {
-                return (
-                  <Icon
-                    name="md-create"
-                    color="#74b783"
-                    size={25}
-                  />
-                );
-              }}
-            />
-          </View>
-
-          <Divider style={{ marginVertical: hp('.75%') }} />
-
-          <View style={styles.sliders}>
-
-            <View key='sensitivity' style={{ marginBottom: 20 }}>
-              {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
-              <EmotionSlider 
-                key='sensitivity'
-                containerStyle={styles.sliders}
-                titleStyle={styles.label}
-                title='How much did it bother you?'
-                value={this.props.report['sensitivity']}
-                onChange={value => this.onReportChange('sensitivity', value)}
-                sliderStyle={styles.sliderStyle}
-                minimumValue={0}
-                maximumValue={10}
-                minimumTrackTintColor="#b16d65"
-                maximumTrackTintColor="#EFEFEF"
-                imageSrc={require('../assets/images/scale1.png')}
-              />            
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                placeholder={{
+                  label: 'Choose a location',
+                  value: null,
+                  color: '#9EA0A4',
+                }}
+                items={ucsdLocations}
+                onValueChange={(value) => this.onLocationChange('location', value)}
+                style={pickerSelectStyles}
+                value={this.props.report.location}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{ underlineColorAndroid: 'cyan' }}
+                Icon={() => {
+                  return (
+                    <Icon
+                      name="md-create"
+                      color="#74b783"
+                      size={25}
+                    />
+                  );
+                }}
+              />
             </View>
 
             <Divider style={{ marginVertical: hp('.75%') }} />
 
-            <Text 
-              style={styles.label}>
+            <View style={styles.sliders}>
+
+              <View key='sensitivity' style={{ marginBottom: 20 }}>
+                {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
+                <EmotionSlider
+                  key='sensitivity'
+                  containerStyle={styles.sliders}
+                  titleStyle={styles.label}
+                  title='How much did it bother you?'
+                  value={this.props.report['sensitivity']}
+                  onChange={value => this.onReportChange('sensitivity', value)}
+                  sliderStyle={styles.sliderStyle}
+                  minimumValue={0}
+                  maximumValue={10}
+                  minimumTrackTintColor="#b16d65"
+                  maximumTrackTintColor="#EFEFEF"
+                  imageSrc={require('../assets/images/scale1.png')}
+                />
+              </View>
+
+              <Divider style={{ marginVertical: hp('.75%') }} />
+
+              <Text
+                style={styles.label}>
                 At this moment, how intensely do you feel the following?
             </Text>
 
-            {aggressionEmotionSliders.map((emotion, i) => {
-              return (
-                <View key={i}>
-                  <EmotionSlider 
-                    key={emotion.key}
-                    containerStyle={styles.sliders}
-                    titleStyle={styles.aggressionText}
-                    title={emotion.title}
-                    value={this.props.report[emotion.key]}
-                    onChange={value => this.onReportChange(emotion.key, value)}
-                    sliderStyle={styles.sliderStyle}
-                    minimumValue={0}
-                    maximumValue={5}
-                    minimumTrackTintColor="#b16d65"
-                    maximumTrackTintColor="#EFEFEF"
-                    imageSrc={require('../assets/images/scale2.png')}
-                  />
-                  <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} />
-                </View>
-              );
-            })}
-
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              {!this.state.aggressionOtherEmotionAdded ? 
-                (
-                  <TouchableOpacity
-                    style={{...styles.sliders, flexDirection: 'row', alignItems: 'center'}}
-                    onPress={this.addOtherEmotion}>
-                    <Icon name="md-add" style={{color:'#74b783', marginRight: 15}} size={35} />
-                    <Text>Add another emotion (optional)</Text>
-                  </TouchableOpacity>
-                ) :
-                (
-                  <View key='other' style={{ marginBottom: 20 }}>
-                    <TextInput
-                      value={this.props.report.otherEmotionText}
-                      onChangeText={(value) => this.onReportChange('otherEmotionName', value)}
-                      label='Name of emotion'
-                      mode='outlined'
-                    />
-                    <EmotionSlider 
-                      key='other'
+              {aggressionEmotionSliders.map((emotion, i) => {
+                return (
+                  <View key={i}>
+                    <EmotionSlider
+                      key={emotion.key}
                       containerStyle={styles.sliders}
                       titleStyle={styles.aggressionText}
-                      title={this.props.report.otherEmotionText ?? ''}
-                      value={this.props.report.otherEmotionValue}
-                      onChange={value => this.onReportChange('otherEmotionValue', value)}
+                      title={emotion.title}
+                      value={this.props.report[emotion.key]}
+                      onChange={value => this.onReportChange(emotion.key, value)}
                       sliderStyle={styles.sliderStyle}
                       minimumValue={0}
-                      maximumValue={10}
+                      maximumValue={5}
                       minimumTrackTintColor="#b16d65"
                       maximumTrackTintColor="#EFEFEF"
                       imageSrc={require('../assets/images/scale2.png')}
-                    />            
+                    />
+                    <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} />
                   </View>
-                )
-              }
-            </TouchableWithoutFeedback>
+                );
+              })}
 
-          </View>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                {!this.state.aggressionOtherEmotionAdded ?
+                  (
+                    <TouchableOpacity
+                      style={{ ...styles.sliders, flexDirection: 'row', alignItems: 'center' }}
+                      onPress={this.addOtherEmotion}>
+                      <Icon name="md-add" style={{ color: '#74b783', marginRight: 15 }} size={35} />
+                      <Text>Add another emotion (optional)</Text>
+                    </TouchableOpacity>
+                  ) :
+                  (
+                    <View key='other' style={{ marginBottom: 20 }}>
+                      <TextInput
+                        value={this.props.report.otherEmotionText}
+                        onChangeText={(value) => this.onReportChange('otherEmotionName', value)}
+                        label='Name of emotion'
+                        mode='outlined'
+                      />
+                      <EmotionSlider
+                        key='other'
+                        containerStyle={styles.sliders}
+                        titleStyle={styles.aggressionText}
+                        title={this.props.report.otherEmotionText ?? ''}
+                        value={this.props.report.otherEmotionValue}
+                        onChange={value => this.onReportChange('otherEmotionValue', value)}
+                        sliderStyle={styles.sliderStyle}
+                        minimumValue={0}
+                        maximumValue={10}
+                        minimumTrackTintColor="#b16d65"
+                        maximumTrackTintColor="#EFEFEF"
+                        imageSrc={require('../assets/images/scale2.png')}
+                      />
+                    </View>
+                  )
+                }
+              </TouchableWithoutFeedback>
 
-          <Divider style={{ marginVertical: hp('.75%') }} />
-          <Button
-            onPress={this.handleSubmit}
-            style={styles.button}
-            icon="send"
-            mode="contained">
-            Submit
+            </View>
+
+            <Divider style={{ marginVertical: hp('.75%') }} />
+            <Button
+              onPress={this.handleSubmit}
+              style={styles.button}
+              icon="send"
+              mode="contained">
+              Submit
           </Button>
 
           </SafeAreaView>
@@ -477,18 +503,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: hp('2%'),
   },
-  switchContainer: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    padding: 5, 
-    marginVertical: 5 
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    marginVertical: 5
   },
   sliders: {
     marginVertical: hp('2%'),
   },
   sliderStyle: {
-    width: '90%', 
-    alignSelf: 'center' 
+    width: '90%',
+    alignSelf: 'center'
   },
   switchText: {
     marginLeft: wp('3%'),
@@ -550,7 +576,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   datetimePicker: {
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 4,
     borderColor: '#787878',
     backgroundColor: '#f7f7f7',

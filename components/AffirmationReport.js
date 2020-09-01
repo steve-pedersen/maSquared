@@ -40,6 +40,14 @@ const placeholder = {
   color: '#9EA0A4',
 };
 
+function LogoTitleReport() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Title style={{ color: '#74b783', fontWeight: '600' }}>Edit Report</Title>
+    </View>
+  );
+}
+
 class AffirmationReport extends Component {
 
   constructor(props) {
@@ -52,6 +60,7 @@ class AffirmationReport extends Component {
         this.props.report.otherEmotionValue || this.props.report.otherEmotionText
       ),
     };
+
     this.props.navigation.setOptions({
       headerRight: () => (
         <Icon
@@ -76,7 +85,12 @@ class AffirmationReport extends Component {
           onPress={() => this.saveDraft()}
         />
       ),
-    });  
+    });
+    if (this.props.report.reportId) {
+      this.props.navigation.setOptions({
+        headerTitle: props => <LogoTitleReport {...props} />
+      })
+    }
   }
 
   onReportChange = (key, value) => {
@@ -84,42 +98,54 @@ class AffirmationReport extends Component {
   }
 
   saveDraft = () => {
-    let report = {
-      reportId: this.props.reportId,
-      complete: false,
-      type: 'MICROAFFIRMATION',
-      report: this.props.report,
-      user: this.props.user
-    };
-    
-    postReport(report)
-      .then(res => {
-        if (res.data && res.data.reportId) {
-          report.reportId = res.data.reportId;
-        }
-        this.props.addAffirmationReport(report);
-      })
-      .catch(error => {
-        console.warn('Error posting draft to API');
-      })
-      .finally(() => {
-        this.props.resetAffirmationReport({});
-        this.props.navigation.navigate('Root');
-      });
+    if (this.props.report.description) {
+      let report = {
+        reportId: this.props.report.reportId,
+        complete: false,
+        type: 'MICROAFFIRMATION',
+        report: this.props.report,
+        user: this.props.user
+      };
+
+      postReport(report)
+        .then(res => {
+          // console.log('reportId: ', res.data);
+          if (res && res.reportId && !report.reportId) {
+            report.reportId = res.reportId;
+            report.report.reportId = report.reportId;
+            this.props.saveAffirmationReport('reportId', report.reportId);
+          }
+          this.props.addAffirmationReport(report);
+        })
+        .catch(error => {
+          console.warn('Error posting draft to API');
+        })
+        .finally(() => {
+          this.props.resetAffirmationReport({});
+          this.props.navigation.navigate('Root');
+        });
+    } else {
+      this.props.resetAffirmationReport({});
+      this.props.navigation.navigate('Root');
+    }
   }
 
   handleSubmit = () => {
     this.props.saveAffirmationReport('complete', true);
     let report = {
-      reportId: this.props.reportId,
+      reportId: this.props.report.reportId,
       report: this.props.report,
       user: this.props.user,
-      type: 'MICROAFFIRMATION'
+      type: 'MICROAFFIRMATION',
+      complete: true
     };
     // Post to API then save to redux
     postReport(report).then(res => {
-      if (res.data && res.data.reportId) {
-        report.reportId = res.data.reportId;
+      // console.log('reportId: ', report.reportId);
+      if (res && res.reportId && !report.reportId) {
+        report.reportId = res.reportId;
+        report.report.reportId = report.reportId;
+        this.props.saveAffirmationReport('reportId', report.reportId);
       }
       this.props.addAffirmationReport(report);
     }).catch(error => {
@@ -453,7 +479,7 @@ function mapStateToProps(state) {
   return {
     report: state.affirmations,
     user: state.user,
-    reportId: state.reports.length + 1
+    // reportId: state.reports.length + 1
   };
 }
 
