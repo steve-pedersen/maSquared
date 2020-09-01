@@ -57,6 +57,7 @@ class App extends React.Component {
 
   loadDataFromApi = async () => {
     let res = await getUser(this.state.pushToken);
+
     this.setState({
       user: {
         deviceId: res.deviceId,

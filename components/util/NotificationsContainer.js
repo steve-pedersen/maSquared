@@ -41,12 +41,7 @@ class NotificationsContainer extends Component {
       });
       ExpoNotifications.setBadgeCountAsync(pendingSurveys.length);
       
-      // this.props.updatePendingSurvey({
-      //   notificationId: "49",
-      //   surveyId: "cheese"
-      // });
-      // console.log('pending surveys: ', pendingSurveys['45']);
-      console.log('pending surveys: ', pendingSurveys.length);
+      // console.log('pending surveys: ', pendingSurveys.length);
 
       ExpoNotifications.setNotificationHandler({
         handleNotification: async () => ({

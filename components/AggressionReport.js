@@ -123,11 +123,15 @@ class AggressionReport extends Component {
         })
         .finally(() => {
           this.props.resetAggressionReport({});
-          this.props.navigation.navigate('Root');
+          this.props.navigation.navigate('Home', {
+            toastMessage: 'Draft saved.',
+          });
         });
     } else {
       this.props.resetAggressionReport({});
-      this.props.navigation.navigate('Root');
+      this.props.navigation.navigate('Home', {
+        // toastMessage: 'Draft not saved.',
+      });
     }
   }
 
@@ -153,7 +157,9 @@ class AggressionReport extends Component {
       console.warn('Error posting report to API');
     }).finally(() => {
       this.props.resetAggressionReport({});
-      this.props.navigation.navigate('Root');
+      this.props.navigation.navigate('Home', {
+        toastMessage: 'Report submitted.',
+      });
     });
   };
 

@@ -9,6 +9,8 @@ import {
 } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 
+import Toast, { DURATION } from '../components/Toast';
+
 import { postFeedback } from '../components/util/Api';
 
 class MoreScreen extends Component {
@@ -26,7 +28,9 @@ class MoreScreen extends Component {
       user: this.props.user,
       text: this.state.feedback
     };
-    console.log('posted feedback: ',)
+
+    this.refs.toast.show('Feedback sent!', 500);
+
     postFeedback(feedback)
       .then(res => {
         console.log('feedback response: ', res);
@@ -70,6 +74,8 @@ class MoreScreen extends Component {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
+        <Toast ref="toast" position="top" style={{ backgroundColor: 'green' }} />
+
         <View style={styles.option}>
           <View style={{ flexDirection: 'row' }}>
             <View style={styles.optionIconContainer}>
@@ -89,15 +95,15 @@ class MoreScreen extends Component {
           </View>
         </View>
 
-        <OptionButton
+        {/* <OptionButton
           icon="md-notifications"
           label="Notifications"
           description="Show previous notifications"
           onPress={() => console.log('show previous notifications modal...')}
           isLastOption
-        />
+        /> */}
 
-        <View style={styles.option}>
+        {/* <View style={styles.option}>
           <View style={{ flexDirection: 'row' }}>
             <View style={styles.optionIconContainer}>
               <Ionicons name="md-school" size={22} color="#74b783" />
@@ -111,7 +117,7 @@ class MoreScreen extends Component {
               {this.getPostMeasureSurvey()}
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <OptionButton
           icon="md-send"
@@ -166,7 +172,7 @@ class MoreScreen extends Component {
                 </View>
               </View>
             </View>
-            
+
           </TouchableOpacity>
         </Modal>
 

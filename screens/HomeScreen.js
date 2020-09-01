@@ -16,75 +16,72 @@ import {
   widthPercentageToDP as wp, 
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import Toast, { DURATION } from '../components/Toast';
 
 const Stack = createStackNavigator();
 
-export default function HomeScreen({ route, navigation }) {
+class HomeScreen extends React.Component {
 
-  const showSlideshow = () => {
+  showSlideshow = () => {
     // navigation.setParams({ returnRoute: '' });
-    navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
+    this.props.navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
   };
-  // console.log(route, 'log on home');
 
-  // React.useEffect(() => {
-  //   console.log('in use effect');
-    
-  // }, [route]);
+  componentDidUpdate() {
+    if (this.props.route.params?.toastMessage) {
+      this.refs.toastMessage.show(this.props.route.params?.toastMessage, 500);
+      this.props.route.params.toastMessage = '';
+    }
+  }
 
-  // if (navigation.isFocused()) {
-  //   console.log('focused');
-    
-  // }
+  render() {
 
-  return (
-    <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        
-        {/* TODO: turn into a toast message */}
-        {route.params?.message ? 
-          <Text>{route.params.message}</Text> : 
-          undefined
-        }
+    return (
+      <View style={styles.container}>
 
-        <View style={{ paddingVertical: 10 }}>
-          <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
-        </View>
+        <Toast ref="toastMessage" position="top" positionValue={5} style={{ backgroundColor: 'green' }} />
 
-        <View style={styles.reportButton}>
-          <Text 
-            onPress={() => navigation.navigate('AggressionReport', { message: 'from home' })} 
-            style={styles.aggressionButton}>
-            MICROAGGRESSION
-          </Text>
-        </View>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-        <Divider 
-          style={{
-            borderBottomColor: '#e3e3e3',
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            justifyContent: 'space-evenly',
-          }}
-        />
+          <View style={{ paddingVertical: 10 }}>
+            <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
+          </View>
 
-        <View style={styles.reportButton}>
-          <Text 
-            onPress={() => navigation.navigate('AffirmationReport')} 
-            style={styles.affirmationButton}>
-            MICROAFFIRMATION
-          </Text>
-        </View>
+          <View style={styles.reportButton}>
+            <Text 
+              onPress={() => this.props.navigation.navigate('AggressionReport', { message: 'from home' })} 
+              style={styles.aggressionButton}>
+              MICROAGGRESSION
+            </Text>
+          </View>
 
-        <View style={styles.helpContainer}>
-          <TouchableOpacity 
-            onPress={showSlideshow} 
-            style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>Did you forget what these are?</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
-  );
+          <Divider 
+            style={{
+              borderBottomColor: '#e3e3e3',
+              borderBottomWidth: StyleSheet.hairlineWidth,
+              justifyContent: 'space-evenly',
+            }}
+          />
+
+          <View style={styles.reportButton}>
+            <Text 
+              onPress={() => this.props.navigation.navigate('AffirmationReport')} 
+              style={styles.affirmationButton}>
+              MICROAFFIRMATION
+            </Text>
+          </View>
+
+          <View style={styles.helpContainer}>
+            <TouchableOpacity 
+              onPress={this.showSlideshow} 
+              style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>Did you forget what these are?</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
@@ -207,3 +204,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+export default HomeScreen;

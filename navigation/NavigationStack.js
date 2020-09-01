@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import * as Network from 'expo-network';
 
 import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
@@ -51,10 +52,21 @@ const theme = {
 class NavigationStack extends React.Component {
   DEVMODE = false;
   STARTOVER = true;
+  network = null;
+  _isMounted = false;
 
   componentDidMount() {
-    // console.log('SURVEYS:', this.props.reports);
+    this._isMounted = true;
+    
     this.props.saveUser(this.props.user);
+
+    if (this._isMounted) {
+      this.network = Network.getNetworkStateAsync();
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -115,7 +127,8 @@ class NavigationStack extends React.Component {
               component={BottomTabNavigator}
               options={rootHeader}
               initialParams={{
-                message: ''
+                message: '',
+                toastMessage: ''
               }}
             />
             <Stack.Screen
@@ -170,13 +183,28 @@ function HeaderRight() {
   );
 }
 
+function NetworkStatus() {
+  let network = Network.getNetworkStateAsync();
+  if (network.isConnected) {
+    return (
+      <Text style={{color: '#74b783'}}>CONNECTED</Text>
+    );
+  } else {
+    return (
+      <Text style={{color: 'red'}} onPress={() => console.log('Need to request wifi stuff')}> 
+        GO ONLINE
+      </Text>
+    );
+  }
+}
+
 function BackIcon() {
   return (
     <Icon
       name="md-arrow-back"
       color='#74b783'
       size={35}
-      // onPress={() => console.log('going back!')}
+    // onPress={() => console.log('going back!')}
     />
   );
 }
@@ -238,6 +266,9 @@ const rootHeader = {
   headerLeft: props => (
     <LogoTitle {...props} />
   ),
+  // headerRight: props => (
+  //   <NetworkStatus {...props} />
+  // ),
   headerBackImage: props => <LogoTitle {...props} />,
   headerBackTitleVisible: false,
   headerLeftContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },

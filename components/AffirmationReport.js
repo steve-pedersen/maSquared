@@ -122,11 +122,15 @@ class AffirmationReport extends Component {
         })
         .finally(() => {
           this.props.resetAffirmationReport({});
-          this.props.navigation.navigate('Root');
+          this.props.navigation.navigate('Home', {
+            toastMessage: 'Draft saved.',
+          });
         });
     } else {
       this.props.resetAffirmationReport({});
-      this.props.navigation.navigate('Root');
+      this.props.navigation.navigate('Home', {
+        // toastMessage: 'Draft not saved.',
+      });
     }
   }
 
@@ -152,7 +156,9 @@ class AffirmationReport extends Component {
       console.warn('Error posting report to API');
     }).finally(() => {
       this.props.resetAffirmationReport({});
-      this.props.navigation.navigate('Root');
+      this.props.navigation.navigate('Home', {
+        toastMessage: 'Report submitted.',
+      });
     });
   };
 
