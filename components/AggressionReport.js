@@ -103,7 +103,7 @@ class AggressionReport extends Component {
       let report = {
         reportId: this.props.report.reportId,
         complete: false,
-        type: 'MICROGGRESSION',
+        type: 'MICROAGGRESSION',
         report: this.props.report,
         user: this.props.user
       };
@@ -623,7 +623,7 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 const aggressionEmotionSliders = [
-  { key: 'angry', title: 'Angry' },
+  { key: 'anger', title: 'Angry' },
   { key: 'sad', title: 'Sad' },
   { key: 'shame', title: 'Shame' },
   { key: 'surprise', title: 'Surprise' },

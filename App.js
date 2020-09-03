@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View, AppState } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AppState, Text } from 'react-native';
 import { SplashScreen } from 'expo';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
@@ -50,10 +50,16 @@ class App extends React.Component {
     } catch (e) {
       console.warn(e);
     } finally {
-      this.setState({ isLoadingComplete: true });
+      // this.setState({ isLoadingComplete: true });
       SplashScreen.hide();
     }
   }
+
+  // async componentDidUpdate() {
+  //   if (!this.state.user.userId) {
+  //     await this.loadDataFromApi();
+  //   }
+  // }
 
   loadDataFromApi = async () => {
     let res = await getUser(this.state.pushToken);
@@ -65,9 +71,11 @@ class App extends React.Component {
         groupId: res.groupId,
         createdDate: res.createdDate,
         university: res.university,
-        pushToken: res.pushToken
+        pushToken: res.pushToken,
+        lastSyncDate: res.syncDate
       }
     });
+    this.setState({ isLoadingComplete: true });
   }
 
   registerForPushNotificationsAsync = async () => {
@@ -102,6 +110,11 @@ class App extends React.Component {
   render() {
     if (!this.state.isLoadingComplete) {
       return null;
+      // return (
+      //   <View>
+      //     <Text>Click to reload</Text>
+      //   </View>
+      // );
     } else {
       return (
         <StoreProvider store={store}>

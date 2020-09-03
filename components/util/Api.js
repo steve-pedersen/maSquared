@@ -54,6 +54,7 @@ export function postReport(report) {
   let reportApi = `${API_URL}/reports/?a=${Constants.manifest.extra.apiKey}`;
   let params = { 
     report: {
+      reportId: report.reportId,
       type: report.type,
       report: report.report,
       user: report.user,

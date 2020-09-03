@@ -9,9 +9,10 @@ import {
 } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 
-import Toast, { DURATION } from '../components/Toast';
-
 import { postFeedback } from '../components/util/Api';
+import { getUser } from '../components/util/Api';
+import Toast, { DURATION } from '../components/Toast';
+import { saveUser } from '../redux/actions';
 
 class MoreScreen extends Component {
 
@@ -37,11 +38,11 @@ class MoreScreen extends Component {
       })
       .finally(() => {
         this.setState({ feedback: '' });
-        this.setModalVisible(false);
+        this.setFeedbackModalVisible(false);
       });
   }
 
-  setModalVisible(visible) {
+  setFeedbackModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
@@ -70,11 +71,25 @@ class MoreScreen extends Component {
     }
   }
 
+  syncUser = async () => {
+    let res = await getUser(this.state.pushToken);
+    console.log(res);
+    this.props.saveUser({
+      deviceId: res.deviceId,
+      userId: res.userId,
+      groupId: res.groupId,
+      createdDate: res.createdDate,
+      university: res.university,
+      pushToken: res.pushToken,
+      lastSyncDate: res.syncDate
+    });
+  }
+
   render() {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-        <Toast ref="toast" position="top" style={{ backgroundColor: 'green' }} />
+        <Toast ref="toast" position="top" positionValue={5} style={{ backgroundColor: 'green' }} />
 
         <View style={styles.option}>
           <View style={{ flexDirection: 'row' }}>
@@ -123,7 +138,7 @@ class MoreScreen extends Component {
           icon="md-send"
           label="Send Feedback"
           description="Tell us about your experiences of using this app."
-          onPress={() => this.setModalVisible(!this.state.modalVisible)}
+          onPress={() => this.setFeedbackModalVisible(!this.state.modalVisible)}
           isLastOption
         />
 
@@ -132,12 +147,12 @@ class MoreScreen extends Component {
           animationType="fade"
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => this.setModalVisible(false)}
+          onRequestClose={() => this.setFeedbackModalVisible(false)}
         >
           <TouchableOpacity
             style={styles.modalContainer}
             activeOpacity={1}
-            onPressOut={() => this.setModalVisible(false)}
+            onPressOut={() => this.setFeedbackModalVisible(false)}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
@@ -291,5 +306,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { saveUser }
 )(MoreScreen);

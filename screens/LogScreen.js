@@ -12,6 +12,7 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { deleteReport } from '../redux/actions';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
+import { saveAffirmationReport, saveAggressionReport } from '../redux/actions';
 
 function truncateString(str, num) {
   if (str.length <= num) {
@@ -254,7 +255,7 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { deleteReport }
+  { deleteReport, saveAggressionReport, saveAffirmationReport }
 )(LogScreen);
 
 

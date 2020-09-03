@@ -24,14 +24,14 @@ const persistConfig = {
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
   whitelist: [
-    'user',
-    'reports',
-    'introSurvey',
-    'surveys',
-    'consent',
-    'slideshow',
-    'postMeasureSurvey',
-    'pendingSurveys'
+    // 'user',
+    // 'reports',
+    // 'introSurvey',
+    // 'surveys',
+    // 'consent',
+    // 'slideshow',
+    // 'postMeasureSurvey',
+    // 'pendingSurveys'
   ],
   // Blacklist (Don't Save Specific Reducers)
   blacklist: [
@@ -43,14 +43,14 @@ const persistConfig = {
     'surveyD',
     'surveyE',
 
-    // 'user',
-    // 'reports',
-    // 'introSurvey',
-    // 'surveys',
-    // 'consent',
-    // 'slideshow',
-    // 'postMeasureSurvey',
-    // 'pendingSurveys'
+    'user',
+    'reports',
+    'introSurvey',
+    'surveys',
+    'consent',
+    'slideshow',
+    'postMeasureSurvey',
+    'pendingSurveys'
   ],
 };
 

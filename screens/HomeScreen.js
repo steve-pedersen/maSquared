@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet,  TouchableOpacity, View, Button, TextInput } from 'react-native';
+import { Image, Platform, StyleSheet, TouchableOpacity, TouchableHighlight, View, Button, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Divider, Text } from 'react-native-paper';
 
@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import reducers from '../redux/reducers';
 import Layout from '../constants/Layout';
 import {
-  widthPercentageToDP as wp, 
+  widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import Toast, { DURATION } from '../components/Toast';
@@ -47,15 +47,13 @@ class HomeScreen extends React.Component {
             <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
           </View>
 
-          <View style={styles.reportButton}>
-            <Text 
-              onPress={() => this.props.navigation.navigate('AggressionReport', { message: 'from home' })} 
-              style={styles.aggressionButton}>
-              MICROAGGRESSION
-            </Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('AggressionReport')}
+            style={styles.reportButton}>
+            <Text style={styles.aggressionButton}>MICROAGGRESSION</Text>
+          </TouchableOpacity>
 
-          <Divider 
+          <Divider
             style={{
               borderBottomColor: '#e3e3e3',
               borderBottomWidth: StyleSheet.hairlineWidth,
@@ -63,17 +61,15 @@ class HomeScreen extends React.Component {
             }}
           />
 
-          <View style={styles.reportButton}>
-            <Text 
-              onPress={() => this.props.navigation.navigate('AffirmationReport')} 
-              style={styles.affirmationButton}>
-              MICROAFFIRMATION
-            </Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('AffirmationReport')}
+            style={styles.reportButton}>
+            <Text style={styles.affirmationButton}>MICROAFFIRMATION</Text>
+          </TouchableOpacity>
 
           <View style={styles.helpContainer}>
-            <TouchableOpacity 
-              onPress={this.showSlideshow} 
+            <TouchableOpacity
+              onPress={this.showSlideshow}
               style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Did you forget what these are?</Text>
             </TouchableOpacity>
@@ -159,17 +155,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   reportButton: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     alignSelf: 'center',
     // paddingVertical: (Layout.window.height / 30),
   },
   helpContainer: {
     marginTop: 15,
     alignItems: 'center',
-    flex: 1, 
-    justifyContent: 'center', 
+    flex: 1,
+    justifyContent: 'center',
     // paddingVertical: 20,
   },
   helpLink: {

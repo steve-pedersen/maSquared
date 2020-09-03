@@ -622,7 +622,7 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 const aggressionEmotionSliders = [
-  { key: 'angry', title: 'Angry' },
+  { key: 'anger', title: 'Angry' },
   { key: 'sad', title: 'Sad' },
   { key: 'shame', title: 'Shame' },
   { key: 'surprise', title: 'Surprise' },

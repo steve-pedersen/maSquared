@@ -58,7 +58,9 @@ class NavigationStack extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     
-    this.props.saveUser(this.props.user);
+    if (this.props.user) {
+      this.props.saveUser(this.props.user);
+    }
 
     if (this._isMounted) {
       this.network = Network.getNetworkStateAsync();
@@ -342,7 +344,8 @@ function mapStateToProps(state) {
     slideshowComplete: state.slideshow.complete,
     introSurveyComplete: state.introSurvey.complete,
     activeSurvey: state.activeSurvey,
-    reports: state.reports
+    reports: state.reports,
+    storedUser: state.user
   };
 }
 
