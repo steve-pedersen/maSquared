@@ -38,3 +38,6 @@ export const SAVE_USER = 'save_user';
 export const GET_USER = 'get_user';
 export const GET_USER_SUCCESS = 'get_user_success';
 export const GET_USER_ERROR = 'get_user_error';
+export const ADD_NOTIFICATION = 'add_notification';
+export const ACCEPT_NOTIFICATION = 'accept_notification';
+export const DELETE_NOTIFICATION = 'delete_notification';

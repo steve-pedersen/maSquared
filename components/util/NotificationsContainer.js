@@ -1,9 +1,6 @@
 import { Component } from 'react';
-// import * as React from 'react';
 import { connect } from 'react-redux';
-// import Constants from 'expo-constants';
-// import { Notifications } from 'expo';
-import * as ExpoNotifications from 'expo-notifications';
+import * as Notifications from 'expo-notifications';
 // import * as Permissions from 'expo-permissions';
 
 import { notificationAccepted } from './Api';
@@ -12,7 +9,9 @@ import {
   completeIntroSurvey, 
   addPendingSurvey,
   updatePendingSurvey,
-  activateSurvey
+  activateSurvey,
+  addNotification,
+  acceptNotification,
 } from '../../redux/actions';
 
 
@@ -39,11 +38,11 @@ class NotificationsContainer extends Component {
         }
         return true;
       });
-      ExpoNotifications.setBadgeCountAsync(pendingSurveys.length);
+      Notifications.setBadgeCountAsync(pendingSurveys.length);
       
       // console.log('pending surveys: ', pendingSurveys.length);
 
-      ExpoNotifications.setNotificationHandler({
+      Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
           shouldPlaySound: true,
@@ -51,14 +50,13 @@ class NotificationsContainer extends Component {
         }),
       });
 
-      // this._notificationSubscription = Notifications.addListener(this._handleNotification);
-      this.notificationListener = ExpoNotifications.addNotificationReceivedListener(
+      this.notificationListener = Notifications.addNotificationReceivedListener(
         this._handleNotification
       );
       
       // This listener is fired whenever a user taps on or interacts with a notification 
       // (works when app is foregrounded, backgrounded, or killed)
-      this.responseListener = ExpoNotifications.addNotificationResponseReceivedListener(
+      this.responseListener = Notifications.addNotificationResponseReceivedListener(
         this._handleNotificationResponse
       );
     }
@@ -66,21 +64,35 @@ class NotificationsContainer extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-    ExpoNotifications.removeNotificationSubscription(this.notificationListener);
-    ExpoNotifications.removeNotificationSubscription(this.responseListener);
+    Notifications.removeNotificationSubscription(this.notificationListener);
+    Notifications.removeNotificationSubscription(this.responseListener);
   }
 
   _handleNotification = async notification => {
     this.setState({ notification: notification });
-    let data = notification.request.content.data;
 
-    switch (data.type) {
+    console.log('NOTIFICATION RECEIVED: ', notification);
+
+    let data = notification.request.content.data;
+    let newNotification = {
+      type: data.body.type,
+      notificationId: data.body.notificationId,
+      user: this.props.user,
+      expiration: data.body.expiration,
+      message: data.body.message,
+    };
+
+    this.props.addNotification(newNotification);
+
+    switch (data.body.type) {
       case 'accept':
         // 'accept' type notifications last for 1 hour
+        
         break;
 
       case 'submit':
         // 'submit' type notifications start a new pending survey
+
         let resp = this.props.addPendingSurvey({
           notificationId: data.body.notificationId,
           expiration: data.body.expiration
@@ -93,20 +105,31 @@ class NotificationsContainer extends Component {
 
   _handleNotificationResponse = response => {
     let data = response.notification.request.content.data;
-
+    console.log('NOTIFICATION RESPONSE', response);
     // Dismiss notification from Notification Center tray
-    ExpoNotifications.dismissNotificationAsync(data.id);
+    Notifications.dismissNotificationAsync(data.id);
 
-    // Let API know that user has accepted notification
-    notificationAccepted({
+
+
+    // TODO: find out response clicked by user (accept or reject)
+    this.props.acceptNotification({
       notificationId: data.body.notificationId,
-      user: this.props.user,
     });
 
-    this.props.activateSurvey({
-      notificationId: data.body.notificationId,
-      isActive: true
-    });
+
+    if (data.body.type === 'accept') {
+      // Let API know that user has accepted notification
+      notificationAccepted({
+        notificationId: data.body.notificationId,
+        user: this.props.user,
+      });
+    } else {
+      this.props.activateSurvey({
+        notificationId: data.body.notificationId,
+        isActive: true
+      });
+    }
+
   };
 
   render() {
@@ -123,6 +146,14 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { saveUser, completeIntroSurvey, addPendingSurvey, updatePendingSurvey, activateSurvey }
+  { 
+    saveUser, 
+    completeIntroSurvey, 
+    addPendingSurvey, 
+    updatePendingSurvey, 
+    activateSurvey, 
+    addNotification, 
+    acceptNotification 
+  }
 )
 (NotificationsContainer);

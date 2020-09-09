@@ -73,7 +73,7 @@ class MoreScreen extends Component {
 
   syncUser = async () => {
     let res = await getUser(this.state.pushToken);
-    console.log(res);
+    // console.log(res);
     this.props.saveUser({
       deviceId: res.deviceId,
       userId: res.userId,
@@ -91,13 +91,15 @@ class MoreScreen extends Component {
 
         <Toast ref="toast" position="top" positionValue={5} style={{ backgroundColor: 'green' }} />
 
-        <View style={styles.option}>
+        <RectButton style={styles.option} onPress={() => this.syncUser()}>
           <View style={{ flexDirection: 'row' }}>
             <View style={styles.optionIconContainer}>
               <Ionicons name="md-person" size={22} color="#74b783" />
             </View>
             <View style={styles.optionTextContainer}>
-              <Text style={styles.label}>Account</Text>
+              <Text style={styles.label}>Account
+                {/* <Text style={{color: '#000'}}> - Click to sync</Text> */}
+              </Text>
             </View>
           </View>
           <View style={styles.optionTextContainer}>
@@ -108,7 +110,7 @@ class MoreScreen extends Component {
               Last Synced on: {this.props.user.lastSyncDate ?? this.props.user.createdDate}
             </Text>
           </View>
-        </View>
+        </RectButton>
 
         {/* <OptionButton
           icon="md-notifications"

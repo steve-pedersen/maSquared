@@ -31,6 +31,9 @@ import {
     UPDATE_PENDING_SURVEY,
     ACTIVATE_SURVEY,
     DEACTIVATE_SURVEY,
+    ADD_NOTIFICATION,
+    ACCEPT_NOTIFICATION,
+    DELETE_NOTIFICATION,
 } from './types';
 import Constants from 'expo-constants';
 
@@ -220,4 +223,14 @@ export function savePostMeasureSurvey(key, value) {
         type: SAVE_POST_MEASURE_SURVEY,
         payload: payload
     };
+}
+
+export function addNotification(notification) {
+    return { type: ADD_NOTIFICATION, payload: notification }
+}
+export function acceptNotification(notification) {
+    return { type: ACCEPT_NOTIFICATION, payload: notification }
+}
+export function deleteNotification(notification) {
+    return { type: DELETE_NOTIFICATION, payload: notification }
 }

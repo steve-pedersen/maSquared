@@ -133,30 +133,11 @@ class App extends React.Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'red',
   },
 });
-
-const slideshowHeaderStyles = {
-  headerStyle: {
-    backgroundColor: '#74b783',
-  },
-  headerTintColor: '#74b783',
-
-};
-
-const headerStyles = {
-  headerStyle: {
-    backgroundColor: '#74b783',
-  },
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontWeight: 'bold',
-  },
-};
 
 export default App;
