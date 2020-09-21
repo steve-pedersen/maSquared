@@ -19,11 +19,14 @@
       "**/*"
     ],
     "ios": {
+      "icon": "./assets/images/App-Icon.png",
       "bundleIdentifier": "edu.at.sfsu.ma2",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "icon": "./assets/images/App-Icon.png",
+      "permissions": ["NOTIFICATIONS"],
       "package": "edu.at.sfsu.ma2",
       "versionCode": 1
     },
