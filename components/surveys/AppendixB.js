@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, ScrollView} from 'react-native';
 import { Text, Button, Paragraph } from 'react-native-paper';
-// import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNPickerSelect from 'react-native-picker-select';
 
@@ -20,13 +19,10 @@ const placeholder = {
 class AppendixB extends Component {
 
   onSurveyChange(key, value) {
-    // console.log('onSurveyChange: ', key, value);
     this.props.saveSurveyB(key, (value != 0 ? value : null));
   }
 
   handleSubmit = values => {
-    // console.log('submitting form', values);
-    // saveSurveyA(surveyA);
     this.props.navigation.navigate('AppendixC', {});
   }
 
@@ -56,7 +52,6 @@ class AppendixB extends Component {
                     style={pickerSelectStyles}
                     value={this.props.surveyB[key].value}
                     useNativeAndroidPickerStyle={false}
-                    textInputProps={{ underlineColorAndroid: 'cyan' }}
                     Icon={() => {
                       return (
                         <Icon
@@ -96,19 +91,6 @@ export default connect(
   { getSurveyB, saveSurveyB }
 )(AppendixB);
 
-
-// const answerScale = [
-//     { key: 1, text: '1' },
-//     { key: 2, text: '2' },
-//     { key: 3, text: '3' },
-//     { key: 4, text: '4' },
-//     { key: 5, text: '5' },
-//     { key: 6, text: '6' },
-//     { key: 7, text: '7' },
-//     { key: 8, text: '8' },
-//     { key: 9, text: '9' },
-//     { key: 10, text: '10' },
-// ];
 
 const answerScale = [
   { value: 1, label: '1 (Completely Unsure)' },
@@ -183,22 +165,6 @@ const surveyQsAppendixB = [
   }
 ];
 
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: '#fff',
-//         padding: 20,
-//         paddingBottom: 100,
-//     },
-//     button: {
-//         marginTop: 30,
-//         marginBottom: 100,
-//         backgroundColor: '#74b783',
-//         paddingVertical: 6
-//     },
-// });
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -250,27 +216,3 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-
-// const pickerSelectStyles = StyleSheet.create({
-//   flex: 1,
-//   iconContainer: {
-//     width: 30,
-//     height: 30,
-//     right: 12,
-//     top: -5,
-//   },
-//   inputIOS: {
-//     fontSize: 16,
-//     paddingVertical: 12,
-//     paddingHorizontal: 10,
-//     color: 'black',
-//     paddingRight: 30, // to ensure the text is never behind the icon
-//   },
-//   inputAndroid: {
-//     fontSize: 16,
-//     paddingHorizontal: 10,
-//     paddingVertical: 8,
-//     color: 'black',
-//     paddingRight: 30, // to ensure the text is never behind the icon
-//   },
-// });

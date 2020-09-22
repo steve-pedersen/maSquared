@@ -60,7 +60,6 @@ class AppendixC extends Component {
                     style={pickerSelectStyles}
                     value={this.props.surveyC[key].value}
                     useNativeAndroidPickerStyle={false}
-                    textInputProps={{ underlineColorAndroid: 'cyan' }}
                     Icon={() => {
                       return (
                         <Icon
@@ -212,41 +211,3 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-
-
-
-
-// <View style={styles.container} key={prop.key}>
-//     <View paddingVertical={20} />
-//     <View style={{
-//       flexDirection: 'row',
-//       alignItems: 'flex-start',
-//       height: '100%',
-//     }}>
-//       <Text><Bold>{prop.key}. </Bold> </Text>
-//       <View style={{flexDirection: 'row'}}>
-//         <View style={{ flex: 1 }}>
-//           {prop.content}
-//         </View>
-//         <RNPickerSelect
-//           placeholder={placeholder}
-//           items={answerScale}
-//           onValueChange={this.onSurveyChange.bind(this, key)}
-//           style={pickerSelectStyles}
-//           value={this.props.surveyC[key].value}
-//           useNativeAndroidPickerStyle={false}
-//           textInputProps={{ underlineColorAndroid: 'cyan' }}
-//           // InputAccessoryView={() => null}
-//           Icon={() => {
-//             return (
-//               <Icon
-//                 name="md-arrow-dropdown"
-//                 color="#000"
-//                 size={30}
-//               />
-//             );
-//           }}
-//         />
-//       </View>
-//     </View>
-//   </View>

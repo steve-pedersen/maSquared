@@ -324,7 +324,6 @@ class AggressionReport extends Component {
                 style={pickerSelectStyles}
                 value={this.props.report.campus}
                 useNativeAndroidPickerStyle={false}
-                textInputProps={{ underlineColorAndroid: 'cyan' }}
                 // InputAccessoryView={() => null}
                 Icon={() => {
                   return (
@@ -362,7 +361,6 @@ class AggressionReport extends Component {
                 style={pickerSelectStyles}
                 value={this.props.report.location}
                 useNativeAndroidPickerStyle={false}
-                textInputProps={{ underlineColorAndroid: 'cyan' }}
                 Icon={() => {
                   return (
                     <Icon
@@ -613,7 +611,7 @@ const pickerSelectStyles = StyleSheet.create({
   inputAndroid: {
     fontSize: hp('2%'),
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 14,
     borderWidth: 0.5,
     borderColor: 'purple',
     borderRadius: 8,

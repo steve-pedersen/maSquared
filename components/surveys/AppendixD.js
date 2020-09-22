@@ -13,10 +13,7 @@ import {
 	Paragraph,
 	RadioButton,
 	TextInput,
-	Divider
 } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
-import RNPickerSelect from 'react-native-picker-select';
 import {
 	widthPercentageToDP as wp,
 	heightPercentageToDP as hp
@@ -41,10 +38,7 @@ class AppendixD extends Component {
 	}
 
 	handleSubmit = values => {
-		// TODO: update redux state to survey complete, 
-		// then allow App to go to Home nav stack
 		this.props.navigation.navigate('AppendixE', {});
-		// this.props.saveSurvey(true);
 	}
 
 	render() {

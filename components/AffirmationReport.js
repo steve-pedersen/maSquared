@@ -323,7 +323,6 @@ class AffirmationReport extends Component {
               style={pickerSelectStyles}
               value={this.props.report.campus}
               useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColorAndroid: 'cyan' }}
               // InputAccessoryView={() => null}
               Icon={() => {
                 return (
@@ -361,7 +360,6 @@ class AffirmationReport extends Component {
               style={pickerSelectStyles}
               value={this.props.report.location}
               useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColorAndroid: 'cyan' }}
               Icon={() => {
                 return (
                   <Icon

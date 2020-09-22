@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform 
 } from 'react-native';
-import { Text, Button, RadioButton, Title, TextInput } from 'react-native-paper';
+import { Text, Button, RadioButton, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import { postSurvey } from '../util/Api';
@@ -267,28 +267,3 @@ const styles = StyleSheet.create({
     marginTop: 12
   }
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1
-//   },
-//   inner: {
-//     padding: 24,
-//     flex: 1,
-//     justifyContent: "space-around"
-//   },
-//   header: {
-//     fontSize: 36,
-//     marginBottom: 48
-//   },
-//   textInput: {
-//     height: 40,
-//     borderColor: "#000000",
-//     borderBottomWidth: 1,
-//     marginBottom: 36
-//   },
-//   btnContainer: {
-//     backgroundColor: "white",
-//     marginTop: 12
-//   }
-// });
