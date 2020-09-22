@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-const API_URL = 'https://ilearn.test.at.sfsu.edu/ma2/api';
+const API_URL = Constants.manifest.extra.apiUrl;
 
 export const apiUrl = API_URL;
 
