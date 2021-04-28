@@ -7,8 +7,8 @@
       "android",
       "web"
     ],
-
-    "version": "1.0.0",
+    "primaryColor": "#58bf7e",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
     "scheme": "http",
@@ -16,18 +16,22 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "assets/images/*",
+      "assets/css/*",
+      "assets/fonts/*"
     ],
     "ios": {
-      "icon": "./assets/images/App-Icon.png",
-      "bundleIdentifier": "edu.at.sfsu.ma2",
-      "buildNumber": "1.0.0",
+      "icon": "./assets/images/1024.imageset/1024.png",
+      "bundleIdentifier": "edu.sfsu.at.ma2",
+      "buildNumber": "0.0.1",
       "supportsTablet": true
     },
+    
     "android": {
-      "icon": "./assets/images/App-Icon.png",
+      "icon": "./assets/images/1024.imageset/1024.png",
       "permissions": ["NOTIFICATIONS"],
-      "package": "edu.at.sfsu.ma2",
+      "package": "edu.sfsu.at.ma2",
       "versionCode": 1
     },
     "description": "MA^2 at SF State",

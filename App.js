@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View, AppState, Text } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SplashScreen } from 'expo';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
@@ -11,8 +11,8 @@ import * as Permissions from 'expo-permissions';
 
 import NotificationsContainer from './components/util/NotificationsContainer';
 import NavigationStack from './navigation/NavigationStack';
-import Api from './components/util/Api';
-import Loader from './components/util/Loader';
+// import Api from './components/util/Api';
+// import Loader from './components/util/Loader';
 import { getUser } from './components/util/Api';
 
 
@@ -26,6 +26,15 @@ const theme = {
   },
 };
 
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -55,12 +64,6 @@ class App extends React.Component {
     }
   }
 
-  // async componentDidUpdate() {
-  //   if (!this.state.user.userId) {
-  //     await this.loadDataFromApi();
-  //   }
-  // }
-
   loadDataFromApi = async () => {
     let res = await getUser(this.state.pushToken);
 
@@ -87,14 +90,14 @@ class App extends React.Component {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+        // alert('Failed to get push token for push notification!');
         return;
       }
       const token = await Notifications.getExpoPushTokenAsync();
       // console.log(token);
       this.setState({ pushToken: token });
     } else {
-      alert('Must use physical device for Push Notifications');
+      // alert('Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {
