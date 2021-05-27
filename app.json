@@ -24,7 +24,7 @@
     "ios": {
       "icon": "./assets/images/1024.imageset/1024.png",
       "bundleIdentifier": "edu.sfsu.at.ma2",
-      "buildNumber": "0.0.1",
+      "buildNumber": "0.0.2",
       "supportsTablet": true
     },
     
@@ -32,7 +32,7 @@
       "icon": "./assets/images/1024.imageset/1024.png",
       "permissions": ["NOTIFICATIONS"],
       "package": "edu.sfsu.at.ma2",
-      "versionCode": 1
+      "versionCode": 2
     },
     "description": "MA^2 at SF State",
     "entryPoint": "index.js",
