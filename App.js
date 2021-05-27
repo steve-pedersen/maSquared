@@ -8,7 +8,6 @@ import { store, persistor } from './redux/store/store';
 import Constants from 'expo-constants';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
-import AppLoading from 'expo-app-loading';
 
 import NotificationsContainer from './components/util/NotificationsContainer';
 import NavigationStack from './navigation/NavigationStack';
@@ -51,7 +50,7 @@ class App extends React.Component {
   // Load any resources or data that we need prior to rendering the app
   async componentDidMount() {
     try {
-      SplashScreen.preventAutoHide();
+      // SplashScreen.preventAutoHide();
       await this.registerForPushNotificationsAsync();
       await this.loadDataFromApi();
       // if (!this.state.user.userId) {
@@ -61,7 +60,7 @@ class App extends React.Component {
       console.warn(e);
     } finally {
       // this.setState({ isLoadingComplete: true });
-      SplashScreen.hide();
+      // SplashScreen.hide();
     }
   }
 
@@ -91,14 +90,14 @@ class App extends React.Component {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        // alert('Failed to get push token for push notification!');
+        console.log('Failed to get push token for push notification!');
         return;
       }
       const token = await Notifications.getExpoPushTokenAsync();
       // console.log(token);
       this.setState({ pushToken: token });
     } else {
-      // alert('Must use physical device for Push Notifications');
+      // console.log('Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {
@@ -140,7 +139,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
 });
 
