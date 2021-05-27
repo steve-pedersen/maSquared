@@ -8,6 +8,7 @@ import { store, persistor } from './redux/store/store';
 import Constants from 'expo-constants';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import AppLoading from 'expo-app-loading';
 
 import NotificationsContainer from './components/util/NotificationsContainer';
 import NavigationStack from './navigation/NavigationStack';
