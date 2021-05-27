@@ -39,7 +39,7 @@ class IntroSlideshow extends Component {
     return (
       <View style={styles.buttonCircle}>
         <Ionicons
-          name="arrow-back-circle-outline"
+          name="md-arrow-back"
           size={30}
         />
       </View>
@@ -78,7 +78,7 @@ class IntroSlideshow extends Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         {this.props.route.params && this.props.route.params.returnRoute ?
           <Icon
-            name="md-arrow-round-back"
+            name="md-arrow-back"
             color="gray"
             size={40}
             style={{ marginTop: 15, marginLeft: 20 }}

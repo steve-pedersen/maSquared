@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { SplashScreen } from 'expo';
+// import { SplashScreen } from 'expo';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react'
 import { store, persistor } from './redux/store/store';
 import Constants from 'expo-constants';
-import { Notifications } from 'expo';
+// import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
 import NotificationsContainer from './components/util/NotificationsContainer';
@@ -57,7 +58,7 @@ class App extends React.Component {
       //   await this.loadDataFromApi();
       // }
     } catch (e) {
-      console.warn(e);
+      console.log(e);
     } finally {
       // this.setState({ isLoadingComplete: true });
       // SplashScreen.hide();
@@ -83,17 +84,17 @@ class App extends React.Component {
 
   registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
-      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
         console.log('Failed to get push token for push notification!');
         return;
       }
-      const token = await Notifications.getExpoPushTokenAsync();
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
       // console.log(token);
       this.setState({ pushToken: token });
     } else {

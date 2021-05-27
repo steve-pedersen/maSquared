@@ -325,7 +325,7 @@ class AppendixE extends Component {
 
           <Button
             onPress={this.handleSubmit}
-            style={styles.button, {...styles.button, marginTop: 125, marginBottom: 125 }}
+            style={(styles.button, {...styles.button, marginTop: 125, marginBottom: 125 })}
             mode="contained"
             title="Next"
           >

@@ -327,7 +327,7 @@ class AffirmationReport extends Component {
               Icon={() => {
                 return (
                   <Icon
-                    name="md-arrow-dropdown"
+                    name="md-arrow-down"
                     color="#000"
                     size={30}
                   />
