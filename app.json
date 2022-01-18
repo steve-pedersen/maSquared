@@ -8,7 +8,7 @@
       "web"
     ],
     "primaryColor": "#58bf7e",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
     "scheme": "http",
@@ -24,7 +24,7 @@
     "ios": {
       "icon": "./assets/images/1024.imageset/1024.png",
       "bundleIdentifier": "edu.sfsu.at.ma2",
-      "buildNumber": "0.0.6",
+      "buildNumber": "0.0.7",
       "supportsTablet": true
     },
     
