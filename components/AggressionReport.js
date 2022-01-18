@@ -635,7 +635,7 @@ const aggressionEmotionSliders = [
 
 const campusOptions = [
   { key: 1, value: 'UCSD', label: 'UC San Diego', displayValue: false },
-  // { key: 2, value: 'sfsu', label: 'SF State', displayValue: false },
+  { key: 2, value: 'sfsu', label: 'SF State', displayValue: false },
   // { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
   // { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
 ];

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ma2",
+    "name": "MA Squared",
     "slug": "ma2",
     "platforms": [
       "ios",
@@ -8,7 +8,7 @@
       "web"
     ],
     "primaryColor": "#58bf7e",
-    "version": "0.0.1",
+    "version": "0.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
     "scheme": "http",
@@ -24,15 +24,15 @@
     "ios": {
       "icon": "./assets/images/1024.imageset/1024.png",
       "bundleIdentifier": "edu.sfsu.at.ma2",
-      "buildNumber": "0.0.2",
+      "buildNumber": "0.0.6",
       "supportsTablet": true
     },
     
     "android": {
       "icon": "./assets/images/1024.imageset/1024.png",
       "permissions": ["NOTIFICATIONS"],
-      "package": "edu.sfsu.at.ma2",
-      "versionCode": 2
+      "package": "edu.at.sfsu.ma2",
+      "versionCode": 4
     },
     "description": "MA^2 at SF State",
     "entryPoint": "index.js",

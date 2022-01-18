@@ -239,6 +239,9 @@ const consentText = (
     or not to participate in this research will have no influence on your present or future status at 
     San Francisco State University.
     {"\n\n"}
+    TO WITHDRAW FROM THE STUDY AND DATA COLLECTION, send an email to buildres@sfsu.edu and include your 
+    User ID (this can be found on the More tab on the bottom of the home screen).
+    {"\n\n"}
     By proceeding in the MA2 app, you are agreeing to participation in this research study. 
   </Text>
 

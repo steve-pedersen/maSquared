@@ -144,6 +144,14 @@ class MoreScreen extends Component {
           isLastOption
         />
 
+        <RectButton style={styles.option} >
+          <View style={styles.optionTextContainer}>
+            <Text style={styles.optionText}>
+            To withdraw from the study, send an email to buildres@sfsu.edu and 
+            include your User ID found above.
+            </Text>
+          </View>
+        </RectButton>
 
         <Modal
           animationType="fade"
