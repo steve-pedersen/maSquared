@@ -8,7 +8,7 @@
       "web"
     ],
     "primaryColor": "#58bf7e",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "orientation": "portrait",
     "icon": "./assets/images/1024.imageset/1024.png",
     "scheme": "http",
@@ -24,7 +24,7 @@
     "ios": {
       "icon": "./assets/images/1024.imageset/1024.png",
       "bundleIdentifier": "edu.sfsu.at.ma2",
-      "buildNumber": "0.0.8",
+      "buildNumber": "0.0.9",
       "supportsTablet": true
     },
     
@@ -32,7 +32,7 @@
       "icon": "./assets/images/1024.imageset/1024.png",
       "permissions": ["NOTIFICATIONS"],
       "package": "edu.at.sfsu.ma2",
-      "versionCode": 4
+      "versionCode": 9
     },
     "description": "MA^2 at SF State",
     "entryPoint": "index.js",
