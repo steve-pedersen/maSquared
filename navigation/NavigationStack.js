@@ -2,11 +2,11 @@ import * as React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, createAppContainer } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './BottomTabNavigator';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { DefaultTheme, Provider as PaperProvider, Text, Title } from 'react-native-paper';
+import { DefaultTheme, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
   widthPercentageToDP as wp,
@@ -14,7 +14,6 @@ import {
 } from 'react-native-responsive-screen';
 import * as Network from 'expo-network';
 
-import Layout from '../constants/Layout';
 import AffirmationReport from '../components/AffirmationReport';
 import AggressionReport from '../components/AggressionReport';
 import IntroSlideshow from '../screens/IntroSlideshow';
@@ -73,6 +72,7 @@ class NavigationStack extends React.Component {
 
   render() {
     if (!this.DEVMODE && !this.props.consentGranted) {
+      // CONSENT FORM
       return (
         <NavigationContainer
           ref={this.props.containerRef}
@@ -87,6 +87,7 @@ class NavigationStack extends React.Component {
         </NavigationContainer>
       );
     } else if (!this.DEVMODE && !this.props.slideshowComplete) {
+      // SLIDESHOW
       return (
         <NavigationContainer
           ref={this.props.containerRef}
@@ -101,7 +102,7 @@ class NavigationStack extends React.Component {
         </NavigationContainer>
       );
     } else if (!this.DEVMODE && this.props.slideshowComplete && !this.props.introSurveyComplete) {
-      // } else if (true) {
+      // SURVEYS
       return (
         <NavigationContainer
           ref={this.props.containerRef}
@@ -110,7 +111,7 @@ class NavigationStack extends React.Component {
         </NavigationContainer>
       );
     } else if (this.props.activeSurvey.isActive) {
-      // } else if (true) {
+      // SURVEYS FROM NOTIFICATION
       return (
         <NavigationContainer
           ref={this.props.containerRef}
@@ -119,6 +120,7 @@ class NavigationStack extends React.Component {
         </NavigationContainer>
       );
     } else {
+      // HOME SCREEN
       return (
         <NavigationContainer
           ref={this.props.containerRef}
@@ -180,7 +182,6 @@ function HeaderRight() {
       name="md-trash"
       color='#74b783'
       size={35}
-    // onPress={this._onDone}
     />
   );
 }
@@ -206,7 +207,6 @@ function BackIcon() {
       name="md-arrow-back"
       color='#74b783'
       size={35}
-    // onPress={() => console.log('going back!')}
     />
   );
 }
@@ -221,7 +221,6 @@ const styles = StyleSheet.create({
 const slideshowHeaderStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    // height: (Layout.window.height / 10),
     height: hp('12%'),
   },
   headerTintColor: '#74b783',
@@ -231,7 +230,6 @@ const slideshowHeaderStyles = {
 const headerStyles = {
   headerStyle: {
     backgroundColor: '#74b783',
-    // height: (Layout.window.height / 10),
     height: hp('12%'),
   },
   headerTintColor: '#fff',
@@ -246,11 +244,9 @@ const reportHeader = {
   headerBackImage: props => <BackIcon {...props} />,
   headerBackTitleVisible: false,
   headerLeftContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
-  // headerRight: props => <HeaderRight {...props} />,
   headerRightContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
   headerStyle: {
     backgroundColor: '#fff',
-    // height: (Layout.window.height / 10),
     height: hp('12%'),
     borderBottomWidth: 2,
     borderBottomColor: '#74b783',
@@ -268,22 +264,15 @@ const rootHeader = {
   headerLeft: props => (
     <LogoTitle {...props} />
   ),
-  // headerRight: props => (
-  //   <NetworkStatus {...props} />
-  // ),
   headerBackImage: props => <LogoTitle {...props} />,
   headerBackTitleVisible: false,
   headerLeftContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
-  // headerRight: props => <HeaderRight {...props} />,
   headerRightContainerStyle: { paddingHorizontal: 12, alignSelf: 'center' },
   headerStyle: {
     backgroundColor: '#74b783',
-    // height: (Layout.window.height / 10),
     height: hp('12%'),
     borderBottomWidth: 2,
     borderBottomColor: '#74b783',
-    // borderTopWidth: hp('5%'),
-    // borderTopColor: '#74b783'
   },
   headerTintColor: '#74b783',
   headerTitleStyle: {
@@ -304,19 +293,16 @@ const surveyStack = (
     <Stack.Screen
       name="AppendixA"
       component={AppendixA}
-      // options={}
       options={slideshowHeaderStyles}
     />
     <Stack.Screen
       name="AppendixB"
       component={AppendixB}
-      // options={{ title: 'Intro Survey: Appendix B' }}
       options={slideshowHeaderStyles}
     />
     <Stack.Screen
       name="AppendixC"
       component={AppendixC}
-      // options={{ title: 'Intro Survey: Appendix C' }}
       options={slideshowHeaderStyles}
     />
     <Stack.Screen

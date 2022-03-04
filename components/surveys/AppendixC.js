@@ -23,11 +23,7 @@ class AppendixC extends Component {
   }
 
   handleSubmit = values => {
-    // TODO: update redux state to survey complete, 
-    // then allow App to go to Home nav stack
-    // this.props.navigation.navigate('Root', {});
     this.props.navigation.navigate('AppendixD', {});
-    // this.props.saveSurvey(true);
   }
 
   render() {
@@ -37,7 +33,7 @@ class AppendixC extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}>
           <View>
-            <Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
+            <Paragraph style={{ marginBottom: 30, fontSize: 22 }}>
               Thinking about your current life, please read each of these
               statements and rate to what extent you feel this is true for
               you at SF State, on a scale of <Bold>1 (Never)</Bold> to 
@@ -100,7 +96,29 @@ export default connect(
   { saveSurveyC, saveSurvey }
 )(AppendixC);
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  button: {
+    marginTop: 30,
+    marginBottom: 100,
+    backgroundColor: '#74b783',
+    paddingVertical: 6
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  scrollContentContainer: {
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  question: {
+    fontSize: 20
+  }
+});
 
 const answerScale = [
   { key: 1, value: 1, label: '1 (Never)', displayValue: false },
@@ -119,79 +137,60 @@ const answerScale = [
 const surveyQsAppendixC = [
   {
     key: 1,
-    content: (<Text>I feel my <Bold>identity</Bold> is <Bold>accepted</Bold>.</Text>),
+    content: (<Text style={styles.question}>I feel my <Bold>identity</Bold> is <Bold>accepted</Bold>.</Text>),
   },
   {
     key: 2,
-    content: (<Text>I feel <Bold>recognized</Bold> for my good efforts, thoughfulness, and talents.</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>recognized</Bold> for my good efforts, thoughfulness, and talents.</Text>)
   },
   {
     key: 3,
-    content: (<Text> I feel <Bold>acknowledged</Bold> (seen, heard, listened to, validated and responded to about my concern).</Text>)
+    content: (<Text style={styles.question}> I feel <Bold>acknowledged</Bold> (seen, heard, listened to, validated and responded to about my concern).</Text>)
   },
   {
     key: 4,
-    content: (<Text>I feel <Bold>included</Bold> (a sense of belonging).</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>included</Bold> (a sense of belonging).</Text>)
   },
   {
     key: 5,
-    content: (<Text>I feel <Bold>safe</Bold> (both physically and psychologically).</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>safe</Bold> (both physically and psychologically).</Text>)
   },
   {
     key: 6,
-    content: (<Text>I feel <Bold>treated fairly</Bold>.</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>treated fairly</Bold>.</Text>)
   },
   {
     key: 7,
-    content: (<Text>I feel <Bold>autonomous</Bold> (free to make my own decisions and act on my own behalf).</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>autonomous</Bold> (free to make my own decisions and act on my own behalf).</Text>)
   },
   {
     key: 8,
-    content: (<Text>I feel <Bold>understood</Bold>.</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>understood</Bold>.</Text>)
   },
   {
     key: 9,
-    content: (<Text>I feel I am given the <Bold>benefit of the doubt</Bold>.</Text>)
+    content: (<Text style={styles.question}>I feel I am given the <Bold>benefit of the doubt</Bold>.</Text>)
   },
   {
     key: 10,
-    content: (<Text>I feel <Bold>apologized to</Bold> when someone violates my dignity.</Text>)
+    content: (<Text style={styles.question}>I feel <Bold>apologized to</Bold> when someone violates my dignity.</Text>)
   }
 ];
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  button: {
-    marginTop: 30,
-    marginBottom: 100,
-    backgroundColor: '#74b783',
-    paddingVertical: 6
-  },
-  scrollContainer: {
-    flex: 1,
-    paddingHorizontal: 15,
-  },
-  scrollContentContainer: {
-    paddingTop: 40,
-    paddingBottom: 10,
-  },
-});
+
 
 const pickerSelectStyles = StyleSheet.create({
   flexGrow: 1,
   iconContainer: {
-    top: 16,
-    right: 20,
+    top: 12,
+    right: 16,
   },
   inputIOS: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingVertical: 18,
+    paddingVertical: 16,
     paddingHorizontal: 10,
     backgroundColor: '#f8f9fa',
     borderWidth: 1,

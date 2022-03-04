@@ -1,17 +1,9 @@
-import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, TouchableOpacity, TouchableHighlight, View, Button, TextInput } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Divider, Text } from 'react-native-paper';
 
-import { MonoText } from '../components/StyledText';
-import AffirmationReport from '../components/AffirmationReport';
-import AggressionReport from '../components/AggressionReport';
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import reducers from '../redux/reducers';
-import Layout from '../constants/Layout';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -23,7 +15,6 @@ const Stack = createStackNavigator();
 class HomeScreen extends React.Component {
 
   showSlideshow = () => {
-    // navigation.setParams({ returnRoute: '' });
     this.props.navigation.navigate('IntroSlideshow', { returnRoute: 'HomeScreen' });
   };
 
@@ -44,7 +35,7 @@ class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={{ paddingVertical: 10 }}>
-            <Text style={{ textAlign: 'center', fontSize: 16 }}>What did you experience?</Text>
+            <Text style={{ textAlign: 'center', fontSize: 18 }}>What did you experience?</Text>
           </View>
 
           <TouchableOpacity
@@ -159,20 +150,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    // paddingVertical: (Layout.window.height / 30),
   },
   helpContainer: {
     marginTop: 15,
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    // paddingVertical: 20,
   },
   helpLink: {
     paddingVertical: 15,
   },
   helpLinkText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#74b783',
     textDecorationColor: '#74b783',
     textDecorationLine: 'underline',
@@ -185,7 +174,7 @@ const styles = StyleSheet.create({
     color: '#b16d65',
     padding: hp('4%'),
     paddingVertical: hp('5%'),
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
   },
   affirmationButton: {
@@ -196,7 +185,7 @@ const styles = StyleSheet.create({
     color: '#74b783',
     padding: hp('4%'),
     paddingVertical: hp('5%'),
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
   },
 });

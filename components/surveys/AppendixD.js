@@ -48,11 +48,11 @@ class AppendixD extends Component {
 					style={styles.scrollContainer}
 					contentContainerStyle={styles.scrollContentContainer}>
 					<View>
-						<Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
+						<Paragraph style={{ marginBottom: 30, fontSize: 22 }}>
 							The following questions relate to your usual sleep habits
               during the past month <I>only</I>. Your answers should indicate
               the most accurate reply for the <I>majority</I> of days and nights
-              in the past month. Please answer all questions.
+              in the past month. <U>Please answer all questions.</U>
             </Paragraph>
 					</View>
 					{surveyQsAppendixD1234.map((prop, key) => {
@@ -67,6 +67,7 @@ class AppendixD extends Component {
 										<TextInput
 											style={{ flexGrow: 1 }}
 											mode='outlined'
+											keyboardType='numeric'
 											label={prop.label}
 											value={this.props.surveyD[prop.key].value}
 											onChangeText={
@@ -82,9 +83,9 @@ class AppendixD extends Component {
 					{/* <Divider style={{ marginBottom: hp('3.5%') }} /> */}
 
 					<View>
-						<Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
-							For each of the next ten questions <I>(5a-5j)</I>, check the one best response.
-              Please answer <I>all</I> questions.
+						<Paragraph style={{ marginBottom: 20, marginTop: 20, fontSize: 22 }}>
+							For each of the next ten questions <I>(5a-5j)</I>, check the one best response. <U>Please 
+							answer <I>all</I> questions.</U>
             </Paragraph>
 					</View>
 					{surveyQsAppendixD5.map((prop, key) => {
@@ -93,7 +94,7 @@ class AppendixD extends Component {
 						return (
 							<View key={key} style={{ marginVertical: 15 }}>
 								<View>
-									<Text style={styles.questionText}>
+									<Text style={{...styles.questionText, paddingBottom: 5}}>
 										<Bold>{prop.key}.</Bold> {prop.label}
 									</Text>
 								</View>
@@ -109,6 +110,7 @@ class AppendixD extends Component {
 												<RadioButton.Item
 													label={answer.label}
 													value={answer.key}
+													style={styles.answerText}
 													status={isChecked ? 'checked' : 'unchecked'}
 												/>
 											</View>
@@ -153,6 +155,7 @@ class AppendixD extends Component {
 										<RadioButton.Item
 											label={answer.label}
 											value={answer.key}
+											style={styles.answerText}
 											status={isChecked ? 'checked' : 'unchecked'}
 										/>
 									</View>
@@ -180,6 +183,7 @@ class AppendixD extends Component {
 										<RadioButton.Item
 											label={answer.label}
 											value={answer.key}
+											style={styles.answerText}
 											status={isChecked ? 'checked' : 'unchecked'}
 										/>
 									</View>
@@ -207,6 +211,7 @@ class AppendixD extends Component {
 										<RadioButton.Item
 											label={answer.label}
 											value={answer.key}
+											style={styles.answerText}
 											status={isChecked ? 'checked' : 'unchecked'}
 										/>
 									</View>
@@ -234,6 +239,7 @@ class AppendixD extends Component {
 										<RadioButton.Item
 											label={answer.label}
 											value={answer.key}
+											style={styles.answerText}
 											status={isChecked ? 'checked' : 'unchecked'}
 										/>
 									</View>
@@ -260,6 +266,7 @@ class AppendixD extends Component {
 										<RadioButton.Item
 											label={answer.label}
 											value={answer.key}
+											style={styles.answerText}
 											status={isChecked ? 'checked' : 'unchecked'}
 										/>
 									</View>
@@ -270,9 +277,9 @@ class AppendixD extends Component {
 
 
 					<View>
-						<Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
-							If you have a roommate or bed partner, ask him/her how often
-							in the past month you have had...
+						<Paragraph style={{ marginBottom: 10, fontSize: 22, marginTop: 20 }}>
+							<I>If you have a roommate or bed partner, ask him/her how often
+							in the past month you have had...</I>
             </Paragraph>
 					</View>
 					{surveyQsAppendixD10.map((prop, key) => {
@@ -311,6 +318,7 @@ class AppendixD extends Component {
 												<RadioButton.Item
 													label={answer.label}
 													value={answer.key}
+													style={styles.answerText}
 													status={isChecked ? 'checked' : 'unchecked'}
 												/>
 											</View>
@@ -364,43 +372,50 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 	},
 	scrollContentContainer: {
-		paddingTop: 40,
+		paddingTop: 20,
 		paddingBottom: 10,
 	},
 	questionText: {
-		fontSize: hp('1.75%')
-	}
+		fontSize: hp('1.75%'),
+		fontSize: 20
+	},
+  answerText: {
+    fontSize: 12,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eaeaea'
+  },
 });
 
 const pickerSelectStyles = StyleSheet.create({
-	flexGrow: 1,
-	iconContainer: {
-		top: 16,
-		right: 20,
-	},
-	inputIOS: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		textAlign: 'center',
-		paddingVertical: 18,
-		paddingHorizontal: 10,
-		backgroundColor: '#f8f9fa',
-		borderWidth: 1,
-		borderColor: 'gray',
-		borderRadius: 4,
-		color: 'green',
-		paddingRight: 30, // to ensure the text is never behind the icon
-	},
-	inputAndroid: {
-		fontSize: 16,
-		paddingHorizontal: 10,
-		paddingVertical: 8,
-		borderWidth: 0.5,
-		borderColor: 'purple',
-		borderRadius: 8,
-		color: 'black',
-		paddingRight: 30, // to ensure the text is never behind the icon
-	},
+  flexGrow: 1,
+  iconContainer: {
+    top: 12,
+    right: 16,
+  },
+  inputIOS: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    backgroundColor: '#f8f9fa',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'green',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
 });
 
 
@@ -410,7 +425,7 @@ const surveyQsAppendixD1234 = [
 		question: (
 			<View>
 				<Text style={styles.questionText}><Bold>1. </Bold>During the past month, when have you usually gone to bed at night?</Text>
-				<Text style={styles.questionText}><I>For example, if you have usually gone to bed at 11 at night, please input 11 PM.</I></Text>
+				<Text style={{...styles.questionText, fontSize:18}}><I>For example, if you have usually gone to bed at 11 at night, please input 11.</I></Text>
 			</View>
 		),
 		label: 'USUAL BED TIME'
@@ -420,7 +435,7 @@ const surveyQsAppendixD1234 = [
 		question: (
 			<View>
 				<Text style={styles.questionText}><Bold>2. </Bold>During the past month, how long (in minutes) has it taken you to fall asleep each night?</Text>
-				<Text style={styles.questionText}><I>For example, if it has usually taken you 15 minutes to asleep please input 15.</I></Text>
+				<Text style={{...styles.questionText, fontSize:18}}><I>For example, if it has usually taken you 15 minutes to asleep please input 15.</I></Text>
 			</View>
 		),
 		label: 'NUMBER OF MINUTES'
@@ -430,7 +445,7 @@ const surveyQsAppendixD1234 = [
 		question: (
 			<View>
 				<Text style={styles.questionText}><Bold>3. </Bold>During the past month, when have you usually gotten up in the morning?</Text>
-				<Text style={styles.questionText}><I>For example, if you have usually gotten up at 9 in the morning, please input 9 AM.</I></Text>
+				<Text style={{...styles.questionText, fontSize:18}}><I>For example, if you have usually gotten up at 9 in the morning, please input 9.</I></Text>
 			</View>
 		),
 		label: 'USUAL GETTING UP TIME'
@@ -440,7 +455,7 @@ const surveyQsAppendixD1234 = [
 		question: (
 			<View>
 				<Text style={styles.questionText}><Bold>4. </Bold>During the past month, how many hours of actual sleep did you get at night?</Text>
-				<Text style={styles.questionText}><I>This may be different than the number of hours you spend in bed. For example,
+				<Text style={{...styles.questionText, fontSize:18}}><I>This may be different than the number of hours you spend in bed. For example,
             if you got 7 hours of actual sleep, please input 7.</I></Text>
 			</View>
 		),

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Slider, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet } from 'react-native';
+import Slider from '@react-native-community/slider';
 import Layout from '../constants/Layout';
 import {
   widthPercentageToDP as wp, 
@@ -25,6 +26,8 @@ class EmotionSlider extends Component {
                 minimumTrackTintColor={this.props.minimumTrackTintColor}
                 maximumTrackTintColor={this.props.maximumTrackTintColor}
                 step={1}
+                tapToSeek={true}
+                thumbTintColor={this.props.minimumTrackTintColor}
               />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.text}>Not at all</Text>
@@ -37,19 +40,11 @@ class EmotionSlider extends Component {
 
 const styles = StyleSheet.create({
   image: {
-      // height: (Layout.window.height / 3),
-      // width: (Layout.window.width / 2),
-      // marginTop: (Layout.window.height / 8 - 40),
-      // width: '100%', 
       alignSelf: 'center',
-      // marginBottom: 5,
-      // marginVertical: 0,
-      // paddingVertical: 0,
       width: wp('89%'),
       height: hp('6%')
   },
   exampleImage: {
-      // height: (Layout.window.height / 2),
       width: wp('90%'),
       justifyContent: 'center',
       marginVertical: -(Layout.window.height / 15),     

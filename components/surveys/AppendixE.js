@@ -38,7 +38,6 @@ import {
 
 const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
 
-
 const placeholder = {
   label: '_',
   value: null,
@@ -100,7 +99,7 @@ class AppendixE extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}>
           <View>
-            <Title style={{ marginBottom: 20, fontSize: 18 }}>
+            <Title style={{ marginBottom: 20, fontSize: 22 }}>
               Demographic Questions
             </Title>
           </View>
@@ -121,7 +120,7 @@ class AppendixE extends Component {
           </View>
 
 
-          <View style={{ marginVertical: 30 }}>
+          <View style={{ marginTop: 30, marginBottom: 10 }}>
             <View style={{ paddingBottom: 10 }}>
               <Text style={styles.questionText}>
                 <Bold>2. </Bold> What is your current gender identity?
@@ -140,6 +139,7 @@ class AppendixE extends Component {
                       key={answer.key}
                       label={answer.label}
                       value={answer.key}
+                      style={styles.answerText}
                       status={isChecked ? 'checked' : 'unchecked'}
                     />
                   </View>
@@ -196,7 +196,7 @@ class AppendixE extends Component {
             undefined
           }
 
-          <View style={{ marginVertical: 30 }}>
+          <View style={{ marginTop: 30, marginBottom: 10 }}>
             <View style={{ paddingBottom: 10 }}>
               <Text style={styles.questionText}>
                 <Bold>3. </Bold> What gender were you assigned at birth?
@@ -214,6 +214,7 @@ class AppendixE extends Component {
                     <RadioButton.Item
                       label={answer.label}
                       value={answer.key}
+                      style={styles.answerText}
                       status={isChecked ? 'checked' : 'unchecked'}
                     />
                   </View>
@@ -224,7 +225,7 @@ class AppendixE extends Component {
 
           {this.props.surveyE[3].value === 3 ?
             (
-              <View style={{ marginVertical: 30 }}>
+              <View style={{ marginTop: 30, marginBottom: 10 }}>
                 <View style={{ paddingBottom: 10 }}>
                   <Text style={styles.questionText}>
                     <Bold>3a. </Bold> As which gender were you raised?
@@ -242,6 +243,7 @@ class AppendixE extends Component {
                         <RadioButton.Item
                           label={answer.label}
                           value={answer.key}
+                          style={styles.answerText}
                           status={isChecked ? 'checked' : 'unchecked'}
                         />
                       </View>
@@ -253,7 +255,7 @@ class AppendixE extends Component {
             undefined
           }
 
-          <View style={{ marginVertical: 30 }}>
+          <View style={{ marginTop: 30, marginBottom: 10 }}>
             <View style={{ paddingBottom: 10 }}>
               <Text style={styles.questionText}>
                 <Bold>4. </Bold> When I think about my sexual orientation, I would
@@ -272,6 +274,7 @@ class AppendixE extends Component {
                     <RadioButton.Item
                       label={answer.label}
                       value={answer.key}
+                      style={styles.answerText}
                       status={isChecked ? 'checked' : 'unchecked'}
                     />
                   </View>
@@ -386,21 +389,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   scrollContentContainer: {
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 10,
   },
   questionText: {
-    fontSize: hp('1.75%')
+    fontSize: hp('1.75%'),
+    fontSize: 20
   },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5,
-    marginVertical: 5
+    marginVertical: 2,
+    marginLeft: 8
   },
   switchText: {
     marginLeft: wp('3%'),
     fontSize: hp('1.75%'),
+  },
+  questionText: {
+		// fontSize: hp('1.75%'),
+		fontSize: 20
+	},
+  answerText: {
+    fontSize: 12,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eaeaea'
   },
 });
 

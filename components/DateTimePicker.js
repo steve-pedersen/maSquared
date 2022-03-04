@@ -14,7 +14,6 @@ const DateTimePicker = ({ mode, text, currentDateTime, callbackHandler }) => {
   };
  
   const handleConfirm = (date) => {
-    // console.log("A date has been picked: ", date);
     callbackHandler(date);
     hideDatePicker();
   };

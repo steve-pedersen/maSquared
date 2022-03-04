@@ -10,11 +10,10 @@ class IntroSurvey extends Component {
 
     render() {
         return (
-            // <View style={{backgroundColor: '#fff'}}>
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={styles.contentContainer}>
-                <Paragraph>
+                <Paragraph style={{fontSize: 22}}>
                     Hello!{'\n\n'}
                     Before you can continue using the app, please complete a survey
                     by clicking the button below.
@@ -30,7 +29,6 @@ class IntroSurvey extends Component {
                     </Text>
                 </Button>
             </ScrollView>
-            // </View>
         );
     }
 };
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
         flex: 0,
         backgroundColor: '#fff',
         padding: 10,
-        fontSize: 14,
+        fontSize: 22,
         alignContent: 'center',
         alignSelf: 'center',
     },

@@ -33,7 +33,7 @@ class AppendixB extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}>
           <View>
-            <Paragraph style={{ marginBottom: 20, fontSize: 18 }}>
+            <Paragraph style={{ marginBottom: 30, marginTop: 0, fontSize: 22 }}>
               Assuming you were motivated to do your best, on a scale 1
               (Completely Unsure) to 10 (Completely Sure), please indicate
               whether or not you could <U>successfully</U> do each of the following:
@@ -43,7 +43,7 @@ class AppendixB extends Component {
             key++;
             return (
               <View key={key} style={{ marginBottom: 30 }}>
-                <Text style={{ paddingBottom: 10, fontSize: 15 }}><Bold>{prop.key}. </Bold> {prop.text}</Text>
+                <Text style={{ paddingBottom: 10, fontSize: 20 }}><Bold>{prop.key}. </Bold> {prop.text}</Text>
                 <View style={styles.pickerContainer}>
                   <RNPickerSelect
                     placeholder={placeholder}
@@ -55,7 +55,7 @@ class AppendixB extends Component {
                     Icon={() => {
                       return (
                         <Icon
-                          name="md-arrow-down"
+                          name="md-caret-down"
                           color="#000"
                           size={30}
                         />
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   scrollContentContainer: {
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 10,
   },
 });
@@ -189,14 +189,14 @@ const styles = StyleSheet.create({
 const pickerSelectStyles = StyleSheet.create({
   flexGrow: 1,
   iconContainer: {
-    top: 16,
-    right: 20,
+    top: 12,
+    right: 16,
   },
   inputIOS: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingVertical: 18,
+    paddingVertical: 16,
     paddingHorizontal: 10,
     backgroundColor: '#f8f9fa',
     borderWidth: 1,

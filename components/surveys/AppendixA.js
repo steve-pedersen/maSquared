@@ -10,13 +10,10 @@ const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</
 class AppendixA extends Component {
 
   onSurveyChange(value, key) {
-    // console.log('onSurveyChange: ', value, key);
     this.props.saveSurveyA(value, key);
   }
 
   handleSubmit = values => {
-    // console.log('submitting form', values);
-    // saveSurveyA(surveyA);
     this.props.navigation.navigate('AppendixB', {});
   }
 
@@ -29,7 +26,7 @@ class AppendixA extends Component {
           return (
             <View key={key} style={{ marginVertical: 15 }}>
               <View>
-                <Text><Bold>{key}.</Bold> {prop.label}</Text>
+                <Text style={styles.questionText}><Bold>{key}.</Bold> {prop.label}</Text>
               </View>
               <RadioButton.Group
                 key={prop.key}
@@ -43,6 +40,7 @@ class AppendixA extends Component {
                       <RadioButton.Item
                         label={answer.label}
                         value={answer.key}
+                        style={styles.answerText}
                         status={isChecked ? 'checked' : 'unchecked'}
                       />
                     </View>
@@ -61,16 +59,15 @@ class AppendixA extends Component {
         >
           <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
             Next
-                    </Text>
+          </Text>
         </Button>
       </ScrollView>
     )
   }
 }
 
-// error: can't find variable surveyA
+
 function mapStateToProps(state) {
-  // console.log('in mapStateToProps: ', state);
   return {
     surveyA: state.surveyA
   }
@@ -135,6 +132,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 10,
     paddingBottom: 100,
+  },
+  questionText: {
+    fontSize: 20,
+    paddingBottom: 15
+  },
+  answerText: {
+    fontSize: 12,
+    paddingBottom: 0,
+    borderBottomWidth:1,
+    borderBottomColor: '#eaeaea'
   },
   button: {
     marginTop: 30,

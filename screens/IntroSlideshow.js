@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
-import { AppText } from '../components/StyledText';
 import {
   widthPercentageToDP as wp, 
   heightPercentageToDP as hp
@@ -86,12 +85,6 @@ class IntroSlideshow extends Component {
           /> :
           undefined
         }
-        {/* <Button
-            style={{ backgroundColor: '#efefef', width: '50%' }}
-            mode="contained"
-            onPress={this._onReset}>
-            <Text style={{color: '#000'}}>Reset App</Text>
-        </Button> */}
         <StatusBar translucent backgroundColor="transparent" />
         <AppIntroSlider
           style={{ marginBottom: 100 }}
@@ -99,7 +92,6 @@ class IntroSlideshow extends Component {
           renderItem={this._renderItem}
           data={slides}
           onDone={this._onDone}
-          // dotStyle={{ backgroundColor: '#8e8e8e' }}
           activeDotStyle={{ backgroundColor: '#74b783' }}
           renderDoneButton={this._renderDoneButton}
         />
@@ -148,8 +140,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    // marginTop: -30,
-    // marginBottom: hp('25%'),
     backgroundColor: '#74b783',
     paddingVertical: 6
   },
@@ -208,7 +198,7 @@ const slides = [
           too much. They can also make you feel invisible and/or unimportant.{"\n\n"}
           Microaggressions can be expressed verbally, through someone's behavior, or
           simply present in the environment.
-      </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -221,12 +211,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaggression Example #1
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_ag_1.imageset/m_ag_1.jpg')}
@@ -240,7 +229,7 @@ const slides = [
         ]}>
           A math professor giving verbal praise and encouragement to the male
           students in their class, but not to the female students.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -253,12 +242,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaggression Example #2
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_ag_2.imageset/m_ag_2.jpg')}
@@ -272,7 +260,7 @@ const slides = [
         ]}>
           When instructed to break into small groups, someone makes a face in
           your direction and turns away to avoid being in your group.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -285,12 +273,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaggression Example #3
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_ag_3.imageset/m_ag_3.jpg')}
@@ -303,7 +290,7 @@ const slides = [
           },
         ]}>
           Posters in your department only picturing white, male scientists and scholars.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -316,7 +303,6 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
@@ -334,7 +320,7 @@ const slides = [
                     acknowledging or recognizing that a microaggression occurred is a microaffirmation.
                     {"\n\n"}Microaffirmations can also be expressed verbally, through someone's behavior,
                     or simply present in the environment.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -347,12 +333,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaffirmation Example #1
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_af_1.imageset/m_af_1.jpg')}
@@ -366,7 +351,7 @@ const slides = [
         ]}>
           A math professor giving verbal praise and encouragement to their female students
           as well as their male students.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -379,12 +364,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaffirmation Example #2
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_af_2.imageset/m_af_2.jpg')}
@@ -398,7 +382,7 @@ const slides = [
         ]}>
           When instructed to break into small groups, someone smiles and scoots
           toward you to be in your group.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -411,12 +395,11 @@ const slides = [
         <Title style={[
           styles.title,
           {
-            // paddingBottom: 20,
             textAlign: 'left',
           },
         ]}>
           Microaffirmation Example #3
-                </Title>
+        </Title>
         <Image
           style={styles.exampleImage}
           source={require('../assets/images/m_af_3.imageset/m_af_3.jpg')}
@@ -429,7 +412,7 @@ const slides = [
           },
         ]}>
           Posters in your department picturing a diverse representation of scientists and scholars.
-                </Text>
+        </Text>
       </ScrollView>
     ),
     bg: '#fff',
@@ -443,7 +426,6 @@ const slides = [
           <Text style={[
             styles.title,
             {
-              // paddingBottom: 20,
               textAlign: 'left',
             },
           ]}>

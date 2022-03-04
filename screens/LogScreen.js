@@ -1,5 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, TouchableHighlight, Modal, TouchableOpacity, Animated, Alert } from 'react-native';
@@ -9,7 +7,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { deleteReport } from '../redux/actions';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import { saveAffirmationReport, saveAggressionReport } from '../redux/actions';
@@ -263,7 +260,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fafafa',
-    // padding: 20,
   },
   reportListItem: {
     paddingHorizontal: wp('3.5%'),
@@ -273,7 +269,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginVertical: hp('.75%'),
-    // fontWeight: 'bold',
     fontSize: hp('1.75%'),
   },
   aggressionText: {

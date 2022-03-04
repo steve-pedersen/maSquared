@@ -12,8 +12,6 @@ export function getUser(token) {
     d: Constants.deviceId,
     t: token 
   }};
-  // console.log('params: ', params);
-  // console.log('api url: ', userApi);
 
   return axios.get(userApi, params).then(response => {
     return response.data;

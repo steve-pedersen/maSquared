@@ -10,27 +10,21 @@ const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</
 class ConsentForm extends Component {
 
   onConsentChange(value) {
-    // console.log('onConsentChange: ', value);
     this.props.saveConsent(value);
   }
 
   handleSubmit = values => {
-    // console.log('submitting form', values);
-    // saveConsent(surveyA);
     if (this.props.consentGranted) {
       this.props.saveDevice();
-      // this.props.navigation.navigate('IntroSlideshow', {});
     }
   }
 
   componentDidMount() {
-    // console.log('USER: ', this.props.user);
+
   }
 
   render() {
-
-    return (
-      
+    return (    
       <ScrollView style={styles.container}>
         <SafeAreaView>
         {/* <NotificationsContainer /> */}
@@ -83,7 +77,6 @@ export default connect(
   mapStateToProps,
   { getConsent, saveConsent, saveDevice }
 )(ConsentForm);
-
 
 
 const styles = StyleSheet.create({
@@ -229,7 +222,7 @@ const consentText = (
 
   <Text style={styles.text}>
     If you have any questions about the study, you may ask the researchers on ma2sfsu.blogspot.com or 
-    contact Lindsey Seril directly at lseril@mail.sfsu.edu.
+    contact Charlotte Tate at ctate2@sfsu.edu.
     {"\n\n"}
     Questions about your rights as a study participant, or comments or complaints about the study, 
     may also be addressed to the Human and Animal Protections at (415) 338-1093 or protocol@sfsu.edu. 

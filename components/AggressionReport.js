@@ -19,11 +19,9 @@ import {
   Title,
   Divider,
 } from 'react-native-paper';
-import RNPickerSelect from 'react-native-picker-select';
-import { CommonActions } from '@react-navigation/native';
 
 import DateTimePicker from './DateTimePicker';
-import CampusMap from './CampusMap';
+// import CampusMap from './CampusMap';
 import EmotionSlider from './EmotionSlider';
 import {
   widthPercentageToDP as wp,
@@ -110,7 +108,6 @@ class AggressionReport extends Component {
 
       postReport(report)
         .then(res => {
-          // console.log('reportId: ', res);
           if (res && res.reportId && !report.reportId) {
             report.reportId = res.reportId;
             report.report.reportId = report.reportId;
@@ -146,7 +143,6 @@ class AggressionReport extends Component {
     };
 
     postReport(report).then(res => {
-      // console.log('reportId: ', res.data);
       if (res && res.reportId && !report.reportId) {
         report.reportId = res.reportId;
         report.report.reportId = report.reportId;
@@ -233,7 +229,6 @@ class AggressionReport extends Component {
                   multiline={true}
                   mode='outlined'
                   style={{
-                    // minHeight: 150,
                     textAlignVertical: "top",
                   }}
                   numberOfLines={8} />
@@ -313,7 +308,23 @@ class AggressionReport extends Component {
 
             <Divider style={{ marginVertical: hp('.75%') }} />
 
-            <View style={styles.pickerContainer}>
+            <View style={styles.reportComponent}>
+            <Text style={styles.label}>Where did this happen?</Text>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <TextInput
+                value={this.props.report.campus}
+                onChangeText={(value) => this.onReportChange('campus', value)}
+                label='Location'
+                multiline={true}
+                mode='outlined'
+                style={{
+                  textAlignVertical: "top",
+                }}
+                numberOfLines={3} />
+            </TouchableWithoutFeedback>
+          </View>
+
+            {/* <View style={styles.pickerContainer}>
               <View style={{ marginBottom: hp('1%') }}>
                 <Text style={styles.label}>Where did this happen?</Text>
               </View>
@@ -335,7 +346,7 @@ class AggressionReport extends Component {
                   );
                 }}
               />
-            </View>
+            </View> */}
 
             {/* <Text style={{ fontStyle: 'italic', paddingVertical: 10, textAlign: 'center', fontSize: hp('1.75%') }}>
             Click the pencil under the map to select a location.
@@ -349,7 +360,7 @@ class AggressionReport extends Component {
             />
           </View> */}
 
-            <View style={styles.pickerContainer}>
+            {/* <View style={styles.pickerContainer}>
               <RNPickerSelect
                 placeholder={{
                   label: 'Choose a location',
@@ -371,14 +382,13 @@ class AggressionReport extends Component {
                   );
                 }}
               />
-            </View>
+            </View> */}
 
             <Divider style={{ marginVertical: hp('.75%') }} />
 
             <View style={styles.sliders}>
 
               <View key='sensitivity' style={{ marginBottom: 20 }}>
-                {/* <Divider style={{ marginVertical: hp('.75%'), alignSelf: 'center', width: '60%' }} /> */}
                 <EmotionSlider
                   key='sensitivity'
                   containerStyle={styles.sliders}
@@ -388,10 +398,10 @@ class AggressionReport extends Component {
                   onChange={value => this.onReportChange('sensitivity', value)}
                   sliderStyle={styles.sliderStyle}
                   minimumValue={0}
-                  maximumValue={10}
+                  maximumValue={5}
                   minimumTrackTintColor="#b16d65"
                   maximumTrackTintColor="#EFEFEF"
-                  imageSrc={require('../assets/images/scale1.png')}
+                  imageSrc={require('../assets/images/scale2.png')}
                 />
               </View>
 
@@ -431,7 +441,7 @@ class AggressionReport extends Component {
                       style={{ ...styles.sliders, flexDirection: 'row', alignItems: 'center' }}
                       onPress={this.addOtherEmotion}>
                       <Icon name="md-add" style={{ color: '#74b783', marginRight: 15 }} size={35} />
-                      <Text>Add another emotion (optional)</Text>
+                      <Text style={{fontSize: 18}}>Add another emotion (optional)</Text>
                     </TouchableOpacity>
                   ) :
                   (
@@ -494,8 +504,6 @@ export default connect(
 )(AggressionReport);
 
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -522,7 +530,7 @@ const styles = StyleSheet.create({
   },
   switchText: {
     marginLeft: wp('3%'),
-    fontSize: hp('1.75%'),
+    fontSize: hp('1.85%'),
   },
   contentContainer: {
     paddingTop: hp('2%'),
@@ -535,6 +543,7 @@ const styles = StyleSheet.create({
     color: '#b16d65',
     fontSize: hp('2.5%'),
     marginBottom: hp('1%'),
+    fontWeight: 'bold'
   },
   aggressionButton: {
     marginVertical: 40,
@@ -636,8 +645,6 @@ const aggressionEmotionSliders = [
 const campusOptions = [
   { key: 1, value: 'UCSD', label: 'UC San Diego', displayValue: false },
   { key: 2, value: 'sfsu', label: 'SF State', displayValue: false },
-  // { key: 2, value: 'sjsu', label: 'SJSU', displayValue: false },
-  // { key: 3, value: 'csus', label: 'CSU Stanislaus', displayValue: false },
 ];
 
 const ucsdLocations = [

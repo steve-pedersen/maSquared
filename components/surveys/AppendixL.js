@@ -86,7 +86,7 @@ class AppendixL extends Component {
       >
         <ScrollView>
         <View style={styles.questionContainer}>
-          <Text>
+          <Text style={{fontSize:20}}>
             1) Did you update your iOS system during the time you were using the MA2 app?
           </Text>
           <RadioButton.Group
@@ -96,11 +96,13 @@ class AppendixL extends Component {
               <RadioButton.Item
                 label='Yes'
                 value={2}
+                style={styles.answerText}
                 status={this.props.surveyL['1'].value == 2 ? 'checked' : 'unchecked'}
               />
               <RadioButton.Item
                 label='No'
                 value={1}
+                style={styles.answerText}
                 status={this.props.surveyL['1'].value == 1 ? 'checked' : 'unchecked'}
               />
             </View>
@@ -109,7 +111,7 @@ class AppendixL extends Component {
           {this.props.surveyL['1'].value === 2 && (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.inner}>
-                <Text>1A) Approximately when did you update your phone's OS?</Text>
+                <Text style={{fontSize:20}}>1A) Approximately when did you update your phone's OS?</Text>
                 <TextInput
                   style={{ flexGrow: 1 }}
                   mode='outlined'
@@ -122,7 +124,7 @@ class AppendixL extends Component {
         </View>
 
         <View style={styles.questionContainer}>
-          <Text>
+          <Text style={{fontSize:20}}>
             2) Did you receive daily notifications (Monday through Friday) from 
             MA2 during the time you were using the app?
           </Text>
@@ -133,11 +135,13 @@ class AppendixL extends Component {
               <RadioButton.Item
                 label='Yes'
                 value={2}
+                style={styles.answerText}
                 status={this.props.surveyL['2'].value === 2 ? 'checked' : 'unchecked'}
               />
               <RadioButton.Item
                 label='No'
                 value={1}
+                style={styles.answerText}
                 status={this.props.surveyL['2'].value === 1 ? 'checked' : 'unchecked'}
               />
             </View>
@@ -172,7 +176,6 @@ class AppendixL extends Component {
               multiline={true}
               mode='outlined'
               style={{
-                // height: 150,
                 textAlignVertical: "top",
               }}
               numberOfLines={8} 
@@ -265,5 +268,11 @@ const styles = StyleSheet.create({
   btnContainer: {
     backgroundColor: "white",
     marginTop: 12
-  }
+  },
+  answerText: {
+    fontSize: 12,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eaeaea'
+  },
 });
