@@ -40,7 +40,7 @@ import Constants from 'expo-constants';
 
 export function saveDevice(deviceId = null) {
     deviceId = deviceId ?? Constants.deviceId;
-    // console.log('Device ID: ', deviceId);
+    console.log('Device ID: ', deviceId);
     let payload = {};
     payload['deviceId'] = deviceId;
 

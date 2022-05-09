@@ -237,7 +237,7 @@ function getRelatedTo(report) {
     if (key === 'relatedToOther' && report[key]) {
       related.push(report['relatedToOtherDescription']);
     } else if (report[key]) {
-      related.push(key.substr(9));
+      related.push(key.substring(9));
     }
   });
 
@@ -273,12 +273,12 @@ const styles = StyleSheet.create({
   },
   aggressionText: {
     color: '#b16d65',
-    fontSize: hp('1.7%'),
+    fontSize: hp('1.8%'),
     marginTop: hp('1%'),
   },
   affirmationText: {
     color: '#74b783',
-    fontSize: hp('1.7%'),
+    fontSize: hp('1.8%'),
     marginTop: hp('1%'),
   },
   contentContainer: {

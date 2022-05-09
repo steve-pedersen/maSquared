@@ -9,10 +9,10 @@ export function getUser(token) {
   let userApi = `${API_URL}/user/`;
   let params = { params: { 
     a: Constants.manifest.extra.apiKey,
-    d: Constants.deviceId,
+    d: Constants.deviceId ?? token, // NOTE, can no longer fetch deviceId on iOS. use push token as backup
     t: token 
   }};
-
+  
   return axios.get(userApi, params).then(response => {
     return response.data;
   }).catch(error => {

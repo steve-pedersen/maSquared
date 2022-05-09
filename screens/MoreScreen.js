@@ -71,18 +71,21 @@ class MoreScreen extends Component {
     }
   }
 
-  syncUser = async () => {
-    let res = await getUser(this.state.pushToken);
-    // console.log(res);
-    this.props.saveUser({
-      deviceId: res.deviceId,
-      userId: res.userId,
-      groupId: res.groupId,
-      createdDate: res.createdDate,
-      university: res.university,
-      pushToken: res.pushToken,
-      lastSyncDate: res.syncDate
-    });
+  syncUser = async (token) => {
+    let res = await getUser(token ?? this.state.pushToken);
+
+    if (res.userId && res.deviceId) {
+      this.props.saveUser({
+        deviceId: res.deviceId,
+        userId: res.userId,
+        groupId: res.groupId,
+        createdDate: res.createdDate,
+        university: res.university,
+        pushToken: res.pushToken,
+        lastSyncDate: res.syncDate
+      });
+    }
+
   }
 
   render() {
@@ -91,7 +94,7 @@ class MoreScreen extends Component {
 
         <Toast ref="toast" position="top" positionValue={5} style={{ backgroundColor: 'green' }} />
 
-        <RectButton style={styles.option} onPress={() => this.syncUser()}>
+        <RectButton style={styles.option} onPress={() => this.syncUser(this.props.user.pushToken) }>
           <View style={{ flexDirection: 'row' }}>
             <View style={styles.optionIconContainer}>
               <Ionicons name="md-person" size={22} color="#74b783" />
@@ -250,15 +253,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   optionText: {
-    fontSize: 15,
+    marginVertical: hp('.5%'),
+    fontSize: hp('1.75%'),
     alignSelf: 'flex-start',
-    marginTop: 1,
+    // marginTop: 1,
   },
   label: {
     color: '#74b783',
-    fontSize: 15,
+    fontSize: hp('2%'),
     alignSelf: 'flex-start',
-    marginTop: 1,
+    marginVertical: 5,
   },
   titleText: {
     textAlign: 'center',

@@ -15,7 +15,8 @@ class ConsentForm extends Component {
 
   handleSubmit = values => {
     if (this.props.consentGranted) {
-      this.props.saveDevice();
+      let deviceId = this.props.user.deviceId ?? this.props.user.pushToken;
+      this.props.saveDevice(deviceId);
     }
   }
 
