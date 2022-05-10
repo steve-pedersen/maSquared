@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './BottomTabNavigator';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { DefaultTheme, Text, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
@@ -31,11 +31,12 @@ import {
   saveSlideshow,
   resetApp,
   saveUser,
+  completeIntroSurvey,
 } from '../redux/actions';
 
 
 const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+// const Tab = createMaterialTopTabNavigator();
 
 const theme = {
   ...DefaultTheme,
@@ -59,6 +60,10 @@ class NavigationStack extends React.Component {
     
     if (this.props.user) {
       this.props.saveUser(this.props.user);
+      // reset intro survey for new user
+      if (this.props.user.newUser) {
+        this.props.completeIntroSurvey(false);
+      }
     }
 
     if (this._isMounted) {
@@ -340,6 +345,7 @@ export default connect(
   {
     saveConsent,
     saveSlideshow,
-    saveUser
+    saveUser,
+    completeIntroSurvey
   }
 )(NavigationStack);

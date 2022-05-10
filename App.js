@@ -58,9 +58,16 @@ class App extends React.Component {
 
   loadDataFromApi = async () => {
     let res = await getUser(this.state.pushToken);
+    
+    // if (this.state.user.userId !== res.userId) {
+    //   console.log('NEW USER', res.userId);
+    // } else {
+    //   console.log('EXISTING USER', res.userId);
+    // }
 
     this.setState({
       user: {
+        newUser: this.state.user.userId !== res.userId,
         deviceId: res.deviceId,
         userId: res.userId,
         groupId: res.groupId,
