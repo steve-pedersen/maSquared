@@ -1,53 +1,54 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Text, Button, Paragraph } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
-import RNPickerSelect from 'react-native-picker-select';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Text, Button, Paragraph } from "react-native-paper";
+import Icon from "react-native-vector-icons/Ionicons";
+import RNPickerSelect from "react-native-picker-select";
 
-import { saveSurveyC, saveSurvey } from '../../redux/actions';
+import { saveSurveyC, saveSurvey } from "../../redux/actions";
 
-const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
-const U = ({ children }) => <Text style={{ textDecorationLine: 'underline' }}>{children}</Text>;
+const Bold = ({ children }) => (
+  <Text style={{ fontWeight: "bold" }}>{children}</Text>
+);
+const U = ({ children }) => (
+  <Text style={{ textDecorationLine: "underline" }}>{children}</Text>
+);
 
 const placeholder = {
-  label: '_',
+  label: "_",
   value: null,
-  color: '#9EA0A4',
+  color: "#9EA0A4",
 };
 
 class AppendixC extends Component {
-
   onSurveyChange(key, value) {
-    this.props.saveSurveyC(key, (value != 0 ? value : null));;
+    this.props.saveSurveyC(key, value != 0 ? value : null);
   }
 
-  handleSubmit = values => {
-    this.props.navigation.navigate('AppendixD', {});
-  }
+  handleSubmit = (values) => {
+    this.props.navigation.navigate("AppendixD", {});
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView
           style={styles.scrollContainer}
-          contentContainerStyle={styles.scrollContentContainer}>
+          contentContainerStyle={styles.scrollContentContainer}
+        >
           <View>
             <Paragraph style={{ marginBottom: 30, fontSize: 22 }}>
               Thinking about your current life, please read each of these
-              statements and rate to what extent you feel this is true for
-              you at SF State, on a scale of <Bold>1 (Never)</Bold> to 
+              statements and rate to what extent you feel this is true for you
+              at SF State, on a scale of <Bold>1 (Never)</Bold> to
               <Bold> 10 (Always)</Bold>:
             </Paragraph>
           </View>
           {surveyQsAppendixC.map((prop, key) => {
             key++;
             return (
-
               <View key={key} style={{ marginBottom: 30 }}>
-                <View style={{ paddingBottom: 10 }}>
-                  {prop.content}
-                </View>
+                <View style={{ paddingBottom: 10 }}>{prop.content}</View>
                 <View style={styles.pickerContainer}>
                   <RNPickerSelect
                     placeholder={placeholder}
@@ -58,26 +59,21 @@ class AppendixC extends Component {
                     useNativeAndroidPickerStyle={false}
                     Icon={() => {
                       return (
-                        <Icon
-                          name="md-arrow-down"
-                          color="#000"
-                          size={30}
-                        />
+                        <Icon name='md-caret-down' color='#000' size={30} />
                       );
                     }}
                   />
                 </View>
               </View>
             );
-
           })}
           <Button
             onPress={this.handleSubmit}
             style={styles.button}
-            mode="contained"
-            title="Next"
+            mode='contained'
+            title='Next'
           >
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
+            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
               Next
             </Text>
           </Button>
@@ -91,21 +87,18 @@ function mapStateToProps(state) {
   return { surveyC: state.surveyC };
 }
 
-export default connect(
-  mapStateToProps,
-  { saveSurveyC, saveSurvey }
-)(AppendixC);
+export default connect(mapStateToProps, { saveSurveyC, saveSurvey })(AppendixC);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   button: {
     marginTop: 30,
     marginBottom: 100,
-    backgroundColor: '#74b783',
-    paddingVertical: 6
+    backgroundColor: "#74b783",
+    paddingVertical: 6,
   },
   scrollContainer: {
     flex: 1,
@@ -116,69 +109,109 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   question: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 
 const answerScale = [
-  { key: 1, value: 1, label: '1 (Never)', displayValue: false },
-  { key: 2, value: 2, label: '2', displayValue: false },
-  { key: 3, value: 3, label: '3', displayValue: false },
-  { key: 4, value: 4, label: '4', displayValue: false },
-  { key: 5, value: 5, label: '5', displayValue: false },
-  { key: 6, value: 6, label: '6', displayValue: false },
-  { key: 7, value: 7, label: '7', displayValue: false },
-  { key: 8, value: 8, label: '8', displayValue: false },
-  { key: 9, value: 9, label: '9', displayValue: false },
-  { key: 10, value: 10, label: '10 (Always)', displayValue: false },
+  { key: 1, value: 1, label: "1 (Never)", displayValue: false },
+  { key: 2, value: 2, label: "2", displayValue: false },
+  { key: 3, value: 3, label: "3", displayValue: false },
+  { key: 4, value: 4, label: "4", displayValue: false },
+  { key: 5, value: 5, label: "5", displayValue: false },
+  { key: 6, value: 6, label: "6", displayValue: false },
+  { key: 7, value: 7, label: "7", displayValue: false },
+  { key: 8, value: 8, label: "8", displayValue: false },
+  { key: 9, value: 9, label: "9", displayValue: false },
+  { key: 10, value: 10, label: "10 (Always)", displayValue: false },
 ];
-
 
 const surveyQsAppendixC = [
   {
     key: 1,
-    content: (<Text style={styles.question}>I feel my <Bold>identity</Bold> is <Bold>accepted</Bold>.</Text>),
+    content: (
+      <Text style={styles.question}>
+        I feel my <Bold>identity</Bold> is <Bold>accepted</Bold>.
+      </Text>
+    ),
   },
   {
     key: 2,
-    content: (<Text style={styles.question}>I feel <Bold>recognized</Bold> for my good efforts, thoughfulness, and talents.</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>recognized</Bold> for my good efforts, thoughfulness, and
+        talents.
+      </Text>
+    ),
   },
   {
     key: 3,
-    content: (<Text style={styles.question}> I feel <Bold>acknowledged</Bold> (seen, heard, listened to, validated and responded to about my concern).</Text>)
+    content: (
+      <Text style={styles.question}>
+        {" "}
+        I feel <Bold>acknowledged</Bold> (seen, heard, listened to, validated
+        and responded to about my concern).
+      </Text>
+    ),
   },
   {
     key: 4,
-    content: (<Text style={styles.question}>I feel <Bold>included</Bold> (a sense of belonging).</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>included</Bold> (a sense of belonging).
+      </Text>
+    ),
   },
   {
     key: 5,
-    content: (<Text style={styles.question}>I feel <Bold>safe</Bold> (both physically and psychologically).</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>safe</Bold> (both physically and psychologically).
+      </Text>
+    ),
   },
   {
     key: 6,
-    content: (<Text style={styles.question}>I feel <Bold>treated fairly</Bold>.</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>treated fairly</Bold>.
+      </Text>
+    ),
   },
   {
     key: 7,
-    content: (<Text style={styles.question}>I feel <Bold>autonomous</Bold> (free to make my own decisions and act on my own behalf).</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>autonomous</Bold> (free to make my own decisions and act on
+        my own behalf).
+      </Text>
+    ),
   },
   {
     key: 8,
-    content: (<Text style={styles.question}>I feel <Bold>understood</Bold>.</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>understood</Bold>.
+      </Text>
+    ),
   },
   {
     key: 9,
-    content: (<Text style={styles.question}>I feel I am given the <Bold>benefit of the doubt</Bold>.</Text>)
+    content: (
+      <Text style={styles.question}>
+        I feel I am given the <Bold>benefit of the doubt</Bold>.
+      </Text>
+    ),
   },
   {
     key: 10,
-    content: (<Text style={styles.question}>I feel <Bold>apologized to</Bold> when someone violates my dignity.</Text>)
-  }
+    content: (
+      <Text style={styles.question}>
+        I feel <Bold>apologized to</Bold> when someone violates my dignity.
+      </Text>
+    ),
+  },
 ];
-
-
-
 
 const pickerSelectStyles = StyleSheet.create({
   flexGrow: 1,
@@ -188,15 +221,15 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputIOS: {
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     paddingVertical: 16,
     paddingHorizontal: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 4,
-    color: 'green',
+    color: "green",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -204,9 +237,9 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
-    borderColor: 'purple',
+    borderColor: "purple",
     borderRadius: 8,
-    color: 'black',
+    color: "black",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });

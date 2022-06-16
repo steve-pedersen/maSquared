@@ -13950,10 +13950,10 @@ react-native-maps@0.29.4:
   dependencies:
     "@types/geojson" "^7946.0.7"
 
-react-native-modal-datetime-picker@^8.6.0:
-  version "8.9.3"
-  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-8.9.3.tgz#4ab01386c525bf8df9e8e71a93cdd61aa0916212"
-  integrity sha512-bLqwvSRYZb3LD5AUWhGd2iJxeUoOMkTg81Z8TbNQP4SFsHpoqEi6LoUJ+DJvaxwTvpN8/LgqJ5bNRGJl4VwATQ==
+react-native-modal-datetime-picker@^13.1.2:
+  version "13.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-13.1.2.tgz#7c8bd3402acb4dcfbca49c926a7f18dd108c69c4"
+  integrity sha512-PZDkuY7HayRX1KE2X2dm29CvCLzwj/vn6B6QdPbjZea/GEKvHBMOLGdhFCcA9+gD64Y41+VqfytUh2fdvUvQ1g==
   dependencies:
     prop-types "^15.7.2"
 
